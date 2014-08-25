@@ -15,23 +15,21 @@
 @interface TCTLViewController ()
 
 // Массив-история сосканированных кодов
-@property (nonatomic) NSMutableArray	*scanResultItems;
-
-// Объект-коммуникатор с сервером
-@property (nonatomic) TCTLTicketServerQuery *serverQuery;
+@property (nonatomic) NSMutableArray	*logResultItems;
 
 // Таймер, брасывающий статус в "Ожидание Проверки"
 @property (nonatomic) NSTimer			*timer;
 
 // Признак того, что система не готова сканировать следующий код
-@property (nonatomic) BOOL				isBusy;
+@property BOOL							isBusy;
 
 // Переменные в которые читаются настройки париложения из Settings Bundle
 @property NSInteger						*vibroStrength;
 @property BOOL							disableAutolock;
 @property NSString						*userGUID;
-@property NSInteger						*resultDisplayTime;
+@property NSTimeInterval				resultDisplayTime;
 @property NSURL							*serverURL;
+@property BOOL							scannerBeep;
 
 @end
 
@@ -44,43 +42,119 @@
 // -------------------------------------------------------------------------------
 - (IBAction)tappedScan:(id)sender
 {
-    [[MLScanner sharedInstance] scan];
-	[self doScannedBarcodeCheck: @"1234567890123"];
+    // Если система не занята, то запускаем сканирование
+	if (!self.isBusy) {
+		[[MLScanner sharedInstance] scan];
+
+#ifdef DEBUG
+		// После тестирования удалить!
+		NSLog(@"Sending a test barcode");
+		[self doScannedBarcodeCheck: @"1234567890123"];
+#endif
+	}
 }
 
 // -------------------------------------------------------------------------------
-// Показывает tip с детальным статусом батареи саней
+// Показывает alert с детальным статусом батареи саней
 // -------------------------------------------------------------------------------
 - (IBAction)sledShowSledBatDetails:(id)sender
 {
-
-// -------------------------------------------------------------------------------
-// Показывает tip со статусом соединения с билетным сервером
-// -------------------------------------------------------------------------------
+	
 }
+// -------------------------------------------------------------------------------
+// Показывает alert со статусом соединения с билетным сервером
+// -------------------------------------------------------------------------------
 - (IBAction)showServerConnectionInfo:(id)sender
 {
     
 }
 
-
+// ------------------------------------------------------------------------------
+// Запускается после загрузки view
+// ------------------------------------------------------------------------------
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
 	[[MLScanner sharedInstance] addAccessoryDidConnectNotification:self];
 	[[MLScanner sharedInstance] addAccessoryDidDisconnectNotification:self];
 	[[MLScanner sharedInstance] addReceiveCommandHandler:self];
 	
-	self.serverQuery = [TCTLTicketServerQuery alloc];
-	// здесь нужно добавить проверку и фильтрацию истории сканирования
+	self.isBusy = NO;
+	// фильтрация истории сканирования
+	if (self.logResultItems != nil) {
+		for (TCTLScanResultItem *logItem in self.logResultItems) {
+			// если записи в логе больше 24 часов удаляем её
+			if ([logItem.locallyCheckedTime compare: [[NSDate date] dateByAddingTimeInterval: -24*60*60]] == NSOrderedAscending) {
+				[self.logResultItems removeObject: logItem];
+			}
+		}
+	} else {
+		// если лога нет, то создаём пустой
+		self.logResultItems = [[NSMutableArray alloc] init];
+	}
+#ifdef DEBUG
+	NSLog(@"viewDidLoad done.");
+#endif
 }
 
+// ------------------------------------------------------------------------------
+// Обработчик при нехватке памяти
+// ------------------------------------------------------------------------------
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	// [self isScannerConnected];
+#ifdef DEBUG
+	NSLog(@"viewDidAppear done.");
+#endif
+}
+
+- (void)dealloc
+{
+	[[MLScanner sharedInstance] removeAccessoryDidConnectNotification:self];
+	[[MLScanner sharedInstance] removeAccessoryDidDisconnectNotification:self];
+	[[MLScanner sharedInstance] removeReceiveCommandHandler:self];
+}
+
+// -------------------------------------------------------------------------------
+//	viewWillAppear:
+// -------------------------------------------------------------------------------
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Load our preferences.  Preloading the relevant preferences here will
+    // prevent possible diskIO latency from stalling our code in more time
+    // critical areas, such as tableView:cellForRowAtIndexPath:, where the
+    // values associated with these preferences are actually needed.
+    [self onDefaultsChanged:nil];
+    
+    // Begin listening for changes to our preferences when the Settings app does
+    // so, when we are resumed from the backround, this will give us a chance to
+    // update our UI
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onDefaultsChanged:)
+                                                 name:NSUserDefaultsDidChangeNotification
+                                               object:nil];
+#ifdef DEBUG
+	NSLog(@"viewWillAppear done.");
+#endif
+}
+
+// -------------------------------------------------------------------------------
+//	viewWillDisappear:
+// -------------------------------------------------------------------------------
+- (void)viewWillDisappear:(BOOL)animated
+{
+    // Stop listening for the NSUserDefaultsDidChangeNotification
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
 }
 
 #pragma mark - NotificationHandler
@@ -90,8 +164,22 @@
 // -------------------------------------------------------------------------------
 - (void)connectNotify
 {
-	// [self checkConnected];
-	// [self performSelector:@selector(postponeBatteryRemain) withObject:nil afterDelay:0.8f];
+#ifdef DEBUG
+	NSLog(@"Received connectNotify");
+#endif
+	// Отображаем статус подключённого сканера
+	UIImage *noScanner = [UIImage imageNamed: @"battery70"];
+	[self.scannerBatStatusIcon setImage: noScanner forState: UIControlStateNormal];
+
+	// Инициируем опрос заряда батареи
+	[self performSelector:@selector(postponeBatteryRemain) withObject:nil afterDelay:0.8f];
+	
+	// Устанавливаем настройки сканера из Settings Bundle
+	[[MLScanner sharedInstance] vibraMotorStrength: *self.vibroStrength];
+	[[MLScanner sharedInstance] beepSwitch: self.scannerBeep];
+#ifdef DEBUG
+	NSLog(@"Sent settings to scanner: \n vibro: %ld \n beep: %ld", (long)self.vibroStrength, (long)self.scannerBeep);
+#endif
 }
 
 // -------------------------------------------------------------------------------
@@ -99,12 +187,21 @@
 // -------------------------------------------------------------------------------
 - (void)disconnectNotify
 {
+#ifdef DEBUG
+	NSLog(@"Received disconnectNotify");
+#endif
+	// Отображаем статус отключённого девайса
+	UIImage *noScanner = [UIImage imageNamed: @"barcode"];
+	[self.scannerBatStatusIcon setImage: noScanner forState: UIControlStateNormal];
 	// [self checkConnected];
 	// self.scannedBarcode = @"";
 }
 
 #pragma mark - ReceiveCommandHandler
 
+// ------------------------------------------------------------------------------
+// Отвечает framework'у, что этот объект является обработчиком
+// ------------------------------------------------------------------------------
 - (BOOL)isHandler:(NSObject <ReceiveCommandProtocol> *)command
 {
 	if ([command isKindOfClass:[ReceiveCommand class]]) {
@@ -114,13 +211,28 @@
 	return FALSE;
 }
 
+// ------------------------------------------------------------------------------
+// Обработчик, вызываемый сканером, после успешного сканирования
+// ------------------------------------------------------------------------------
 - (void)handleRequest:(NSObject <ReceiveCommandProtocol> *)command
 {
-	[self doScannedBarcodeCheck: [command receiveString]];
+#ifdef DEBUG
+	NSLog(@"Received handleRequest");
+#endif
+	// Если система занята, то игнорируем результаты сканирования
+	if (!self.isBusy) {
+		[self doScannedBarcodeCheck: [command receiveString]];
+	}
 }
 
+// ------------------------------------------------------------------------------
+// Обработчик, вызываемый сканером, при обновлении статуса заряда и батареи
+// ------------------------------------------------------------------------------
 - (void)handleInformationUpdate
 {
+#ifdef DEBUG
+	NSLog(@"Received handleInformationUpdate");
+#endif
 	// Обрабатываем обновлённую информацию о заряде
 	// NSNumber *capacity = [[MLScanner sharedInstance] batteryCapacity];
 	// self.sledBatRemain = [NSString stringWithFormat:@"%@ %%", [capacity stringValue]];
@@ -133,10 +245,39 @@
 // -------------------------------------------------------------------------------
 - (void)doScannedBarcodeCheck: (NSString *)barcode
 {
-	TCTLScanResultItem *result = [[TCTLScanResultItem alloc] init];
-	result.resultCode = accessDeniedAlreadyPassed;
-	[self displayScanResult: result];
+	self.isBusy = YES;
+	
+	// Отображаем, что поиск начат
+	[self displayProgress];
+	
+	// Опрашиваем сервер и ждём ответ
+	TCTLServerQueryResponse *serverResponse = [self checkBarcode: barcode];
+	
+	// Показываем результат
+	[self displayScanResult: serverResponse];
+	
+	// Запускаем таймер, по окончании которого снова отображается "Ожидание Проверки"
 	[self runTimer];
+	
+	// Упаковываем результат сканирования в формат лога
+	TCTLScanResultItem *logItem = [TCTLScanResultItem alloc];
+	logItem.barcode = barcode;
+	logItem.resultCode = serverResponse.responseCode;
+	logItem.locallyCheckedTime = [NSDate date];
+	logItem.hasBeenCheckedBy = serverResponse.agentChecked;
+	logItem.hasBeenCheckedAt = serverResponse.timeChecked;
+	
+	// Добавляем результат сканирования в коллекцию результатов
+	if ([self.logResultItems count] == 100) {
+		[self.logResultItems removeLastObject];
+	}
+	[self.logResultItems insertObject: logItem atIndex: 0];
+	
+	self.isBusy = NO;
+	/*
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Стоять!" message:@"Ты чего тут кнопки тычешь?" delegate:self cancelButtonTitle:@"Не буду" otherButtonTitles:@"Буду", nil];
+	[alert show];
+	*/
 }
 
 // -------------------------------------------------------------------------------
@@ -154,9 +295,17 @@
 	return [[MLScanner sharedInstance] batteryCapacity];
 }
 
-- (BOOL)isScannerOnCharge // Заряжается ли сканер в данный момент
+// Заряжается ли сканер в данный момент
+- (BOOL)isScannerOnCharge
 {
 	return [[MLScanner sharedInstance] batteryOnCharge];
+}
+
+// -------------------------------------------------------------------------------
+// Зарядить батарею iДевайса от сканера
+// -------------------------------------------------------------------------------
+- (void)chargeBattery {
+  [[MLScanner sharedInstance] chargeBattery];
 }
 */
 
@@ -180,7 +329,7 @@
 	if (self.timer != nil) {
 		[self.timer invalidate];
 	}
-	self.timer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(displayReadyToScan:) userInfo:nil repeats:NO];
+	self.timer = [NSTimer scheduledTimerWithTimeInterval:self.resultDisplayTime target:self selector:@selector(displayReadyToScan:) userInfo:nil repeats:NO];
 }
 
 // -------------------------------------------------------------------------------
@@ -190,6 +339,9 @@
 {
 	// get battery info
 	[[MLScanner sharedInstance] batteryRemain];
+#ifdef DEBUG
+	NSLog(@"Battery remain request sent");
+#endif
 }
 
 // -------------------------------------------------------------------------------
@@ -219,9 +371,9 @@
 // -------------------------------------------------------------------------------
 // Отображает статус в зависимости от результата
 // -------------------------------------------------------------------------------
-- (void)displayScanResult: (TCTLScanResultItem *)scanResult
+- (void)displayScanResult: (TCTLServerQueryResponse *)scanResult
 {
-	switch (scanResult.resultCode) {
+	switch (scanResult.responseCode) {
 		case accessAllowed:
 			[self.background setBackgroundColor: [UIColor greenColor]];
 			[self.scannedStatus setText: textAccessAllowed];
@@ -277,38 +429,6 @@
 	}
 }
 
-
-// -------------------------------------------------------------------------------
-//	viewWillAppear:
-// -------------------------------------------------------------------------------
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    // Load our preferences.  Preloading the relevant preferences here will
-    // prevent possible diskIO latency from stalling our code in more time
-    // critical areas, such as tableView:cellForRowAtIndexPath:, where the
-    // values associated with these preferences are actually needed.
-    [self onDefaultsChanged:nil];
-    
-    // Begin listening for changes to our preferences when the Settings app does
-    // so, when we are resumed from the backround, this will give us a chance to
-    // update our UI
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onDefaultsChanged:)
-                                                 name:NSUserDefaultsDidChangeNotification
-                                               object:nil];
-}
-
-// -------------------------------------------------------------------------------
-//	viewWillDisappear:
-// -------------------------------------------------------------------------------
-- (void)viewWillDisappear:(BOOL)animated
-{
-    // Stop listening for the NSUserDefaultsDidChangeNotification
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
-}
-
 #pragma mark - Preferences
 
 // -------------------------------------------------------------------------------
@@ -322,40 +442,56 @@
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     
     self.vibroStrength		= (NSInteger *)[standardDefaults integerForKey: kVibroStrength];
+	self.scannerBeep		= [standardDefaults boolForKey: kScannerBeep];
 	self.disableAutolock	= [standardDefaults boolForKey: kDisableAutolock];
     self.userGUID			= [standardDefaults objectForKey: kUserGUID];
-    self.resultDisplayTime	= (NSInteger *)[standardDefaults integerForKey:kResultDisplayTime];
+    self.resultDisplayTime	= (NSTimeInterval)[standardDefaults integerForKey:kResultDisplayTime];
 	self.serverURL			= [standardDefaults objectForKey: kServerURL];
     
+#ifdef DEBUG
 	NSLog(@"Settings has changed:");
 	NSLog(@"Vibro: %ld", (long)self.vibroStrength);
-	NSLog(@"Autolock: %hhd", self.disableAutolock);
+	NSLog(@"Beep: %hhd", self.scannerBeep);
+	NSLog(@"No autolock: %hhd", self.disableAutolock);
 	NSLog(@"GUID: %@", self.userGUID);
 	NSLog(@"Timer: %lds", (long)self.resultDisplayTime);
-	NSLog(@"URL: %@s", self.serverURL);
+	NSLog(@"URL: %@", self.serverURL);
+#endif
 	
     // [self.tableView reloadData];
 }
 
 #pragma mark - Server query methods
 
+// -------------------------------------------------------------------------------
+//	Проверяет отвечает ли сервер
+// -------------------------------------------------------------------------------
 - (BOOL) isServerAlive
 {
 	return YES;
 };
 
-- (TCTLServerQueryResponse *)	 checkBarcode: (NSString *)barcode
+// -------------------------------------------------------------------------------
+//	Проверяет штрих-код на сервере
+// -------------------------------------------------------------------------------
+- (TCTLServerQueryResponse *) checkBarcode: (NSString *)barcode
 {
 	TCTLServerQueryResponse *response = [[TCTLServerQueryResponse alloc] init];
 	[response setResponseCode: accessAllowed];
 	return response;
 };
 
+// -------------------------------------------------------------------------------
+//	Запрашивает текстовое имя текущего устройства на сервере по GUID
+// -------------------------------------------------------------------------------
 - (NSString *) getUserName
 {
 	return @"Контроллёр 1";
 };
 
+// -------------------------------------------------------------------------------
+//	Метод-исполнитель клиент-серверных комманд
+// -------------------------------------------------------------------------------
 - (TCTLServerQueryResponse *) sendCommand: (ServerCommand) command
 {
 	TCTLServerQueryResponse *response = [[TCTLServerQueryResponse alloc] init];

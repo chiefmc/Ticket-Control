@@ -18,6 +18,7 @@ NSString* const kDisableAutolock		= @"disableAutolock";
 NSString* const kUserGUID				= @"userGUID";
 NSString* const kResultDisplayTime		= @"resultDisplayTime";
 NSString* const kServerURL				= @"serverURL";
+NSString* const kScannerBeep			= @"scannerBeep";
 
 // Текстовые константы для локализации
 NSString* const textReadyToCheck		= @"ОЖИДАНИЕ ПРОВЕРКИ";
