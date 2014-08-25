@@ -21,6 +21,13 @@
 		BD2431DA19A608CC008BC19A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BC19A608CC008BC19A /* UIKit.framework */; };
 		BD2431E219A608CC008BC19A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BD2431E019A608CC008BC19A /* InfoPlist.strings */; };
 		BD2431E419A608CC008BC19A /* Ticket_ControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431E319A608CC008BC19A /* Ticket_ControlTests.m */; };
+		BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */; };
+		BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431EF19A60957008BC19A /* Barcode.framework */; };
+		BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F019A60957008BC19A /* MobilogicsCore.framework */; };
+		BD2431F419A60982008BC19A /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F319A60982008BC19A /* ExternalAccessory.framework */; };
+		BD4890FF19AA1A3500A2EB62 /* TCTLServerQueryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */; };
+		BD48910219AA312500A2EB62 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD48910119AA312500A2EB62 /* Settings.bundle */; };
+		BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +60,16 @@
 		BD2431DF19A608CC008BC19A /* Ticket ControlTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Ticket ControlTests-Info.plist"; sourceTree = "<group>"; };
 		BD2431E119A608CC008BC19A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BD2431E319A608CC008BC19A /* Ticket_ControlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Ticket_ControlTests.m; sourceTree = "<group>"; };
+		BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
+		BD2431EF19A60957008BC19A /* Barcode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Barcode.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/Barcode.framework; sourceTree = "<group>"; };
+		BD2431F019A60957008BC19A /* MobilogicsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobilogicsCore.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/MobilogicsCore.framework; sourceTree = "<group>"; };
+		BD2431F319A60982008BC19A /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		BD4057DA19AA70B100B3658F /* TCTLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLConstants.h; sourceTree = "<group>"; };
+		BD4890FD19AA1A3500A2EB62 /* TCTLServerQueryResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerQueryResponse.h; sourceTree = "<group>"; };
+		BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerQueryResponse.m; sourceTree = "<group>"; };
+		BD48910119AA312500A2EB62 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLScanResultItem.h; sourceTree = "<group>"; };
+		BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLScanResultItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +77,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */,
+				BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */,
+				BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */,
+				BD2431F419A60982008BC19A /* ExternalAccessory.framework in Frameworks */,
 				BD2431BB19A608CC008BC19A /* CoreGraphics.framework in Frameworks */,
 				BD2431BD19A608CC008BC19A /* UIKit.framework in Frameworks */,
 				BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */,
@@ -101,6 +122,10 @@
 		BD2431B719A608CC008BC19A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BD2431F319A60982008BC19A /* ExternalAccessory.framework */,
+				BD2431EF19A60957008BC19A /* Barcode.framework */,
+				BD2431F019A60957008BC19A /* MobilogicsCore.framework */,
+				BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */,
 				BD2431B819A608CC008BC19A /* Foundation.framework */,
 				BD2431BA19A608CC008BC19A /* CoreGraphics.framework */,
 				BD2431BC19A608CC008BC19A /* UIKit.framework */,
@@ -112,11 +137,8 @@
 		BD2431BE19A608CC008BC19A /* Ticket Control */ = {
 			isa = PBXGroup;
 			children = (
-				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
-				BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */,
-				BD2431CA19A608CC008BC19A /* Main.storyboard */,
-				BD2431CD19A608CC008BC19A /* TCTLViewController.h */,
-				BD2431CE19A608CC008BC19A /* TCTLViewController.m */,
+				BD48910119AA312500A2EB62 /* Settings.bundle */,
+				BD48910019AA2CDB00A2EB62 /* Sources */,
 				BD2431D019A608CC008BC19A /* Images.xcassets */,
 				BD2431BF19A608CC008BC19A /* Supporting Files */,
 			);
@@ -150,6 +172,23 @@
 				BD2431E019A608CC008BC19A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BD48910019AA2CDB00A2EB62 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				BD4057DA19AA70B100B3658F /* TCTLConstants.h */,
+				BD2431CA19A608CC008BC19A /* Main.storyboard */,
+				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
+				BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */,
+				BD2431CD19A608CC008BC19A /* TCTLViewController.h */,
+				BD2431CE19A608CC008BC19A /* TCTLViewController.m */,
+				BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */,
+				BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */,
+				BD4890FD19AA1A3500A2EB62 /* TCTLServerQueryResponse.h */,
+				BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */,
+			);
+			name = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +239,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "v-Ticket system";
 				TargetAttributes = {
+					BD2431B419A608CC008BC19A = {
+						DevelopmentTeam = 2PA7N3Y7EY;
+					};
 					BD2431D519A608CC008BC19A = {
 						TestTargetID = BD2431B419A608CC008BC19A;
 					};
@@ -212,6 +254,7 @@
 			knownRegions = (
 				en,
 				Base,
+				English,
 			);
 			mainGroup = BD2431AC19A608CC008BC19A;
 			productRefGroup = BD2431B619A608CC008BC19A /* Products */;
@@ -229,6 +272,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD48910219AA312500A2EB62 /* Settings.bundle in Resources */,
 				BD2431D119A608CC008BC19A /* Images.xcassets in Resources */,
 				BD2431C319A608CC008BC19A /* InfoPlist.strings in Resources */,
 				BD2431CC19A608CC008BC19A /* Main.storyboard in Resources */,
@@ -252,7 +296,9 @@
 			files = (
 				BD2431C519A608CC008BC19A /* main.m in Sources */,
 				BD2431CF19A608CC008BC19A /* TCTLViewController.m in Sources */,
+				BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */,
 				BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */,
+				BD4890FF19AA1A3500A2EB62 /* TCTLServerQueryResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +366,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -334,8 +381,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Users/chief_mc/Dev/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -359,6 +415,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -366,7 +423,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Users/chief_mc/Dev/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -377,9 +443,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -390,9 +462,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -457,6 +535,7 @@
 				BD2431E919A608CC008BC19A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BD2431EA19A608CC008BC19A /* Build configuration list for PBXNativeTarget "Ticket ControlTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +544,7 @@
 				BD2431EC19A608CC008BC19A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
