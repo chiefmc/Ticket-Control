@@ -15,15 +15,15 @@
 
 
 // Команды отправляемые билетному серверу
-typedef enum ServerCommand:int {
+typedef NS_ENUM(int, ServerCommand) {
 	noOp						= 0x100,	// отсутствие действий
 	getUserName					= 0x110,	// запрашивает текстовое имя текущего контролёра
 	getActiveEvent				= 0x120,	// запрашивает активное событие, на которое можно осуществлять контроль
 	getCodeResult				= 0x200,	// отсылает серверу на проверку штрих-код
-} ServerCommand;
+};
 
 // Возможные коды ответа от билетного сервера
-typedef enum ServerResponse:int {
+typedef NS_ENUM(int, ServerResponse) {
 	resultOk					= 0x100,	// ответ от сервера, что он команду получил
 	setActiveUser				= 0x111,	// возвращает параметр userName с именем контролёра в базе сервера
 	setActiveUserNotFound		= 0x112,	// Контролёр  с таким GUID не найден
@@ -36,7 +36,7 @@ typedef enum ServerResponse:int {
 	accessDeniedWrongEntrance	= 0x213,	// Проход запрещён – вход через другую зону (например через VIP-вход)
 	accessDeniedNoActiveEvent	= 0x214,	// Проход запрещён – нет активного события
 	accessDeniedUnknownError	= 0x220,	// Проход запрещён – неизвестная ошибка
-} ServerResponse;
+};
 
 // ----------------------------------------------------------
 // Класс для обмена данными между и владельцем

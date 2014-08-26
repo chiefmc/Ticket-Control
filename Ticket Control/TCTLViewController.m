@@ -10,12 +10,10 @@
 #import "TCTLViewController.h"
 #import "TCTLScanResultItem.h"
 #import "TCTLServerQueryResponse.h"
+#import "TCTLLogTableViewController.h"
 #import <xmlrpc.h>
 
 @interface TCTLViewController ()
-
-// Массив-история сосканированных кодов
-@property (nonatomic) NSMutableArray	*logResultItems;
 
 // Таймер, брасывающий статус в "Ожидание Проверки"
 @property (nonatomic) NSTimer			*timer;
@@ -69,6 +67,24 @@
     
 }
 
+// -------------------------------------------------------------------------------
+// Вызывает таблицу лога результатов сканирования
+// -------------------------------------------------------------------------------
+- (IBAction)logTableButtonTapped:(id)sender
+{
+	TCTLLogTableViewController *destinationController = [[TCTLLogTableViewController alloc] init];
+	destinationController.scanResultItems = self.scanResultItems;
+	[self.navigationController pushViewController:destinationController animated:YES];
+}
+
+// -------------------------------------------------------------------------------
+// Возвращает на главный экран
+// -------------------------------------------------------------------------------
+- (IBAction)unwindToMainScreen:(UIStoryboardSegue *)segue
+{
+	
+}
+
 // ------------------------------------------------------------------------------
 // Запускается после загрузки view
 // ------------------------------------------------------------------------------
@@ -83,16 +99,16 @@
 	
 	self.isBusy = NO;
 	// фильтрация истории сканирования
-	if (self.logResultItems != nil) {
-		for (TCTLScanResultItem *logItem in self.logResultItems) {
+	if (self.scanResultItems != nil) {
+		for (TCTLScanResultItem *logItem in self.scanResultItems) {
 			// если записи в логе больше 24 часов удаляем её
 			if ([logItem.locallyCheckedTime compare: [[NSDate date] dateByAddingTimeInterval: -24*60*60]] == NSOrderedAscending) {
-				[self.logResultItems removeObject: logItem];
+				[self.scanResultItems removeObject: logItem];
 			}
 		}
 	} else {
 		// если лога нет, то создаём пустой
-		self.logResultItems = [[NSMutableArray alloc] init];
+		self.scanResultItems = [[NSMutableArray alloc] init];
 	}
 #ifdef DEBUG
 	NSLog(@"viewDidLoad done.");
@@ -262,16 +278,35 @@
 	// Упаковываем результат сканирования в формат лога
 	TCTLScanResultItem *logItem = [TCTLScanResultItem alloc];
 	logItem.barcode = barcode;
-	logItem.resultCode = serverResponse.responseCode;
+	switch (serverResponse.responseCode) {
+		case accessAllowed:
+			logItem.resultText = textAccessAllowed;
+			break;
+		case accessDeniedTicketNotFound:
+			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textTicketNotFound];
+			break;
+		case accessDeniedAlreadyPassed:
+			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textTicketAlreadyPassed];
+			break;
+		case accessDeniedWrongEntrance:
+			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textWrongEntrance];
+			break;
+		case accessDeniedNoActiveEvent:
+			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textNoEventToControl];
+			break;
+		default:
+			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textUnknownError];
+			break;
+	}
 	logItem.locallyCheckedTime = [NSDate date];
 	logItem.hasBeenCheckedBy = serverResponse.agentChecked;
 	logItem.hasBeenCheckedAt = serverResponse.timeChecked;
 	
 	// Добавляем результат сканирования в коллекцию результатов
-	if ([self.logResultItems count] == 100) {
-		[self.logResultItems removeLastObject];
+	if ([self.scanResultItems count] == 100) {
+		[self.scanResultItems removeLastObject];
 	}
-	[self.logResultItems insertObject: logItem atIndex: 0];
+	[self.scanResultItems insertObject: logItem atIndex: 0];
 	
 	self.isBusy = NO;
 	/*
@@ -448,6 +483,10 @@
     self.resultDisplayTime	= (NSTimeInterval)[standardDefaults integerForKey:kResultDisplayTime];
 	self.serverURL			= [standardDefaults objectForKey: kServerURL];
     
+	if ([self isScannerConnected]) {
+		// Устанавливаем обновлённые установки в сканер
+	}
+	
 #ifdef DEBUG
 	NSLog(@"Settings has changed:");
 	NSLog(@"Vibro: %ld", (long)self.vibroStrength);

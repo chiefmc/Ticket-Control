@@ -27,6 +27,8 @@
 		BD2431F419A60982008BC19A /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F319A60982008BC19A /* ExternalAccessory.framework */; };
 		BD4890FF19AA1A3500A2EB62 /* TCTLServerQueryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */; };
 		BD48910219AA312500A2EB62 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD48910119AA312500A2EB62 /* Settings.bundle */; };
+		BD5CFC6319AC944B009851C3 /* TCTLLogTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6219AC944B009851C3 /* TCTLLogTableViewCell.m */; };
+		BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */; };
 		BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +70,10 @@
 		BD4890FD19AA1A3500A2EB62 /* TCTLServerQueryResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerQueryResponse.h; sourceTree = "<group>"; };
 		BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerQueryResponse.m; sourceTree = "<group>"; };
 		BD48910119AA312500A2EB62 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		BD5CFC6119AC944B009851C3 /* TCTLLogTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogTableViewCell.h; sourceTree = "<group>"; };
+		BD5CFC6219AC944B009851C3 /* TCTLLogTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogTableViewCell.m; sourceTree = "<group>"; };
+		BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogTableViewController.h; sourceTree = "<group>"; };
+		BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogTableViewController.m; sourceTree = "<group>"; };
 		BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLScanResultItem.h; sourceTree = "<group>"; };
 		BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLScanResultItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,6 +185,10 @@
 			children = (
 				BD4057DA19AA70B100B3658F /* TCTLConstants.h */,
 				BD2431CA19A608CC008BC19A /* Main.storyboard */,
+				BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */,
+				BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */,
+				BD5CFC6119AC944B009851C3 /* TCTLLogTableViewCell.h */,
+				BD5CFC6219AC944B009851C3 /* TCTLLogTableViewCell.m */,
 				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
 				BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */,
 				BD2431CD19A608CC008BC19A /* TCTLViewController.h */,
@@ -295,8 +305,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD2431C519A608CC008BC19A /* main.m in Sources */,
+				BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */,
 				BD2431CF19A608CC008BC19A /* TCTLViewController.m in Sources */,
 				BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */,
+				BD5CFC6319AC944B009851C3 /* TCTLLogTableViewCell.m in Sources */,
 				BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */,
 				BD4890FF19AA1A3500A2EB62 /* TCTLServerQueryResponse.m in Sources */,
 			);
