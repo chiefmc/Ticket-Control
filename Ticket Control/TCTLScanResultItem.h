@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+@class TCTLServerQueryResponse;
 
 @interface TCTLScanResultItem : NSObject
 
@@ -16,5 +17,7 @@
 @property (nonatomic) NSDate		*locallyCheckedTime;	// Время в которое код был сканирован
 @property (nonatomic) NSString		*hasBeenCheckedBy;		// Если билет уже проходил, здесь хранится имя контроллёра
 @property (nonatomic) NSDate		*hasBeenCheckedAt;		// Если билет уже проходил, здесь хранится время прохода
+
+- (void)setItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerQueryResponse *)serverResponse;
 
 @end

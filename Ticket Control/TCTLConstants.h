@@ -9,24 +9,24 @@
 #import <Foundation/Foundation.h>
 
 // Константы версионности
-NSString* const clientAPPVersion = @"1.0";
-NSString* const serverAPIVersion = @"1.0";
+extern NSString* const clientAPPVersion;
+extern NSString* const serverAPIVersion;
 
 // Константы настроек приложения Settings Bundle
-NSString* const kVibroStrength			= @"vibroStrength";
-NSString* const kDisableAutolock		= @"disableAutolock";
-NSString* const kUserGUID				= @"userGUID";
-NSString* const kResultDisplayTime		= @"resultDisplayTime";
-NSString* const kServerURL				= @"serverURL";
-NSString* const kScannerBeep			= @"scannerBeep";
+extern NSString* const kVibroStrength;
+extern NSString* const kDisableAutolock;
+extern NSString* const kUserGUID;
+extern NSString* const kResultDisplayTime;
+extern NSString* const kServerURL;
+extern NSString* const kScannerBeep;
 
 // Текстовые константы для локализации
-NSString* const textReadyToCheck		= @"ОЖИДАНИЕ ПРОВЕРКИ";
-NSString* const	textLookingForTicket	= @"ПОИСК БИЛЕТА";
-NSString* const textAccessAllowed		= @"ДОСТУП РАЗРЕШЁН";
-NSString* const textAccessDenied		= @"ДОСТУП ЗАПРЕЩЁН";
-NSString* const textTicketNotFound		= @"БИЛЕТА НЕТ В БАЗЕ";
-NSString* const textTicketAlreadyPassed = @"БИЛЕТ УЖЕ ПРОХОДИЛ";
-NSString* const textWrongEntrance		= @"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД";
-NSString* const textNoEventToControl	= @"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ";
-NSString* const	textUnknownError		= @"НЕИЗВЕСТНАЯ ОШИБКА";
+extern NSString* const textReadyToCheck;
+extern NSString* const textLookingForTicket;
+extern NSString* const textAccessAllowed;
+extern NSString* const textAccessDenied;
+extern NSString* const textTicketNotFound;
+extern NSString* const textTicketAlreadyPassed;
+extern NSString* const textWrongEntrance;
+extern NSString* const textNoEventToControl;
+extern NSString* const textUnknownError;

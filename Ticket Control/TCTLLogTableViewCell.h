@@ -10,6 +10,6 @@
 
 @interface TCTLLogTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *eventTime;
+@property (strong, nonatomic) IBOutlet UILabel *timeOfEvent;
 
 @end

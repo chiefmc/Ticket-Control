@@ -24,7 +24,7 @@
 - (IBAction)tappedScan:(id)sender;              // Сканирует штрихкод
 - (IBAction)sledShowSledBatDetails:(id)sender;  // Показывает tip с детальным статусом батареи саней
 - (IBAction)showServerConnectionInfo:(id)sender;// Показывает tip со статусом соединения с билетным сервером
-- (IBAction)logTableButtonTapped:(id)sender;	// Вызывает таблицу лога результатов сканирования
+//- (IBAction)logTableButtonTapped:(id)sender;	// Вызывает таблицу лога результатов сканирования
 - (IBAction)unwindToMainScreen:(UIStoryboardSegue *)segue;		// Возвращает на главный экран
 
 @end

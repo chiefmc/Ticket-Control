@@ -59,6 +59,7 @@
 {
 	
 }
+
 // -------------------------------------------------------------------------------
 // Показывает alert со статусом соединения с билетным сервером
 // -------------------------------------------------------------------------------
@@ -67,15 +68,25 @@
     
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([segue.identifier isEqualToString: @"logTableSegue"]) {
+		TCTLLogTableViewController *destinationController = segue.destinationViewController;
+		destinationController.scanResultItems = self.scanResultItems;
+	}
+}
+/*
 // -------------------------------------------------------------------------------
 // Вызывает таблицу лога результатов сканирования
 // -------------------------------------------------------------------------------
 - (IBAction)logTableButtonTapped:(id)sender
 {
+	return;
 	TCTLLogTableViewController *destinationController = [[TCTLLogTableViewController alloc] init];
 	destinationController.scanResultItems = self.scanResultItems;
-	[self.navigationController pushViewController:destinationController animated:YES];
-}
+	[self presentViewController:destinationController animated:YES completion:nil];
+	// [self.navigationController pushViewController:destinationController animated:YES];
+}*/
 
 // -------------------------------------------------------------------------------
 // Возвращает на главный экран
@@ -267,7 +278,7 @@
 	[self displayProgress];
 	
 	// Опрашиваем сервер и ждём ответ
-	TCTLServerQueryResponse *serverResponse = [self checkBarcode: barcode];
+	TCTLServerQueryResponse *serverResponse = [self sendBarcodeToServer: barcode];
 	
 	// Показываем результат
 	[self displayScanResult: serverResponse];
@@ -277,30 +288,7 @@
 	
 	// Упаковываем результат сканирования в формат лога
 	TCTLScanResultItem *logItem = [TCTLScanResultItem alloc];
-	logItem.barcode = barcode;
-	switch (serverResponse.responseCode) {
-		case accessAllowed:
-			logItem.resultText = textAccessAllowed;
-			break;
-		case accessDeniedTicketNotFound:
-			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textTicketNotFound];
-			break;
-		case accessDeniedAlreadyPassed:
-			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textTicketAlreadyPassed];
-			break;
-		case accessDeniedWrongEntrance:
-			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textWrongEntrance];
-			break;
-		case accessDeniedNoActiveEvent:
-			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textNoEventToControl];
-			break;
-		default:
-			logItem.resultText = [[textAccessDenied stringByAppendingString: @" "] stringByAppendingString:textUnknownError];
-			break;
-	}
-	logItem.locallyCheckedTime = [NSDate date];
-	logItem.hasBeenCheckedBy = serverResponse.agentChecked;
-	logItem.hasBeenCheckedAt = serverResponse.timeChecked;
+	[logItem setItemWithBarcode: barcode FillTextWith: serverResponse];
 	
 	// Добавляем результат сканирования в коллекцию результатов
 	if ([self.scanResultItems count] == 100) {
@@ -513,7 +501,7 @@
 // -------------------------------------------------------------------------------
 //	Проверяет штрих-код на сервере
 // -------------------------------------------------------------------------------
-- (TCTLServerQueryResponse *) checkBarcode: (NSString *)barcode
+- (TCTLServerQueryResponse *) sendBarcodeToServer: (NSString *)barcode
 {
 	TCTLServerQueryResponse *response = [[TCTLServerQueryResponse alloc] init];
 	[response setResponseCode: accessAllowed];

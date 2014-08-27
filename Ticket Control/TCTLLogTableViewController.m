@@ -60,14 +60,14 @@
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (TCTLLogTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"logTableItem" forIndexPath:indexPath];
+    TCTLLogTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"logTableItem" forIndexPath:indexPath];
     
     // Configure the cell...
 	TCTLScanResultItem *logItem = [self.scanResultItems objectAtIndex: indexPath.row];
 
-	NSString *title = @"Билет %@";
+	NSString *title = @"Билет ";
     cell.textLabel.text = [title stringByAppendingString: logItem.barcode];
 	cell.detailTextLabel.text = logItem.resultText;
 	if (logItem.allowedAccess) {
@@ -75,6 +75,10 @@
 	} else {
 		[cell.detailTextLabel setTextColor: [UIColor redColor]];
 	}
+	cell.timeOfEvent.text = @"11:50";
+	[cell.timeOfEvent setTextColor: [UIColor blackColor]];
+	[cell.timeOfEvent setEnabled: YES];
+	
     return cell;
 }
 
