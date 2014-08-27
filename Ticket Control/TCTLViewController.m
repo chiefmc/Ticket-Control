@@ -10,8 +10,8 @@
 #import "TCTLViewController.h"
 #import "TCTLScanResultItem.h"
 #import "TCTLServerQueryResponse.h"
+#import "TCTLServerCommand.h"
 #import "TCTLLogTableViewController.h"
-#import <xmlrpc.h>
 
 @interface TCTLViewController ()
 
@@ -68,6 +68,9 @@
     
 }
 
+// -------------------------------------------------------------------------------
+// Перед переходом к таблице лога сканирования передаём ссылку на сам лог
+// -------------------------------------------------------------------------------
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	if ([segue.identifier isEqualToString: @"logTableSegue"]) {
@@ -278,7 +281,9 @@
 	[self displayProgress];
 	
 	// Опрашиваем сервер и ждём ответ
-	TCTLServerQueryResponse *serverResponse = [self sendBarcodeToServer: barcode];
+	TCTLServerCommand *serverCommand = [[TCTLServerCommand alloc] initWithCommand: getCodeResult withGUID: _userGUID withBarcode: barcode];
+	[serverCommand doSendCommand];
+	TCTLServerQueryResponse *serverResponse = serverCommand.getServerResponse;
 	
 	// Показываем результат
 	[self displayScanResult: serverResponse];
@@ -287,11 +292,12 @@
 	[self runTimer];
 	
 	// Упаковываем результат сканирования в формат лога
-	TCTLScanResultItem *logItem = [TCTLScanResultItem alloc];
-	[logItem setItemWithBarcode: barcode FillTextWith: serverResponse];
+	TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode: barcode FillTextWith: serverResponse];
 	
 	// Добавляем результат сканирования в коллекцию результатов
-	if ([self.scanResultItems count] == 100) {
+	if (!self.scanResultItems) {
+		self.scanResultItems = [NSMutableArray init];
+	} else if ([self.scanResultItems count] == 100) {
 		[self.scanResultItems removeLastObject];
 	}
 	[self.scanResultItems insertObject: logItem atIndex: 0];
@@ -515,16 +521,5 @@
 {
 	return @"Контроллёр 1";
 };
-
-// -------------------------------------------------------------------------------
-//	Метод-исполнитель клиент-серверных комманд
-// -------------------------------------------------------------------------------
-- (TCTLServerQueryResponse *) sendCommand: (ServerCommand) command
-{
-	TCTLServerQueryResponse *response = [[TCTLServerQueryResponse alloc] init];
-	[response setResponseCode: resultOk];
-	return response;
-};
-
 
 @end

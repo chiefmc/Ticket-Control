@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8519AD51E20013B226 /* TCTLConstants.m */; };
+		BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */; };
 		BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431B819A608CC008BC19A /* Foundation.framework */; };
 		BD2431BB19A608CC008BC19A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BA19A608CC008BC19A /* CoreGraphics.framework */; };
 		BD2431BD19A608CC008BC19A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BC19A608CC008BC19A /* UIKit.framework */; };
@@ -45,6 +46,8 @@
 
 /* Begin PBXFileReference section */
 		BD14FA8519AD51E20013B226 /* TCTLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLConstants.m; sourceTree = "<group>"; };
+		BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerCommand.h; sourceTree = "<group>"; };
+		BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerCommand.m; sourceTree = "<group>"; };
 		BD2431B519A608CC008BC19A /* Ticket Control.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ticket Control.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2431B819A608CC008BC19A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BD2431BA19A608CC008BC19A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -200,6 +203,8 @@
 				BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */,
 				BD4890FD19AA1A3500A2EB62 /* TCTLServerQueryResponse.h */,
 				BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */,
+				BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */,
+				BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 				BD5CFC6319AC944B009851C3 /* TCTLLogTableViewCell.m in Sources */,
 				BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */,
 				BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */,
+				BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */,
 				BD4890FF19AA1A3500A2EB62 /* TCTLServerQueryResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

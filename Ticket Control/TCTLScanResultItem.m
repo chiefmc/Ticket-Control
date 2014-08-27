@@ -15,40 +15,48 @@
 // -------------------------------------------------------------
 // Заполняем данные объекта
 // -------------------------------------------------------------
-- (void)setItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerQueryResponse *)serverResponse
+
+-(id)init
 {
-	if (!serverResponse) return;
+	return [self initItemWithBarcode: @"" FillTextWith: nil];
+}
+- (id)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerQueryResponse *)serverResponse
+{
+	self = [super init];
+	if (!serverResponse) return nil;
 	
-	self.barcode = barcode;
+	_barcode = barcode;
 
 	switch (serverResponse.responseCode) {
 		case accessAllowed:
-			self.resultText = textAccessAllowed;
-			self.allowedAccess = YES;
+			_resultText = textAccessAllowed;
+			_allowedAccess = YES;
 			break;
 		case accessDeniedTicketNotFound:
-			self.resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textTicketNotFound];
-			self.allowedAccess = NO;
+			_resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textTicketNotFound];
+			_allowedAccess = NO;
 			break;
 		case accessDeniedAlreadyPassed:
-			self.resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textTicketAlreadyPassed];
-			self.allowedAccess = NO;
+			_resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textTicketAlreadyPassed];
+			_allowedAccess = NO;
 			break;
 		case accessDeniedWrongEntrance:
-			self.resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textWrongEntrance];
-			self.allowedAccess = NO;
+			_resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textWrongEntrance];
+			_allowedAccess = NO;
 			break;
 		case accessDeniedNoActiveEvent:
-			self.resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textNoEventToControl];
-			self.allowedAccess = NO;
+			_resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textNoEventToControl];
+			_allowedAccess = NO;
 			break;
 		default:
-			self.resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textUnknownError];
-			self.allowedAccess = NO;
+			_resultText = [[textAccessDenied stringByAppendingString: @": "] stringByAppendingString:textUnknownError];
+			_allowedAccess = NO;
 			break;
 	}
-	self.locallyCheckedTime = [NSDate date];
-	self.hasBeenCheckedBy = serverResponse.agentChecked;
-	self.hasBeenCheckedAt = serverResponse.timeChecked;
+	_locallyCheckedTime = [NSDate date];
+	_hasBeenCheckedBy = serverResponse.agentChecked;
+	_hasBeenCheckedAt = serverResponse.timeChecked;
+	
+	return self;
 }
 @end

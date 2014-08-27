@@ -11,13 +11,15 @@
 
 @interface TCTLScanResultItem : NSObject
 
-@property (nonatomic) NSString		*barcode;				// Штрих-код сосканированного билета
-@property (nonatomic) BOOL			allowedAccess;			// Признак разрешён ли вход
-@property (nonatomic) NSString		*resultText;			// Код результата от сервера
-@property (nonatomic) NSDate		*locallyCheckedTime;	// Время в которое код был сканирован
-@property (nonatomic) NSString		*hasBeenCheckedBy;		// Если билет уже проходил, здесь хранится имя контроллёра
-@property (nonatomic) NSDate		*hasBeenCheckedAt;		// Если билет уже проходил, здесь хранится время прохода
+@property (strong, readonly) NSString	*barcode;				// Штрих-код сосканированного билета
+@property (readonly) BOOL				allowedAccess;			// Признак разрешён ли вход
+@property (strong, readonly) NSString	*resultText;			// Код результата от сервера
+@property (strong, readonly) NSDate		*locallyCheckedTime;	// Время в которое код был сканирован
+@property (strong, readonly) NSString	*hasBeenCheckedBy;		// Если билет уже проходил, здесь хранится имя контроллёра
+@property (strong, readonly) NSDate		*hasBeenCheckedAt;		// Если билет уже проходил, здесь хранится время прохода
 
-- (void)setItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerQueryResponse *)serverResponse;
+// Методы-инициализаторы
+-(id)init;
+-(id)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerQueryResponse *)serverResponse;
 
 @end
