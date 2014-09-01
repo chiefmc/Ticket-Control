@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class TCTLServerQueryResponse;
+@class TCTLServerResponse;
 
 @interface TCTLScanResultItem : NSObject
 
@@ -20,6 +20,6 @@
 
 // Методы-инициализаторы
 -(id)init;
--(id)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerQueryResponse *)serverResponse;
+-(id)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerResponse *)serverResponse;
 
 @end

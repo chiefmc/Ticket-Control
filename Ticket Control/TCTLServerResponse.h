@@ -27,14 +27,16 @@ typedef NS_ENUM(int, ServerResponse) {
 	accessDeniedWrongEntrance	= 0x213,	// Проход запрещён – вход через другую зону (например через VIP-вход)
 	accessDeniedNoActiveEvent	= 0x214,	// Проход запрещён – нет активного события
 	accessDeniedUnknownError	= 0x220,	// Проход запрещён – неизвестная ошибка
+	errorNetworkError			= 0x301,	// Ошибка возвращается, если по каким-то причинам ответ от сервера не был получен
 };
 
 // ----------------------------------------------------------
 // Класс ответа сервера
 // ----------------------------------------------------------
-@interface TCTLServerQueryResponse : NSObject
+@interface TCTLServerResponse : NSObject
 
 @property (nonatomic) ServerResponse responseCode;	// код ответа от сервера (см. выше)
+@property (nonatomic) NSString	*barcode;			// штрих-код проверенного билета
 @property (nonatomic) NSString	*userName;			// текстовое имя пользователя
 @property (nonatomic) NSString	*eventName;			// текстовое название ивента
 @property (nonatomic) NSDate	*eventStart;		// дата/время начала ивента
@@ -42,6 +44,8 @@ typedef NS_ENUM(int, ServerResponse) {
 @property (nonatomic) NSDate	*controlEnd;		// дата/время окончания контроля на этот ивент
 @property (nonatomic) NSString	*agentChecked;		// пользователь системы (контроллёр), через которого этот билет уже проходил
 @property (nonatomic) NSDate	*timeChecked;		// дата/время в которое этот билет уже проходил
-@property (nonatomic) BOOL		*clientNeedsUpdate;	// сервер возвращает вместе с именем пользователя, если нужно обновить клиент
+@property (nonatomic) BOOL		clientNeedsUpdate;	// сервер возвращает вместе с именем пользователя, если нужно обновить клиент
+@property (nonatomic) NSNumber	*errorCode;			// код ошибки, возвращённый XMLRPC фреймворком
+@property (nonatomic) NSString	*errorDescription;	// описание ошибки, переданное фреймворком
 
 @end

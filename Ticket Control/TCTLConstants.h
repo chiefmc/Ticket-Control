@@ -8,8 +8,33 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark - Константы версионоости приложения
+#define APP_VERSION				@"1.0"
+#define API_VERSION				@"1.0"
+
+#pragma mark - Константы названий параметров переменных, передаваемых через API
+#define BARCODE_KEY				@"Barcode"
+#define GUID_KEY				@"GUID"
+#define CLIENT_APP_VERSION_KEY	@"ClientAppVersion"
+#define SERVER_API_VERSION_KEY	@"ServerAPIVersion"
+
+#define RESPONSE_CODE_KEY		@"ResponseCode"
+#define USER_NAME_KEY			@"UserName"
+#define EVENT_NAME_KEY			@"EventName"
+#define EVENT_START_KEY			@"EventStart"
+#define CONTROL_START_KEY		@"ControlStart"
+#define CONTROL_END_KEY			@"ControlEnd"
+#define AGENT_CHECKED_KEY		@"AgentChecked"
+#define TIME_CHECKED_KEY		@"TimeChecked"
+#define CLIENT_NEEDS_UPDATE_KEY	@"ClientNeedsUpdate"
+
+#pragma mark - Константы различных настроек
+#define XMLRPC_TIMEOUT			15
+#define XMLRPC_USER_AGENT		@"vTicketControl/1.0.0 (iOS)"
+#define NUMBER_OF_HISTORY_ITEMS	50
+
 // Константы версионности
-extern NSString* const clientAPPVersion;
+extern NSString* const clientAppVersion;
 extern NSString* const serverAPIVersion;
 
 // Константы настроек приложения Settings Bundle
@@ -21,6 +46,7 @@ extern NSString* const kServerURL;
 extern NSString* const kScannerBeep;
 
 // Текстовые константы для локализации
+extern NSString* const textNotReady;
 extern NSString* const textReadyToCheck;
 extern NSString* const textLookingForTicket;
 extern NSString* const textAccessAllowed;
@@ -30,3 +56,15 @@ extern NSString* const textTicketAlreadyPassed;
 extern NSString* const textWrongEntrance;
 extern NSString* const textNoEventToControl;
 extern NSString* const textUnknownError;
+extern NSString* const textError;
+extern NSString* const textErrorConnectingToServer;
+extern NSString* const textRetry;
+extern NSString* const textCancel;
+extern NSString* const textOk;
+extern NSString* const textWrongGUID;
+extern NSString* const textInformation;
+extern NSString* const textScannerBatteryCharge;
+extern NSString* const textScannerIsNotConnected;
+extern NSString* const textServerConnected;
+extern NSString* const textNoServerConnection;
+extern NSString* const textScannerBatteryOnCharge;

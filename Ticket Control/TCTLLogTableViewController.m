@@ -8,7 +8,6 @@
 
 #import "TCTLLogTableViewController.h"
 #import "TCTLViewController.h"
-#import "TCTLLogTableViewCell.h"
 #import "TCTLScanResultItem.h"
 
 @interface TCTLLogTableViewController ()
@@ -60,25 +59,27 @@
 }
 
 
-- (TCTLLogTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TCTLLogTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"logTableItem" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"logTableItem" forIndexPath:indexPath];
     
     // Configure the cell...
 	TCTLScanResultItem *logItem = [self.scanResultItems objectAtIndex: indexPath.row];
 
-	NSString *title = @"Билет ";
-    cell.textLabel.text = [title stringByAppendingString: logItem.barcode];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setTimeStyle: NSDateFormatterShortStyle];
+	[dateFormatter setDateStyle: NSDateFormatterNoStyle];
+	
+	NSString *title = [dateFormatter stringFromDate: logItem.locallyCheckedTime];
+	title = [title stringByAppendingFormat: @" Билет %@", logItem.barcode];
+    cell.textLabel.text = title;
 	cell.detailTextLabel.text = logItem.resultText;
 	if (logItem.allowedAccess) {
 		[cell.detailTextLabel setTextColor: [UIColor greenColor]];
 	} else {
 		[cell.detailTextLabel setTextColor: [UIColor redColor]];
 	}
-	cell.timeOfEvent.text = @"11:50";
-	[cell.timeOfEvent setTextColor: [UIColor blackColor]];
-	[cell.timeOfEvent setEnabled: YES];
-	
+
     return cell;
 }
 

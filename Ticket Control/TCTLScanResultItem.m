@@ -8,7 +8,7 @@
 
 #import "TCTLScanResultItem.h"
 #import "TCTLConstants.h"
-#import "TCTLServerQueryResponse.h"
+#import "TCTLServerResponse.h"
 
 @implementation TCTLScanResultItem
 
@@ -20,10 +20,10 @@
 {
 	return [self initItemWithBarcode: @"" FillTextWith: nil];
 }
-- (id)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerQueryResponse *)serverResponse
+- (id)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerResponse *)serverResponse
 {
 	self = [super init];
-	if (!serverResponse) return nil;
+	if (!serverResponse) return self;
 	
 	_barcode = barcode;
 

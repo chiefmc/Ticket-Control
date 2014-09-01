@@ -27,11 +27,12 @@
 		BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431EF19A60957008BC19A /* Barcode.framework */; };
 		BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F019A60957008BC19A /* MobilogicsCore.framework */; };
 		BD2431F419A60982008BC19A /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F319A60982008BC19A /* ExternalAccessory.framework */; };
-		BD4890FF19AA1A3500A2EB62 /* TCTLServerQueryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */; };
+		BD4890FF19AA1A3500A2EB62 /* TCTLServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */; };
 		BD48910219AA312500A2EB62 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD48910119AA312500A2EB62 /* Settings.bundle */; };
-		BD5CFC6319AC944B009851C3 /* TCTLLogTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6219AC944B009851C3 /* TCTLLogTableViewCell.m */; };
 		BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */; };
 		BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */; };
+		BD9D4FA219B33D760009F9CB /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9D4FA119B33D760009F9CB /* XMLDictionary.m */; };
+		BDA7E2FC19B315F70065E79E /* XMLRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA7E2FB19B315F70065E79E /* XMLRPC.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,15 +73,19 @@
 		BD2431F019A60957008BC19A /* MobilogicsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobilogicsCore.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/MobilogicsCore.framework; sourceTree = "<group>"; };
 		BD2431F319A60982008BC19A /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		BD4057DA19AA70B100B3658F /* TCTLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLConstants.h; sourceTree = "<group>"; };
-		BD4890FD19AA1A3500A2EB62 /* TCTLServerQueryResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerQueryResponse.h; sourceTree = "<group>"; };
-		BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerQueryResponse.m; sourceTree = "<group>"; };
+		BD464E1419B25A42004072D5 /* libXMLRPC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXMLRPC.a; path = ../Frameworks/libXMLRPC.45/libXMLRPC.a; sourceTree = "<group>"; };
+		BD464E1619B26FC7004072D5 /* libXMLRPC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXMLRPC.a; path = ../Frameworks/libXMLRPC/usr/local/lib/libXMLRPC.a; sourceTree = "<group>"; };
+		BD4890FD19AA1A3500A2EB62 /* TCTLServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerResponse.h; sourceTree = "<group>"; };
+		BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerResponse.m; sourceTree = "<group>"; };
 		BD48910119AA312500A2EB62 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		BD5CFC6119AC944B009851C3 /* TCTLLogTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogTableViewCell.h; sourceTree = "<group>"; };
-		BD5CFC6219AC944B009851C3 /* TCTLLogTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogTableViewCell.m; sourceTree = "<group>"; };
 		BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogTableViewController.h; sourceTree = "<group>"; };
 		BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogTableViewController.m; sourceTree = "<group>"; };
 		BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLScanResultItem.h; sourceTree = "<group>"; };
 		BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLScanResultItem.m; sourceTree = "<group>"; };
+		BD9D4FA019B33D760009F9CB /* XMLDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
+		BD9D4FA119B33D760009F9CB /* XMLDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
+		BDA7E2FB19B315F70065E79E /* XMLRPC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XMLRPC.framework; path = ../Frameworks/XMLRPC.framework; sourceTree = "<group>"; };
+		BDB6FE0819B253EE007512A9 /* libXMLRPC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXMLRPC.a; path = ../Frameworks/libXMLRPC.45/usr/local/lib/libXMLRPC.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDA7E2FC19B315F70065E79E /* XMLRPC.framework in Frameworks */,
 				BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */,
 				BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */,
 				BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */,
@@ -133,6 +139,10 @@
 		BD2431B719A608CC008BC19A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BDA7E2FB19B315F70065E79E /* XMLRPC.framework */,
+				BD464E1619B26FC7004072D5 /* libXMLRPC.a */,
+				BD464E1419B25A42004072D5 /* libXMLRPC.a */,
+				BDB6FE0819B253EE007512A9 /* libXMLRPC.a */,
 				BD2431F319A60982008BC19A /* ExternalAccessory.framework */,
 				BD2431EF19A60957008BC19A /* Barcode.framework */,
 				BD2431F019A60957008BC19A /* MobilogicsCore.framework */,
@@ -188,25 +198,33 @@
 		BD48910019AA2CDB00A2EB62 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				BD9D4F9F19B33D760009F9CB /* XMLDictionary */,
 				BD4057DA19AA70B100B3658F /* TCTLConstants.h */,
 				BD14FA8519AD51E20013B226 /* TCTLConstants.m */,
 				BD2431CA19A608CC008BC19A /* Main.storyboard */,
 				BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */,
 				BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */,
-				BD5CFC6119AC944B009851C3 /* TCTLLogTableViewCell.h */,
-				BD5CFC6219AC944B009851C3 /* TCTLLogTableViewCell.m */,
 				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
 				BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */,
 				BD2431CD19A608CC008BC19A /* TCTLViewController.h */,
 				BD2431CE19A608CC008BC19A /* TCTLViewController.m */,
 				BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */,
 				BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */,
-				BD4890FD19AA1A3500A2EB62 /* TCTLServerQueryResponse.h */,
-				BD4890FE19AA1A3500A2EB62 /* TCTLServerQueryResponse.m */,
+				BD4890FD19AA1A3500A2EB62 /* TCTLServerResponse.h */,
+				BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */,
 				BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */,
 				BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */,
 			);
 			name = Sources;
+			sourceTree = "<group>";
+		};
+		BD9D4F9F19B33D760009F9CB /* XMLDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				BD9D4FA019B33D760009F9CB /* XMLDictionary.h */,
+				BD9D4FA119B33D760009F9CB /* XMLDictionary.m */,
+			);
+			path = XMLDictionary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,11 +334,11 @@
 				BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */,
 				BD2431CF19A608CC008BC19A /* TCTLViewController.m in Sources */,
 				BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */,
-				BD5CFC6319AC944B009851C3 /* TCTLLogTableViewCell.m in Sources */,
 				BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */,
 				BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */,
 				BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */,
-				BD4890FF19AA1A3500A2EB62 /* TCTLServerQueryResponse.m in Sources */,
+				BD4890FF19AA1A3500A2EB62 /* TCTLServerResponse.m in Sources */,
+				BD9D4FA219B33D760009F9CB /* XMLDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,7 +406,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework",
+					/Users/chief_mc/Dev/Frameworks,
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -406,7 +427,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/chief_mc/Dev/Frameworks/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
@@ -434,10 +454,14 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework",
+					/Users/chief_mc/Dev/Frameworks,
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -448,7 +472,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/chief_mc/Dev/Frameworks/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
@@ -466,15 +489,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1.0;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework",
+					$inherited,
+					/Users/chief_mc/Dev/Frameworks,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /Users/chief_mc/Dev/Classes/XMLDictionary/XMLDictionary;
+				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -485,15 +516,23 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1.0;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework",
+					$inherited,
+					/Users/chief_mc/Dev/Frameworks,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /Users/chief_mc/Dev/Classes/XMLDictionary/XMLDictionary;
+				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -506,6 +545,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
@@ -528,6 +568,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";

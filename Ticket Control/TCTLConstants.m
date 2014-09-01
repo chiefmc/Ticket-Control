@@ -10,8 +10,8 @@
 #import "TCTLConstants.h"
 
 // Константы версионности
-NSString* const clientAPPVersion = @"1.0";
-NSString* const serverAPIVersion = @"1.0";
+NSString* const clientAppVersion = APP_VERSION;
+NSString* const serverAPIVersion = API_VERSION;
 
 // Константы настроек приложения Settings Bundle
 NSString* const kVibroStrength			= @"vibroStrength";
@@ -22,6 +22,7 @@ NSString* const kServerURL				= @"serverURL";
 NSString* const kScannerBeep			= @"scannerBeep";
 
 // Текстовые константы для локализации
+NSString* const textNotReady			= @"НЕ ГОТОВ";
 NSString* const textReadyToCheck		= @"ОЖИДАНИЕ ПРОВЕРКИ";
 NSString* const	textLookingForTicket	= @"ПОИСК БИЛЕТА";
 NSString* const textAccessAllowed		= @"ДОСТУП РАЗРЕШЁН";
@@ -31,3 +32,15 @@ NSString* const textTicketAlreadyPassed = @"БИЛЕТ УЖЕ ПРОХОДИЛ";
 NSString* const textWrongEntrance		= @"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД";
 NSString* const textNoEventToControl	= @"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ";
 NSString* const	textUnknownError		= @"НЕИЗВЕСТНАЯ ОШИБКА";
+NSString* const textError				= @"Ошибка";
+NSString* const textErrorConnectingToServer = @"Нет соединения с сервером";
+NSString* const textRetry				= @"Повторить";
+NSString* const textCancel				= @"Отмена";
+NSString* const textOk					= @"Ok";
+NSString* const textWrongGUID			= @"Неверный GUID! Обратитесь к Администратору системы";
+NSString* const textInformation			= @"Информация";
+NSString* const textScannerBatteryCharge = @"Заряд батареи сканнера: ";
+NSString* const textScannerIsNotConnected = @"Сканнер не подключен";
+NSString* const textServerConnected		= @"Соединение с сервером установлено";
+NSString* const textNoServerConnection	= @"Нет соединения с сервером";
+NSString* const textScannerBatteryOnCharge = @"Батарея сканера заряжается";

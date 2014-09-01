@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TCTLServerQueryResponse.h"
+#import "TCTLServerResponse.h"
+#import <XMLRPC/XMLRPC.h>
 
 // -----------------------------------------------------------
 // API обмена данными с билетным сервером
@@ -16,7 +17,7 @@
 
 
 // Команды отправляемые билетному серверу
-typedef NS_ENUM(int, ServerCommand) {
+typedef NS_ENUM(unsigned int, ServerCommand) {
 	noOp						= 0x100,	// отсутствие действий
 	getUserName					= 0x110,	// запрашивает текстовое имя текущего контролёра
 	getActiveEvent				= 0x120,	// запрашивает активное событие, на которое можно осуществлять контроль
@@ -28,17 +29,23 @@ typedef NS_ENUM(int, ServerCommand) {
 @property (readonly) ServerCommand		serverCommand;		// метод (команда) посылаемая серверу
 @property (strong, readonly) NSString	*barcode;			// штрих-код проверяемого билета (может быть пустым)
 
-@property (strong, readonly) TCTLServerQueryResponse *serverResponse; // Хранимый ответ от сервера
+//@property (strong, readonly) TCTLServerResponse *serverResponse; // Хранимый ответ от сервера
+
+// Синглтон
++(id)sharedInstance;
 
 // Инициализаторы объекта
 -(id)init;
--(id)initWithCommand: (ServerCommand) serverCommand withGUID: (NSString *) guid;
--(id)initWithCommand: (ServerCommand) serverCommand withGUID: (NSString *) guid withBarcode: (NSString *) barcode;
+//-(id)initWithServer: (NSURL *)serverURL withCommand: (ServerCommand) serverCommand withGUID: (NSString *) guid;
+-(void)initWithServer: (NSURL	*)serverURL withCommand: (ServerCommand) serverCommand withGUID: (NSString *) guid withBarcode: (NSString *) barcode;
 
-// Посылает сформированную команду на сервер
--(void)doSendCommand;
+// Инициирует отправление сформированной команды на сервер
+-(void)doSendCommand: (id<XMLRPCConnectionDelegate>)delegate;
+
+// Распаковываем данные из XML-RPC ответа и возвращаем
+-(TCTLServerResponse *)unpackResponse:(XMLRPCResponse *)xmlResponse;
 
 // Возвращает полученный ответ от сервера или nil, если не операция окончилась ошибкой
--(TCTLServerQueryResponse *)getServerResponse;
+//-(TCTLServerResponse *)getServerResponse;
 
 @end

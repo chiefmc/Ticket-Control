@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "battery_0.png"
+      "filename" : "battery_charging.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "battery_0@2x.png"
+      "filename" : "battery_charging@2x.png"
     }
   ],
   "info" : {
