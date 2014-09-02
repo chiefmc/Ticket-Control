@@ -27,9 +27,6 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
 @interface TCTLServerCommand : NSObject
 
 @property (readonly) ServerCommand		serverCommand;		// метод (команда) посылаемая серверу
-@property (strong, readonly) NSString	*barcode;			// штрих-код проверяемого билета (может быть пустым)
-
-//@property (strong, readonly) TCTLServerResponse *serverResponse; // Хранимый ответ от сервера
 
 // Синглтон
 +(id)sharedInstance;
@@ -43,7 +40,7 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
 -(void)doSendCommand: (id<XMLRPCConnectionDelegate>)delegate;
 
 // Распаковываем данные из XML-RPC ответа и возвращаем
--(TCTLServerResponse *)unpackResponse:(XMLRPCResponse *)xmlResponse;
+-(TCTLServerResponse *)unpackResponse:(id)xmlResponse;
 
 // Возвращает полученный ответ от сервера или nil, если не операция окончилась ошибкой
 //-(TCTLServerResponse *)getServerResponse;

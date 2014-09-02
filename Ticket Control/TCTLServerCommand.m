@@ -9,12 +9,12 @@
 #import "TCTLServerCommand.h"
 #import "TCTLConstants.h"
 #import <Foundation/Foundation.h>
-#import "XMLDictionary.h"
 
 @interface TCTLServerCommand ()
 
-@property (strong, nonatomic) NSString	*guid;				// GUID клиента (может быть пустым)
-@property (strong, nonatomic) NSURL		*serverURL;			// URL XML-RPC сервера
+@property (weak, nonatomic) NSString	*guid;				// GUID клиента (может быть пустым)
+@property (weak, nonatomic) NSURL		*serverURL;			// URL XML-RPC сервера
+@property (weak, readonly) NSString		*barcode;			// штрих-код проверяемого билета (может быть пустым)
 
 @end
 
@@ -41,7 +41,6 @@
 		_serverCommand		= serverCommand;
 		_guid				= guid;
 		_barcode			= barcode;
-		//_serverResponse		= nil;
 	}
 }
 // -------------------------------------------------------------------------
@@ -69,52 +68,37 @@
 	[request setTimeoutInterval: XMLRPC_TIMEOUT];
 	[request setUserAgent: XMLRPC_USER_AGENT];
 	
-#ifdef DEBUG
-	NSLog(@"XMLRPC encoded body: %@", [request body]);
-#endif
-	
 	return request;
 }
 
 // -------------------------------------------------------------------------
 // Распаковываем данные из XML-RPC ответа и возвращаем
 // -------------------------------------------------------------------------
--(TCTLServerResponse *)unpackResponse:(XMLRPCResponse *)xmlResponse
+-(TCTLServerResponse *)unpackResponse:(id)xmlResponseObject
 {
 	TCTLServerResponse *response = [TCTLServerResponse alloc];
+	NSDictionary *decodedXML = (NSDictionary *)xmlResponseObject;
 	
-	// Если XMLRPC вернул пустой ответ
-	if (!xmlResponse) {
-		response.responseCode		= errorNetworkError;
+	// Подготавливаем форматтер с шаблоном под дату/время стандарта ISO8601
+	NSDateFormatter *dateFormat = [NSDateFormatter new];
+	[dateFormat setDateFormat:ISO8601_DATETIME_FORMAT];
+
+	NSString *responseCodeStr	= decodedXML[RESPONSE_CODE_KEY];
+	NSScanner *scanner			= [NSScanner scannerWithString:responseCodeStr];
+	unsigned int responseCodeInt;
+	if ([scanner scanHexInt:&responseCodeInt]) {
+		response.responseCode		= responseCodeInt;
+		response.barcode			= decodedXML[BARCODE_KEY];
+		response.userName			= decodedXML[USER_NAME_KEY];
+		response.eventName			= decodedXML[EVENT_NAME_KEY];
+		response.eventStart			= [dateFormat dateFromString:decodedXML[EVENT_START_KEY]];
+		response.controlStart		= [dateFormat dateFromString:decodedXML[CONTROL_START_KEY]];
+		response.controlEnd			= [dateFormat dateFromString:decodedXML[CONTROL_END_KEY]];
+		response.agentChecked		= decodedXML[AGENT_CHECKED_KEY];
+		response.timeChecked		= [dateFormat dateFromString:decodedXML[TIME_CHECKED_KEY]];
+		response.clientNeedsUpdate	= [decodedXML[CLIENT_NEEDS_UPDATE_KEY] boolValue];
 	} else {
-#ifdef DEBUG
-		NSLog(@"xmlResponse from server: %@", [xmlResponse body]);
-#endif
-		// Если обработка XMLRPC вернула ошибку, то...
-		if ([xmlResponse isFault]) {
-			response.responseCode		= errorNetworkError;
-			response.errorCode			= xmlResponse.faultCode;
-			response.errorDescription	= xmlResponse.faultString;
-		} else {
-			NSDictionary *decodedXML = [NSDictionary dictionaryWithXMLString:[xmlResponse body]];
-#ifdef DEBUG
-			// NSLog(@"unpackResponse XML into: %@", decodedXML);
-#endif
-			// Подготавливаем форматтер с шаблоном под дату/время стандарта ISO8601
-			NSDateFormatter *dateFormat = [NSDateFormatter new];
-			[dateFormat setDateFormat:@"yyyyMMdd'T'HH':'mm':'ss"];
-			
-			response.responseCode		= [[decodedXML objectForKey:RESPONSE_CODE_KEY] integerValue];
-			response.barcode			= [[decodedXML objectForKey:BARCODE_KEY] stringValue];
-			response.userName			= [[decodedXML objectForKey:USER_NAME_KEY] stringValue];
-			response.eventName			= [[decodedXML objectForKey:EVENT_NAME_KEY] stringValue];
-			response.eventStart			= [dateFormat dateFromString:[[decodedXML objectForKey:EVENT_START_KEY] stringValue]];
-			response.controlStart		= [dateFormat dateFromString:[[decodedXML objectForKey:CONTROL_START_KEY] stringValue]];
-			response.controlEnd			= [dateFormat dateFromString:[[decodedXML objectForKey:CONTROL_END_KEY] stringValue]];
-			response.agentChecked		= [[decodedXML objectForKey:AGENT_CHECKED_KEY] stringValue];
-			response.timeChecked		= [dateFormat dateFromString:[[decodedXML objectForKey:TIME_CHECKED_KEY] stringValue]];
-			response.clientNeedsUpdate	= [[decodedXML objectForKey:CLIENT_NEEDS_UPDATE_KEY] boolValue];
-		}
+		response.responseCode		= errorServerResponseUnkown;
 	}
 	return response;
 }
@@ -127,30 +111,6 @@
 	XMLRPCConnectionManager *xmlManager = [XMLRPCConnectionManager sharedManager];
 	
 	[xmlManager spawnConnectionWithXMLRPCRequest: [self packRequest] delegate:delegate];
-/*
-#ifdef DEBUG
-	// Возвращаем фиксированный результат, если дебажим
-	switch (_serverCommand) {
-		case noOp:
-			_serverResponse.responseCode = resultOk;
-			break;
-			
-		case getCodeResult:
-			_serverResponse.responseCode = accessAllowed;
-			break;
-			
-		default:
-			_serverResponse.responseCode = errorNetworkError;
-			break;
-	}
-#endif */
 }
-
-/*
--(TCTLServerResponse *)getServerResponse
-{
-	return _serverResponse;
-} 
-*/
 
 @end

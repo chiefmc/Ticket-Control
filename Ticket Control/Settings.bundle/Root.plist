@@ -38,7 +38,7 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Beep on scan</string>
+			<string>Service beeps</string>
 			<key>Key</key>
 			<string>scannerBeep</string>
 			<key>DefaultValue</key>
@@ -58,7 +58,7 @@
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
-			<string>GUID:</string>
+			<string>Device GUID:</string>
 			<key>Key</key>
 			<string>userGUID</string>
 			<key>KeyboardType</key>
@@ -92,7 +92,7 @@
 			<key>Key</key>
 			<string>serverURL</string>
 			<key>DefaultValue</key>
-			<string>http://ticket.circus.kiev.ua/entry/appcheck.php</string>
+			<string>http://ticket.circus.kiev.ua/entry/appcheck</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

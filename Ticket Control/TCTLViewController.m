@@ -25,10 +25,6 @@
 // Признак того, что сервер подключён
 @property BOOL							isServerConnected;
 
-// Команда и ответ от сервера
-// @property (strong, nonatomic) TCTLServerCommand	*serverCommand;
-// @property (strong, nonatomic) TCTLServerResponse *serverResponse;
-
 // Переменные в которые читаются настройки париложения из Settings Bundle
 @property NSInteger						vibroStrength;
 @property BOOL							disableAutolock;
@@ -133,6 +129,18 @@
 }
 
 // -------------------------------------------------------------------------------
+// Метод вызывается перед сегами и не даёт переходить в историю, если приложение занято
+// -------------------------------------------------------------------------------
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+	if (([identifier isEqual: @"logTableSegue"]) && (!_isBusy)) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+// -------------------------------------------------------------------------------
 // Перед переходом к таблице лога сканирования передаём ссылку на сам лог
 // -------------------------------------------------------------------------------
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -155,7 +163,7 @@
 // -------------------------------------------------------------------------------
 - (IBAction)unwindToMainScreen:(UIStoryboardSegue *)segue
 {
-
+	[self setAppBusyStatus:NO];
 }
 
 // ------------------------------------------------------------------------------
@@ -167,23 +175,23 @@
 	NSLog(@"viewDidLoad begins...");
 #endif
 	[super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 	
+	// Do any additional setup after loading the view, typically from a nib.
 	_isUpsideDown = NO;
-	_isUserNameSet = NO;
 	
 	[[MLScanner sharedInstance] addAccessoryDidConnectNotification:self];
 	[[MLScanner sharedInstance] addAccessoryDidDisconnectNotification:self];
 	[[MLScanner sharedInstance] addReceiveCommandHandler:self];
-	
-	// Настраиваем XML-парсер
-	// [XMLDictionaryParser sharedInstance].stripEmptyNodes = NO;
 	
 	// Готовим лог ответов от сервера
 	[self prepareScanResultItems];
 	
 	// по умолчанию считаем, что связи нет
 	[self serverConnectionStatus: NO];
+	
+	// Устанавливаем имя пользователя на главном экране в значение имени текущего девайса
+	[self.userNameLabel setText: [UIDevice currentDevice].name];
+	_isUserNameSet = NO;
 		
 	// Проверка подключения сканера и отображение статуса
 	if ([self isScannerConnected]) {
@@ -194,9 +202,6 @@
 		[self displayNotReady];
 	}
 	
-	// Планируем проверку связи с сервером
-	[self performSelector:@selector(invocateGetUserName) withObject:nil afterDelay:0.5f];
-
 #ifdef DEBUG
 	NSLog(@"viewDidLoad done.");
 #endif
@@ -319,6 +324,9 @@
 	
 	// Устанавливаем настройки сканера с задержкой в 1 сек
 	[self performSelector:@selector(setScannerPreferences) withObject:nil afterDelay:0.5f];
+	
+	// Планируем проверку связи с сервером
+	[self performSelector:@selector(invocateGetUserName) withObject:nil afterDelay:1.0f];
 }
 
 // -------------------------------------------------------------------------------
@@ -381,7 +389,7 @@
 	[self setBatteryRemainIcon];
 }
 
-#pragma mark - Delegates
+#pragma mark - XMLRPC Delegates
 // ------------------------------------------------------------------------------
 // Обработчик, вызываемый XMLRPC, при получении ответа или ошибки от сервера
 // ------------------------------------------------------------------------------
@@ -406,28 +414,32 @@
 		[alert show];
 		// Отображаем разрыв соединения с сервером
 		[self serverConnectionStatus:NO];
-		
+		[self displayReadyToScan];
     } else {
 		// Если ответ нормальный, то обрабатываем...
 #ifdef DEBUG
         NSLog(@"Parsed response: %@", [xmlResponse object]);
 #endif
-		TCTLServerResponse *serverResponse = [[TCTLServerCommand sharedInstance] unpackResponse:xmlResponse];
+		TCTLServerResponse *serverResponse = [[TCTLServerCommand sharedInstance] unpackResponse:[xmlResponse object]];
 		
 		// Обрабатываем возможные ответы сервера
 		switch (serverResponse.responseCode) {
 			case resultOk:
 				[self serverConnectionStatus:YES];
+				[self displayReadyToScan];
 				break;
 			
 			case setActiveUser:
-				_userName.text = serverResponse.userName;
+				[self serverConnectionStatus:YES];
+				[_userNameLabel setText: serverResponse.userName];
 				_isUserNameSet = YES;
 				break;
 			
 			case setActiveUserNotFound:
+				[self serverConnectionStatus:NO];
+				_isUserNameSet = NO;
 				// Устанавливаем имя пользователя на главном экране в значение имени текущего девайса
-				[self.userName setText: [UIDevice currentDevice].name];
+				[self.userNameLabel setText: [UIDevice currentDevice].name];
 
 				// Показываем алерт
 				alert = [[UIAlertView alloc]initWithTitle:textError message:@"Ошибка GUID! Обратитесь к администратору системы" delegate:nil cancelButtonTitle:textCancel otherButtonTitles: nil];
@@ -435,17 +447,20 @@
 				break;
 				
 			case setActiveEvent:
+				[self serverConnectionStatus:YES];
 #warning Пока не реализовано
 				break;
 				
 			case setActiveEventNotFound:
+				[self serverConnectionStatus:YES];
 #warning Пока не реализовано
 				break;
 				
 			case accessAllowed ... accessDeniedUnknownError:
 			{
+				[self serverConnectionStatus:YES];
 				// Проверяем совпадение штрих-кода
-				if (serverResponse.barcode == _lastScannedBarcode) {
+				if ([serverResponse.barcode isEqualToString: self.lastScannedBarcode]) {
 					// Показываем результат
 					[self displayScanResult: serverResponse];
 					
@@ -455,27 +470,32 @@
 					// Упаковываем результат сканирования в формат лога
 					TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode: serverResponse.barcode FillTextWith: serverResponse];
 					[self addScanResultItem:logItem];
-
-					break;
+					[self displayResultItem:logItem];
+				} else {
+					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
+					alert = [[UIAlertView alloc]initWithTitle:textError message:@"Неверный ответ сервера" delegate:nil cancelButtonTitle:textRetry otherButtonTitles: nil];
+					[alert show];
+					[self displayReadyToScan];
 				}
+				break;
 			}
 				
-			case errorNetworkError:
+			case errorNetworkError ... errorServerResponseUnkown:
 				
 			default:
+#ifdef DEBUG
+				NSLog(@"Unknown response. Body: %@", [xmlResponse object]);
+#endif
 				// Показываем алерт
 				alert = [[UIAlertView alloc]initWithTitle:textError message:@"Неизвестный ответ сервера" delegate:nil cancelButtonTitle:textRetry otherButtonTitles: nil];
 				[alert show];
+				[self displayReadyToScan];
 
 				break;
 			[self serverConnectionStatus:YES];
 		}
-		[self setAppBusyStatus:NO];
-		[self displayReadyToScan];
     }
-#ifdef DEBUG
-    NSLog(@"Response body: %@", [xmlResponse body]);
-#endif
+	[self setAppBusyStatus:NO];
 }
 
 // ------------------------------------------------------------------------------
@@ -484,13 +504,18 @@
 - (void)request: (XMLRPCRequest *)request didFailWithError: (NSError *)error
 {
 #ifdef DEBUG
-	NSLog(@"didFailWithError from XMLRPC.");
+	NSLog(@"didFailWithError from XMLRPC: %@", error);
 #endif
 	// Показываем алерт
 	NSString *message = textErrorConnectingToServer;
-	[message stringByAppendingFormat:@"\n Код ошибки: %@", error];
+	
+	if ((error.domain == NSURLErrorDomain) && (error.code == -1009)) {
+		message = [message stringByAppendingFormat:@"\nПроверьте сетевое соединение"];
+	} else {
+		message = [message stringByAppendingFormat:@"\n%@ error %i", error.domain, error.code];
+	}
 
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:message message: textErrorConnectingToServer delegate:nil cancelButtonTitle:textRetry otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:textError message:message delegate:nil cancelButtonTitle:textRetry otherButtonTitles: nil];
 	[alert show];
 
 	[self setAppBusyStatus:NO];
@@ -502,17 +527,24 @@
 
 - (BOOL)request: (XMLRPCRequest *)request canAuthenticateAgainstProtectionSpace: (NSURLProtectionSpace *)protectionSpace
 {
+#ifdef DEBUG
+	NSLog(@"canAuthenticateAgainstProtectionSpace received.");
+#endif
 	return NO;
 }
 
 - (void)request: (XMLRPCRequest *)request didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
 {
-	
+#ifdef DEBUG
+	NSLog(@"didReceiveAuthenticationChallenge received.");
+#endif
 }
 
 - (void)request: (XMLRPCRequest *)request didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
 {
-	
+#ifdef DEBUG
+	NSLog(@"didCancelAuthenticationChallenge received.");
+#endif
 }
 
 #pragma mark - private
@@ -680,6 +712,9 @@
 		_isBusy = NO;
 		[self.scanButton setEnabled: YES];
 	}
+#ifdef DEBUG
+	NSLog(@"setAppBusyStatus received: %hhd", yes);
+#endif
 }
 
 // -------------------------------------------------------------------------------
@@ -699,9 +734,9 @@
 // -------------------------------------------------------------------------------
 - (void)displayReadyToScan
 {
-	[self.background setBackgroundColor: [UIColor whiteColor]];
+	[self.background setBackgroundColor: [UIColor colorWithRed:0.92f green:0.92f blue:0.92f alpha:1.0f]];
 	[self.scannedStatus setText: textReadyToCheck];
-	[self.scannedStatus setTextColor: [UIColor darkGrayColor]];
+	[self.scannedStatus setTextColor: [UIColor lightGrayColor]];
 	[self.scannedSubStatus setTextColor: [UIColor clearColor]];
 	[self showWaitingSign: NO];
 }
@@ -777,7 +812,7 @@
 // -------------------------------------------------------------------------------
 // Отображает правильную иконку коннекта к серверу
 // -------------------------------------------------------------------------------
--(void)serverConnectionStatus: (BOOL)сonnected
+- (void)serverConnectionStatus: (BOOL)сonnected
 {
 	if (сonnected) {
 		UIImage *serverIcon = [UIImage imageNamed: @"serverActive"];
@@ -820,6 +855,27 @@
 	[self.scanResultItems insertObject: logItem atIndex: 0];
 }
 
+// -------------------------------------------------------------------------------
+// Отображаем внизу экрана статус последнего сканирования
+// -------------------------------------------------------------------------------
+- (void)displayResultItem:(TCTLScanResultItem *)logItem
+{
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setTimeStyle: NSDateFormatterShortStyle];
+	[dateFormatter setDateStyle: NSDateFormatterNoStyle];
+	
+	NSString *title = [dateFormatter stringFromDate: logItem.locallyCheckedTime];
+	title = [title stringByAppendingFormat: @" Билет %@", logItem.barcode];
+
+	[self.lastTicketNumberLabel setText:title ];
+	[self.lastTicketStatusLabel setText: logItem.resultText];
+	if (logItem.allowedAccess) {
+		[self.lastTicketStatusLabel setTextColor:[UIColor greenColor]];
+	} else {
+		[self.lastTicketStatusLabel setTextColor:[UIColor redColor]];
+	}
+}
+
 #pragma mark - Preferences
 
 // -------------------------------------------------------------------------------
@@ -844,6 +900,12 @@
     
 	if ([self isScannerConnected]) {
 		[self setScannerPreferences];
+	}
+	
+	if (_disableAutolock) {
+		[UIApplication sharedApplication].idleTimerDisabled = YES;
+	} else {
+		[UIApplication sharedApplication].idleTimerDisabled = NO;
 	}
 }
 

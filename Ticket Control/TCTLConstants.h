@@ -32,6 +32,7 @@
 #define XMLRPC_TIMEOUT			15
 #define XMLRPC_USER_AGENT		@"vTicketControl/1.0.0 (iOS)"
 #define NUMBER_OF_HISTORY_ITEMS	50
+#define ISO8601_DATETIME_FORMAT	@"yyyyMMdd'T'HH':'mm':'ss"
 
 // Константы версионности
 extern NSString* const clientAppVersion;

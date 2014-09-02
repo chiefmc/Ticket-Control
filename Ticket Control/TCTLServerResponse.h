@@ -14,7 +14,7 @@
 // -----------------------------------------------------------
 
 // Возможные коды ответа от билетного сервера
-typedef NS_ENUM(int, ServerResponse) {
+typedef NS_ENUM(unsigned int, ServerResponse) {
 	resultOk					= 0x100,	// ответ от сервера, что он команду получил
 	setActiveUser				= 0x111,	// возвращает параметр userName с именем контролёра в базе сервера
 	setActiveUserNotFound		= 0x112,	// Контролёр  с таким GUID не найден
@@ -28,6 +28,7 @@ typedef NS_ENUM(int, ServerResponse) {
 	accessDeniedNoActiveEvent	= 0x214,	// Проход запрещён – нет активного события
 	accessDeniedUnknownError	= 0x220,	// Проход запрещён – неизвестная ошибка
 	errorNetworkError			= 0x301,	// Ошибка возвращается, если по каким-то причинам ответ от сервера не был получен
+	errorServerResponseUnkown	= 0x302,	// Ошибка возращается парсером, если он не смог распознать полученный от сервера ответ
 };
 
 // ----------------------------------------------------------
@@ -35,17 +36,17 @@ typedef NS_ENUM(int, ServerResponse) {
 // ----------------------------------------------------------
 @interface TCTLServerResponse : NSObject
 
-@property (nonatomic) ServerResponse responseCode;	// код ответа от сервера (см. выше)
-@property (nonatomic) NSString	*barcode;			// штрих-код проверенного билета
-@property (nonatomic) NSString	*userName;			// текстовое имя пользователя
-@property (nonatomic) NSString	*eventName;			// текстовое название ивента
-@property (nonatomic) NSDate	*eventStart;		// дата/время начала ивента
-@property (nonatomic) NSDate	*controlStart;		// дата/время начала контроля на этот ивент
-@property (nonatomic) NSDate	*controlEnd;		// дата/время окончания контроля на этот ивент
-@property (nonatomic) NSString	*agentChecked;		// пользователь системы (контроллёр), через которого этот билет уже проходил
-@property (nonatomic) NSDate	*timeChecked;		// дата/время в которое этот билет уже проходил
-@property (nonatomic) BOOL		clientNeedsUpdate;	// сервер возвращает вместе с именем пользователя, если нужно обновить клиент
-@property (nonatomic) NSNumber	*errorCode;			// код ошибки, возвращённый XMLRPC фреймворком
-@property (nonatomic) NSString	*errorDescription;	// описание ошибки, переданное фреймворком
+@property (nonatomic) ServerResponse	responseCode;		// код ответа от сервера (см. выше)
+@property (strong, nonatomic) NSString	*barcode;			// штрих-код проверенного билета
+@property (strong, nonatomic) NSString	*userName;			// текстовое имя пользователя
+@property (strong, nonatomic) NSString	*eventName;			// текстовое название ивента
+@property (strong, nonatomic) NSDate	*eventStart;		// дата/время начала ивента
+@property (strong, nonatomic) NSDate	*controlStart;		// дата/время начала контроля на этот ивент
+@property (strong, nonatomic) NSDate	*controlEnd;		// дата/время окончания контроля на этот ивент
+@property (strong, nonatomic) NSString	*agentChecked;		// пользователь системы (контроллёр), через которого этот билет уже проходил
+@property (strong, nonatomic) NSDate	*timeChecked;		// дата/время в которое этот билет уже проходил
+@property (nonatomic) BOOL				clientNeedsUpdate;	// сервер возвращает вместе с именем пользователя, если нужно обновить клиент
+@property (strong, nonatomic) NSNumber	*errorCode;			// код ошибки, возвращённый XMLRPC фреймворком
+@property (strong, nonatomic) NSString	*errorDescription;	// описание ошибки, переданное фреймворком
 
 @end

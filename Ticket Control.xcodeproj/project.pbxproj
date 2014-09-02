@@ -31,7 +31,6 @@
 		BD48910219AA312500A2EB62 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD48910119AA312500A2EB62 /* Settings.bundle */; };
 		BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */; };
 		BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */; };
-		BD9D4FA219B33D760009F9CB /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9D4FA119B33D760009F9CB /* XMLDictionary.m */; };
 		BDA7E2FC19B315F70065E79E /* XMLRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA7E2FB19B315F70065E79E /* XMLRPC.framework */; };
 /* End PBXBuildFile section */
 
@@ -82,8 +81,6 @@
 		BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogTableViewController.m; sourceTree = "<group>"; };
 		BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLScanResultItem.h; sourceTree = "<group>"; };
 		BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLScanResultItem.m; sourceTree = "<group>"; };
-		BD9D4FA019B33D760009F9CB /* XMLDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
-		BD9D4FA119B33D760009F9CB /* XMLDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
 		BDA7E2FB19B315F70065E79E /* XMLRPC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XMLRPC.framework; path = ../Frameworks/XMLRPC.framework; sourceTree = "<group>"; };
 		BDB6FE0819B253EE007512A9 /* libXMLRPC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXMLRPC.a; path = ../Frameworks/libXMLRPC.45/usr/local/lib/libXMLRPC.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -198,7 +195,6 @@
 		BD48910019AA2CDB00A2EB62 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				BD9D4F9F19B33D760009F9CB /* XMLDictionary */,
 				BD4057DA19AA70B100B3658F /* TCTLConstants.h */,
 				BD14FA8519AD51E20013B226 /* TCTLConstants.m */,
 				BD2431CA19A608CC008BC19A /* Main.storyboard */,
@@ -216,15 +212,6 @@
 				BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */,
 			);
 			name = Sources;
-			sourceTree = "<group>";
-		};
-		BD9D4F9F19B33D760009F9CB /* XMLDictionary */ = {
-			isa = PBXGroup;
-			children = (
-				BD9D4FA019B33D760009F9CB /* XMLDictionary.h */,
-				BD9D4FA119B33D760009F9CB /* XMLDictionary.m */,
-			);
-			path = XMLDictionary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,7 +325,6 @@
 				BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */,
 				BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */,
 				BD4890FF19AA1A3500A2EB62 /* TCTLServerResponse.m in Sources */,
-				BD9D4FA219B33D760009F9CB /* XMLDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
