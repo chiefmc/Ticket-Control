@@ -158,10 +158,12 @@
 	if ([segue.identifier isEqualToString: @"logTableSegue"]) {
 		// Устанавливаем статус приложения в "Не готово к сканированию"
 		[self setAppBusyStatus: YES];
-		
+#warning Нужно изменить логику 15-секундного таймера занятости
 		// Передаем в контроллер таблицы данные лога
-		TCTLLogTableViewController *destinationController = segue.destinationViewController;
-		destinationController.scanResultItems = self.scanResultItems;
+		if ([segue.destinationViewController isKindOfClass:[TCTLLogTableViewController class]]) {
+			TCTLLogTableViewController *destinationController = segue.destinationViewController;
+			destinationController.scanResultItems = self.scanResultItems;
+		}
 	}
 }
 
@@ -766,15 +768,15 @@
 -(void)setAppBusyStatus: (BOOL)yes
 {
 	static  NSTimer	*timer;
+	if (timer != nil) {
+		[timer invalidate];
+	}
 	
 	if (yes) {
 		_isBusy = YES;
 		[self.scanButton setEnabled: NO];
 		
 		// Запускаем таймер на 15 сек, по истечении отменяем статус занятости
-		if (timer != nil) {
-			[timer invalidate];
-		}
 		timer = [NSTimer scheduledTimerWithTimeInterval:XMLRPC_TIMEOUT
 												 target:self
 											   selector:@selector(cancelAppBusyStatus)
@@ -977,7 +979,7 @@
 	title = [title stringByAppendingFormat: @" Билет %@", logItem.barcode];
 	
 	// Анимируем смену строчек лога
-	[UIView animateWithDuration:0.18
+	[UIView animateWithDuration:0.2
 						  delay:0.05
 						options:UIViewAnimationOptionCurveEaseIn
 					 animations:^{
@@ -988,9 +990,9 @@
 						 // Обновляем содержимое
 						 [self.lastTicketNumberLabel setText:title];
 
-						 self.lastTicketNumberLabel.transform = CGAffineTransformMakeTranslation(-100, 0);
+						 self.lastTicketNumberLabel.transform = CGAffineTransformMakeTranslation(-200, 0);
 						 self.lastTicketNumberLabel.alpha = 1;
-						 [UIView animateWithDuration:0.2
+						 [UIView animateWithDuration:0.25
 											   delay:0
 											 options:UIViewAnimationOptionCurveEaseOut
 										  animations:^{
@@ -999,11 +1001,11 @@
 										  }
 										  completion:nil];
 					 }];
-	[UIView animateWithDuration:0.18
+	[UIView animateWithDuration:0.2
 						  delay:0.0
 						options:UIViewAnimationOptionCurveEaseIn
 					 animations:^{
-						 self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(0, 60);
+						 self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(0, 80);
 						 self.lastTicketStatusLabel.alpha = 0.5;
 					 }
 					 completion:^(BOOL finished){
@@ -1015,11 +1017,11 @@
 							 [self.lastTicketStatusLabel setTextColor:[UIColor redColor]];
 						 }
 
-						 self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(-100, 0);
+						 self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(-250, 0);
 						 self.lastTicketStatusLabel.alpha = 1;
 						 
-						 [UIView animateWithDuration:0.2
-											   delay:0
+						 [UIView animateWithDuration:0.25
+											   delay:0.15
 											 options:UIViewAnimationOptionCurveEaseOut
 										  animations:^{
 											  self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(0, 0);
@@ -1092,6 +1094,8 @@
 					 }];
 
 }
+
+#warning Нужно реализовать ввод кода вручную
 
 #pragma mark - Preferences
 
