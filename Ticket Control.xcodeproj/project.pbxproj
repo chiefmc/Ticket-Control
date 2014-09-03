@@ -195,9 +195,9 @@
 		BD48910019AA2CDB00A2EB62 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				BD2431CA19A608CC008BC19A /* Main.storyboard */,
 				BD4057DA19AA70B100B3658F /* TCTLConstants.h */,
 				BD14FA8519AD51E20013B226 /* TCTLConstants.m */,
-				BD2431CA19A608CC008BC19A /* Main.storyboard */,
 				BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */,
 				BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */,
 				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
@@ -421,6 +421,7 @@
 					"-all_load",
 				);
 				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -466,6 +467,7 @@
 				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -475,7 +477,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 54;
 				FRAMEWORK_SEARCH_PATHS = (
 					$inherited,
 					/Users/chief_mc/Dev/Frameworks,
@@ -492,6 +494,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = /Users/chief_mc/Dev/Classes/XMLDictionary/XMLDictionary;
 				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_FILE = "$(PRODUCT_NAME)_vers.c";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -502,7 +505,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 54;
 				FRAMEWORK_SEARCH_PATHS = (
 					$inherited,
 					/Users/chief_mc/Dev/Frameworks,
@@ -519,6 +522,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = /Users/chief_mc/Dev/Classes/XMLDictionary/XMLDictionary;
 				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_FILE = "$(PRODUCT_NAME)_vers.c";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

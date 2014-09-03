@@ -16,9 +16,6 @@
 
 @interface TCTLViewController ()
 
-// Таймер, cбрасывающий статус в "Ожидание Проверки"
-@property (nonatomic) NSTimer			*timer;
-
 // Признак того, что система не готова сканировать следующий код. Если YES, то система будет игнорировать все сканирования
 @property BOOL							isBusy;
 
@@ -82,7 +79,11 @@
 		message = textScannerIsNotConnected;
 
 	}
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: textInformation message: message delegate:nil cancelButtonTitle: textOk otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: textInformation
+													message: message
+												   delegate:nil
+										  cancelButtonTitle: textOk
+										  otherButtonTitles: nil];
 	[alert show];
 }
 
@@ -103,7 +104,11 @@
 	} else {
 		message = textNoServerConnection;
 	}
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: textInformation message: message delegate:nil cancelButtonTitle: textOk otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: textInformation
+													message: message
+												   delegate:nil
+										  cancelButtonTitle: textOk
+										  otherButtonTitles: nil];
 	[alert show];
 }
 
@@ -119,12 +124,14 @@
 		self.isUpsideDown = NO;
 		UIWindow *window = [[UIApplication sharedApplication] keyWindow];
 		UIView *view = [window.subviews objectAtIndex:0];
-		[view removeFromSuperview]; [window addSubview:view];
+		[view removeFromSuperview];
+		[window addSubview:view];
 	} else {
 		self.isUpsideDown = YES;
 		UIWindow *window = [[UIApplication sharedApplication] keyWindow];
 		UIView *view = [window.subviews objectAtIndex:0];
-		[view removeFromSuperview]; [window addSubview:view];
+		[view removeFromSuperview];
+		[window addSubview:view];
 	}
 }
 
@@ -287,7 +294,9 @@
 	// [self setAppBusyStatus: NO];
 
     // Stop listening for the NSUserDefaultsDidChangeNotification
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+													name:NSUserDefaultsDidChangeNotification
+												  object:nil];
 }
 
 #pragma mark - Inherited methods
@@ -320,13 +329,19 @@
 	[self displayReadyToScan];
 	
 	// Инициируем опрос заряда батареи
-	[self performSelector:@selector(postponeBatteryRemain) withObject:nil afterDelay:0.8f];
+	[self performSelector:@selector(postponeBatteryRemain)
+			   withObject:nil
+			   afterDelay:0.8f];
 	
 	// Устанавливаем настройки сканера с задержкой в 1 сек
-	[self performSelector:@selector(setScannerPreferences) withObject:nil afterDelay:0.5f];
+	[self performSelector:@selector(setScannerPreferences)
+			   withObject:nil
+			   afterDelay:0.5f];
 	
 	// Планируем проверку связи с сервером
-	[self performSelector:@selector(invocateGetUserName) withObject:nil afterDelay:1.0f];
+	[self performSelector:@selector(invocateGetUserName)
+			   withObject:nil
+			   afterDelay:1.0f];
 }
 
 // -------------------------------------------------------------------------------
@@ -410,7 +425,11 @@
 		// Показываем алерт
 		NSString *message = textErrorConnectingToServer;
 		[message stringByAppendingFormat:@"\n Код ошибки: %@ (%@)", [xmlResponse faultCode], [xmlResponse faultString]];
-		alert = [[UIAlertView alloc] initWithTitle:textError message: message delegate:nil cancelButtonTitle:textRetry otherButtonTitles: nil];
+		alert = [[UIAlertView alloc] initWithTitle:textError
+										   message:message
+										  delegate:nil
+								 cancelButtonTitle:textRetry
+								 otherButtonTitles:nil];
 		[alert show];
 		// Отображаем разрыв соединения с сервером
 		[self serverConnectionStatus:NO];
@@ -442,7 +461,11 @@
 				[self.userNameLabel setText: [UIDevice currentDevice].name];
 
 				// Показываем алерт
-				alert = [[UIAlertView alloc]initWithTitle:textError message:@"Ошибка GUID! Обратитесь к администратору системы" delegate:nil cancelButtonTitle:textCancel otherButtonTitles: nil];
+				alert = [[UIAlertView alloc]initWithTitle:textError
+												  message:@"Неверный GUID! Обратитесь к администратору системы"
+												 delegate:nil
+										cancelButtonTitle:textCancel
+										otherButtonTitles:nil];
 				[alert show];
 				break;
 				
@@ -458,22 +481,30 @@
 				
 			case accessAllowed ... accessDeniedUnknownError:
 			{
+#ifdef DEBUG
+				NSLog(@"Barcodes: %@ (scanned %i chars), %@ (returned %i chars)", _lastScannedBarcode, [_lastScannedBarcode length], serverResponse.barcode, [serverResponse.barcode length]);
+#endif
 				[self serverConnectionStatus:YES];
 				// Проверяем совпадение штрих-кода
-				if ([serverResponse.barcode isEqualToString: self.lastScannedBarcode]) {
+				if ([serverResponse.barcode isEqualToString: _lastScannedBarcode]) {
 					// Показываем результат
 					[self displayScanResult: serverResponse];
 					
 					// Запускаем таймер, по окончании которого снова отображается "Ожидание Проверки"
-					[self runTimer];
+					[self runStatusRevertTimer];
 					
 					// Упаковываем результат сканирования в формат лога
-					TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode: serverResponse.barcode FillTextWith: serverResponse];
-					[self addScanResultItem:logItem];
-					[self displayResultItem:logItem];
+					TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode:serverResponse.barcode
+																					 FillTextWith:serverResponse];
+					[self addScanResultItemToLog:logItem];
+					[self displayLogResultItem:logItem];
 				} else {
 					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
-					alert = [[UIAlertView alloc]initWithTitle:textError message:@"Неверный ответ сервера" delegate:nil cancelButtonTitle:textRetry otherButtonTitles: nil];
+					alert = [[UIAlertView alloc]initWithTitle:textError
+													  message:@"Неверный ответ сервера"
+													 delegate:nil
+											cancelButtonTitle:textRetry
+											otherButtonTitles:nil];
 					[alert show];
 					[self displayReadyToScan];
 				}
@@ -487,7 +518,11 @@
 				NSLog(@"Unknown response. Body: %@", [xmlResponse object]);
 #endif
 				// Показываем алерт
-				alert = [[UIAlertView alloc]initWithTitle:textError message:@"Неизвестный ответ сервера" delegate:nil cancelButtonTitle:textRetry otherButtonTitles: nil];
+				alert = [[UIAlertView alloc]initWithTitle:textError
+												  message:@"Неизвестный ответ сервера"
+												 delegate:nil
+										cancelButtonTitle:textRetry
+										otherButtonTitles:nil];
 				[alert show];
 				[self displayReadyToScan];
 
@@ -515,7 +550,11 @@
 		message = [message stringByAppendingFormat:@"\n%@ error %i", error.domain, error.code];
 	}
 
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:textError message:message delegate:nil cancelButtonTitle:textRetry otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:textError
+													message:message
+												   delegate:nil
+										  cancelButtonTitle:textRetry
+										  otherButtonTitles: nil];
 	[alert show];
 
 	[self setAppBusyStatus:NO];
@@ -557,16 +596,31 @@
 #ifdef DEBUG
 	NSLog(@"doScannedBarcodeCheck received");
 #endif
+	// Удаляем из строки возврат каретки
+	barcode = [barcode stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	
 	// Запоминаем последний код
 	_lastScannedBarcode = barcode;
 	
 	// Устанавливаем статус приложения
 	[self setAppBusyStatus: YES];
 	[self displayProgress];
-	
+/*
+#ifdef TARGET_IPHONE_SIMULATOR
+	TCTLServerResponse *item = [TCTLServerResponse new];
+	item.barcode = _lastScannedBarcode;
+	item.responseCode = accessDeniedAlreadyPassed;
+	[self displayScanResult: item];
+	[self setAppBusyStatus:NO];
+	[self runTimer];
+#else*/
 	// Опрашиваем сервер и ждём ответ
-	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL withCommand:getCodeResult withGUID: _userGUID withBarcode: barcode];
+	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL
+										   withCommand: getCodeResult
+											  withGUID:_userGUID
+										   withBarcode: barcode];
 	[[TCTLServerCommand sharedInstance] doSendCommand: self];
+//#endif
 }
 
 // -------------------------------------------------------------------------------
@@ -647,12 +701,18 @@
 // -------------------------------------------------------------------------------
 // Запускает таймер, сбрасывающий отображение статуса, по истечении времени
 // -------------------------------------------------------------------------------
-- (void)runTimer
+- (void)runStatusRevertTimer
 {
-	if (_timer != nil) {
-		[_timer invalidate];
+	static  NSTimer	*timer;
+	
+	if (timer != nil) {
+		[timer invalidate];
 	}
-	_timer = [NSTimer scheduledTimerWithTimeInterval:_resultDisplayTime target:self selector:@selector(displayReadyToScan) userInfo:nil repeats:NO];
+	timer = [NSTimer scheduledTimerWithTimeInterval:_resultDisplayTime
+											 target:self
+										   selector:@selector(displayReadyToScan)
+										   userInfo:nil
+											repeats:NO];
 }
 
 // -------------------------------------------------------------------------------
@@ -705,16 +765,41 @@
 // -------------------------------------------------------------------------------
 -(void)setAppBusyStatus: (BOOL)yes
 {
+	static  NSTimer	*timer;
+	
 	if (yes) {
 		_isBusy = YES;
 		[self.scanButton setEnabled: NO];
+		
+		// Запускаем таймер на 15 сек, по истечении отменяем статус занятости
+		if (timer != nil) {
+			[timer invalidate];
+		}
+		timer = [NSTimer scheduledTimerWithTimeInterval:XMLRPC_TIMEOUT
+												 target:self
+											   selector:@selector(cancelAppBusyStatus)
+											   userInfo:nil
+												repeats:NO];
 	} else {
 		_isBusy = NO;
 		[self.scanButton setEnabled: YES];
 	}
+
 #ifdef DEBUG
 	NSLog(@"setAppBusyStatus received: %hhd", yes);
 #endif
+}
+
+// -------------------------------------------------------------------------------
+// Отменяет статус занятости, после таймаута
+// -------------------------------------------------------------------------------
+- (void)cancelAppBusyStatus
+{
+#ifdef DEBUG
+	NSLog(@"cancelAppBusyStatus received");
+#endif
+	[self setAppBusyStatus:NO];
+	[self displayReadyToScan];
 }
 
 // -------------------------------------------------------------------------------
@@ -734,7 +819,10 @@
 // -------------------------------------------------------------------------------
 - (void)displayReadyToScan
 {
-	[self.background setBackgroundColor: [UIColor colorWithRed:0.92f green:0.92f blue:0.92f alpha:1.0f]];
+	[self.background setBackgroundColor: [UIColor colorWithRed:0.92f
+														 green:0.92f
+														  blue:0.92f
+														 alpha:1.0f]];
 	[self.scannedStatus setText: textReadyToCheck];
 	[self.scannedStatus setTextColor: [UIColor lightGrayColor]];
 	[self.scannedSubStatus setTextColor: [UIColor clearColor]];
@@ -760,19 +848,26 @@
 {
 	[self showWaitingSign: NO];
 	switch (scanResult.responseCode) {
-		case accessAllowed:
+		case accessAllowed: {
 			[self.background setBackgroundColor: [UIColor greenColor]];
+			self.scannedStatus.alpha = 0;
 			[self.scannedStatus setText: textAccessAllowed];
 			[self.scannedStatus setTextColor: [UIColor whiteColor]];
 			[self.scannedSubStatus setTextColor: [UIColor clearColor]];
-			break;
 			
+			[self doAllowedStatusAnimation];
+
+			break;
+		}
 		case accessDeniedTicketNotFound:
 			[self.background setBackgroundColor: [UIColor redColor]];
 			[self.scannedStatus setText: textAccessDenied];
 			[self.scannedStatus setTextColor: [UIColor whiteColor]];
 			[self.scannedSubStatus setText: textTicketNotFound];
 			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			
+			[self doDeniedStatusAnimation];
+			
 			break;
 			
 		case accessDeniedAlreadyPassed:
@@ -781,6 +876,9 @@
 			[self.scannedStatus setTextColor: [UIColor whiteColor]];
 			[self.scannedSubStatus setText: textTicketAlreadyPassed];
 			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			
+			[self doDeniedStatusAnimation];
+			
 			break;
 			
 		case accessDeniedWrongEntrance:
@@ -789,6 +887,9 @@
 			[self.scannedStatus setTextColor: [UIColor whiteColor]];
 			[self.scannedSubStatus setText: textWrongEntrance];
 			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			
+			[self doDeniedStatusAnimation];
+			
 			break;
 			
 		case accessDeniedNoActiveEvent:
@@ -797,6 +898,9 @@
 			[self.scannedStatus setTextColor: [UIColor whiteColor]];
 			[self.scannedSubStatus setText: textNoEventToControl];
 			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			
+			[self doDeniedStatusAnimation];
+			
 			break;
 			
 		default:
@@ -805,6 +909,9 @@
 			[self.scannedStatus setTextColor: [UIColor whiteColor]];
 			[self.scannedSubStatus setText: textUnknownError];
 			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			
+			[self doDeniedStatusAnimation];
+			
 			break;
 	}
 }
@@ -816,10 +923,12 @@
 {
 	if (сonnected) {
 		UIImage *serverIcon = [UIImage imageNamed: @"serverActive"];
-		[self.serverConnectionStatus setImage: serverIcon forState: UIControlStateNormal];
+		[self.serverConnectionStatus setImage: serverIcon
+									 forState: UIControlStateNormal];
 	} else {
 		UIImage *serverIcon = [UIImage imageNamed: @"serverInactive"];
-		[self.serverConnectionStatus setImage: serverIcon forState: UIControlStateNormal];
+		[self.serverConnectionStatus setImage: serverIcon
+									 forState: UIControlStateNormal];
 	}
 }
 
@@ -845,7 +954,7 @@
 // -------------------------------------------------------------------------------
 // Добавляем результат сканирования в коллекцию результатов
 // -------------------------------------------------------------------------------
-- (void)addScanResultItem:(TCTLScanResultItem *)logItem
+- (void)addScanResultItemToLog:(TCTLScanResultItem *)logItem
 {
 	if (!self.scanResultItems) {
 		self.scanResultItems = [NSMutableArray init];
@@ -858,7 +967,7 @@
 // -------------------------------------------------------------------------------
 // Отображаем внизу экрана статус последнего сканирования
 // -------------------------------------------------------------------------------
-- (void)displayResultItem:(TCTLScanResultItem *)logItem
+- (void)displayLogResultItem:(TCTLScanResultItem *)logItem
 {
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setTimeStyle: NSDateFormatterShortStyle];
@@ -866,14 +975,122 @@
 	
 	NSString *title = [dateFormatter stringFromDate: logItem.locallyCheckedTime];
 	title = [title stringByAppendingFormat: @" Билет %@", logItem.barcode];
+	
+	// Анимируем смену строчек лога
+	[UIView animateWithDuration:0.18
+						  delay:0.05
+						options:UIViewAnimationOptionCurveEaseIn
+					 animations:^{
+						 self.lastTicketNumberLabel.alpha = 0.5;
+						 self.lastTicketNumberLabel.transform = CGAffineTransformMakeTranslation(0, 60);
+					 }
+					 completion:^(BOOL finished){
+						 // Обновляем содержимое
+						 [self.lastTicketNumberLabel setText:title];
 
-	[self.lastTicketNumberLabel setText:title ];
-	[self.lastTicketStatusLabel setText: logItem.resultText];
+						 self.lastTicketNumberLabel.transform = CGAffineTransformMakeTranslation(-100, 0);
+						 self.lastTicketNumberLabel.alpha = 1;
+						 [UIView animateWithDuration:0.2
+											   delay:0
+											 options:UIViewAnimationOptionCurveEaseOut
+										  animations:^{
+											  self.lastTicketNumberLabel.alpha = 1;
+											  self.lastTicketNumberLabel.transform = CGAffineTransformMakeTranslation(0, 0);
+										  }
+										  completion:nil];
+					 }];
+	[UIView animateWithDuration:0.18
+						  delay:0.0
+						options:UIViewAnimationOptionCurveEaseIn
+					 animations:^{
+						 self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(0, 60);
+						 self.lastTicketStatusLabel.alpha = 0.5;
+					 }
+					 completion:^(BOOL finished){
+						 // Обновляем содержимое
+						 [self.lastTicketStatusLabel setText:logItem.resultText];
+						 if (logItem.allowedAccess) {
+							 [self.lastTicketStatusLabel setTextColor:[UIColor greenColor]];
+						 } else {
+							 [self.lastTicketStatusLabel setTextColor:[UIColor redColor]];
+						 }
+
+						 self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(-100, 0);
+						 self.lastTicketStatusLabel.alpha = 1;
+						 
+						 [UIView animateWithDuration:0.2
+											   delay:0
+											 options:UIViewAnimationOptionCurveEaseOut
+										  animations:^{
+											  self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(0, 0);
+											  self.lastTicketStatusLabel.alpha = 1;
+										  }
+										  completion:nil];
+					 }];
+	/*
+	[self.lastTicketNumberLabel setText:title];
+	[self.lastTicketStatusLabel setText:logItem.resultText];
 	if (logItem.allowedAccess) {
 		[self.lastTicketStatusLabel setTextColor:[UIColor greenColor]];
 	} else {
 		[self.lastTicketStatusLabel setTextColor:[UIColor redColor]];
-	}
+	}*/
+}
+
+// -------------------------------------------------------------------------------
+//	Анимируем появление нового статуса разрешения
+// -------------------------------------------------------------------------------
+-(void)doAllowedStatusAnimation
+{
+	[UIView animateWithDuration:0.1
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseIn
+					 animations:^{
+						 self.scannedStatus.transform = CGAffineTransformMakeScale(1.2, 1.1);
+						 self.scannedStatus.alpha = 0.6;
+					 } completion:^(BOOL finished) {
+						 [UIView animateWithDuration:0.1
+											   delay:0
+											 options:UIViewAnimationOptionCurveEaseOut
+										  animations:^{
+											  self.scannedStatus.transform = CGAffineTransformMakeScale(1, 1);
+											  self.scannedStatus.alpha = 1;
+										  }
+										  completion:nil];
+					 }];
+}
+
+// -------------------------------------------------------------------------------
+//	Анимируем появление нового статуса запрещения
+// -------------------------------------------------------------------------------
+-(void)doDeniedStatusAnimation
+{
+	[UIView animateWithDuration:0.08
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseInOut
+					 animations:^{
+						 self.scannedStatus.transform = CGAffineTransformMakeTranslation(25, 0);
+						 self.scannedSubStatus.transform = CGAffineTransformMakeTranslation(25, 0);
+					 } completion:^(BOOL finished) {
+						 [UIView animateWithDuration:0.06
+											   delay:0
+											 options:UIViewAnimationOptionCurveEaseInOut
+										  animations:^{
+											  self.scannedStatus.transform = CGAffineTransformMakeTranslation(-16, 0);
+											  self.scannedSubStatus.transform = CGAffineTransformMakeTranslation(-16, 0);
+										  }
+										  completion:^(BOOL finished){
+											  [UIView animateWithDuration:0.04
+																	delay:0
+																  options:UIViewAnimationOptionCurveEaseInOut
+															   animations:^{
+																   self.scannedStatus.transform = CGAffineTransformMakeTranslation(0, 0);
+																   self.scannedSubStatus.transform = CGAffineTransformMakeTranslation(0, 0);
+															   }
+															   completion:nil];
+										  }];
+					 }];
+
 }
 
 #pragma mark - Preferences
@@ -930,7 +1147,10 @@
 // -------------------------------------------------------------------------------
 - (void)invocateServerAliveCheck
 {
-	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL withCommand: noOp withGUID: _userGUID withBarcode:@""];
+	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL
+										   withCommand: noOp
+											  withGUID:_userGUID
+										   withBarcode:@""];
 	[[TCTLServerCommand sharedInstance] doSendCommand: self];
 }
 
@@ -939,41 +1159,11 @@
 // -------------------------------------------------------------------------------
 - (void)invocateGetUserName
 {
-	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL withCommand: getUserName withGUID: _userGUID withBarcode:@""];
+	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL
+										   withCommand: getUserName
+											  withGUID:_userGUID
+										   withBarcode:@""];
 	[[TCTLServerCommand sharedInstance] doSendCommand:self];
-/*
-	_serverResponse = [_serverCommand getServerResponse];
-	switch (_serverResponse.responseCode) {
-		case setActiveUser:
-			[_userName setText: _serverResponse.userName];
-			return YES;
-			break;
-			
-		case setActiveUserNotFound:
-		{
-			[_userName setText: @"Неверный GUID"];
-			
-			// Отображаем сообщение об ошибке и просим пользователя отреагировать
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:textError message: textWrongGUID delegate:nil cancelButtonTitle:textCancel otherButtonTitles: nil];
-			[alert show];
-
-			break;
-		}
-		case errorNetworkError:
-			[_userName setText: @""];
-			break;
-			
-		default:
-			[_userName setText: @""];
-			
-			// Отображаем сообщение об ошибке и просим пользователя отреагировать
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:textError message: textUnknownError delegate:nil cancelButtonTitle:textCancel otherButtonTitles: nil];
-			[alert show];
-			
-			break;
-	}
-	return NO;
-*/
 }
 
 @end

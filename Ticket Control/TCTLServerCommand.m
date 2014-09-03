@@ -77,7 +77,7 @@
 -(TCTLServerResponse *)unpackResponse:(id)xmlResponseObject
 {
 	TCTLServerResponse *response = [TCTLServerResponse alloc];
-	NSDictionary *decodedXML = (NSDictionary *)xmlResponseObject;
+	NSDictionary *decodedXML	= (NSDictionary *)xmlResponseObject;
 	
 	// Подготавливаем форматтер с шаблоном под дату/время стандарта ISO8601
 	NSDateFormatter *dateFormat = [NSDateFormatter new];
@@ -110,7 +110,8 @@
 {
 	XMLRPCConnectionManager *xmlManager = [XMLRPCConnectionManager sharedManager];
 	
-	[xmlManager spawnConnectionWithXMLRPCRequest: [self packRequest] delegate:delegate];
+	[xmlManager spawnConnectionWithXMLRPCRequest:[self packRequest]
+										delegate:delegate];
 }
 
 @end
