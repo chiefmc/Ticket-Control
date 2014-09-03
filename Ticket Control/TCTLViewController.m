@@ -160,11 +160,11 @@
 		[self setAppBusyStatus: YES];
 #warning Нужно изменить логику 15-секундного таймера занятости
 		// Передаем в контроллер таблицы данные лога
-		if ([segue.destinationViewController isKindOfClass:[TCTLLogTableViewController class]]) {
-			TCTLLogTableViewController *destinationController = segue.destinationViewController;
-			destinationController.scanResultItems = self.scanResultItems;
+		TCTLLogTableViewController *tableView = (TCTLLogTableViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
+		if ([tableView isKindOfClass:[TCTLLogTableViewController class]]) {
+			tableView.scanResultItems = self.scanResultItems;
 		}
-	}
+	} 
 }
 
 // -------------------------------------------------------------------------------

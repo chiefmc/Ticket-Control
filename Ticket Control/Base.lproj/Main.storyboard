@@ -28,7 +28,7 @@
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </label>
-                            <view tag="10" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4eV-GO-krv">
+                            <view tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4eV-GO-krv">
                                 <rect key="frame" x="0.0" y="43" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -56,7 +56,7 @@
                                         <rect key="frame" x="142" y="196" width="37" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oxj-5w-nu4">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oxj-5w-nu4">
                                         <rect key="frame" x="8" y="298" width="305" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
@@ -84,7 +84,7 @@
                                     <constraint firstItem="akG-mi-Iza" firstAttribute="top" secondItem="vrS-D0-OfA" secondAttribute="bottom" constant="33" id="vj6-3H-l6b"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="center" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="obf-hp-QcY">
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="obf-hp-QcY">
                                 <rect key="frame" x="282" y="9" width="34" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -97,7 +97,7 @@
                                     <action selector="showScannerBatDetails:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Md6-tf-sFj"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="center" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qqt-Oz-7H3">
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qqt-Oz-7H3">
                                 <rect key="frame" x="6" y="9" width="24" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
@@ -122,10 +122,10 @@
                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="1Te-0B-KdI" kind="modal" identifier="logTableSegue" modalTransitionStyle="coverVertical" id="cSt-c2-Lcj"/>
+                                    <segue destination="psn-tO-HLM" kind="modal" identifier="logTableSegue" modalTransitionStyle="coverVertical" id="cSt-c2-Lcj"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="center" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgj-JN-TsB">
+                            <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgj-JN-TsB">
                                 <rect key="frame" x="27" y="5" width="40" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -205,37 +205,17 @@
             </objects>
             <point key="canvasLocation" x="1157" y="77"/>
         </scene>
-        <!--Log Table View Controller-->
+        <!--Log Table View Controller - Лог операций-->
         <scene sceneID="tpA-YL-etZ">
             <objects>
-                <tableViewController id="1Te-0B-KdI" customClass="TCTLLogTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="siM-D1-np8">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                <tableViewController title="Лог операций" id="1Te-0B-KdI" customClass="TCTLLogTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="siM-D1-np8">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="JBX-2R-zYV">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="barTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            <items>
-                                <navigationItem title="Лог операций" id="5cp-Lj-wCS">
-                                    <barButtonItem key="rightBarButtonItem" id="FZv-bF-kBy">
-                                        <button key="customView" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jZ9-XJ-9fs">
-                                            <rect key="frame" x="251" y="5" width="64" height="34"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <gestureRecognizers/>
-                                            <state key="normal" title="Назад"/>
-                                            <connections>
-                                                <segue destination="ASw-oh-xMa" kind="unwind" unwindAction="unwindToMainScreen:" id="Byo-pO-lgz"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                </navigationItem>
-                            </items>
-                        </navigationBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="logTableItem" textLabel="8t6-vT-owh" detailTextLabel="POX-D9-BNj" style="IBUITableViewCellStyleSubtitle" id="axq-d0-Lj6">
-                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="axq-d0-Lj6" id="3Xe-Kz-q5Y">
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
@@ -265,10 +245,75 @@
                             <outlet property="delegate" destination="1Te-0B-KdI" id="akD-to-uSY"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Лог операций" id="4tV-Pj-3wF">
+                        <barButtonItem key="rightBarButtonItem" id="FZv-bF-kBy">
+                            <button key="customView" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jZ9-XJ-9fs">
+                                <rect key="frame" x="251" y="5" width="64" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <state key="normal" title="Назад"/>
+                                <connections>
+                                    <segue destination="ASw-oh-xMa" kind="unwind" unwindAction="unwindToMainScreen:" id="Byo-pO-lgz"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <size key="freeformSize" width="320" height="469"/>
+                    <connections>
+                        <segue destination="ZXE-b7-0oJ" kind="push" identifier="logItemDetails" id="gX5-Y8-aRt"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iri-fk-GLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="ASw-oh-xMa" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2006" y="77"/>
+        </scene>
+        <!--Table View Controller - Детали-->
+        <scene sceneID="c0A-HU-ptg">
+            <objects>
+                <tableViewController id="ZXE-b7-0oJ" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gSG-ZB-dda">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5wK-sU-X9V">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5wK-sU-X9V" id="fRm-Kd-hja">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ZXE-b7-0oJ" id="dWA-4l-nFb"/>
+                            <outlet property="delegate" destination="ZXE-b7-0oJ" id="oWG-8A-V7T"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Детали" id="u0q-wd-yiy"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pv7-Um-5WR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2407" y="77"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="eRe-U3-Lmb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="psn-tO-HLM" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iWg-mP-F21">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.0" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="1Te-0B-KdI" kind="relationship" relationship="rootViewController" id="WBj-Jl-T5H"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M13-hJ-mfu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1597" y="77"/>
         </scene>
