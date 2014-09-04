@@ -34,6 +34,8 @@
 @property BOOL							isUserNameSet;
 @property BOOL							isUpsideDown;
 @property NSString						*lastScannedBarcode;
+@property (nonatomic) UIAlertView		*warningAlert;
+@property (nonatomic) UIAlertView		*manualBarcodeAlert;
 
 @end
 
@@ -42,7 +44,7 @@
 #pragma mark - Actions:
 
 // -------------------------------------------------------------------------------
-// Инициируем сканирование штрих-кода
+// Invocating the barcode scan via the framework
 // -------------------------------------------------------------------------------
 - (IBAction)tappedScan:(id)sender
 {
@@ -61,7 +63,22 @@
 }
 
 // -------------------------------------------------------------------------------
-// Показывает alert с детальным статусом батареи саней
+// Displaying the screen to enter the barcode manually
+// -------------------------------------------------------------------------------
+- (IBAction)numKeypadTapped:(id)sender
+{
+	[self setAppBusyStatus:YES];
+	_manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:@"Введите штрих-код"
+													 message:@""
+													delegate:self
+										   cancelButtonTitle:@"Готово"
+										   otherButtonTitles:nil];
+	[_manualBarcodeAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+	[_manualBarcodeAlert show];
+}
+
+// -------------------------------------------------------------------------------
+// Displaying the alert with a battery status
 // -------------------------------------------------------------------------------
 - (IBAction)showScannerBatDetails:(id)sender
 {
@@ -79,12 +96,12 @@
 		message = textScannerIsNotConnected;
 
 	}
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: textInformation
-													message: message
-												   delegate:nil
-										  cancelButtonTitle: textOk
-										  otherButtonTitles: nil];
-	[alert show];
+	_warningAlert = [[UIAlertView alloc] initWithTitle:textInformation
+									   message:message
+									  delegate:nil
+							 cancelButtonTitle:textOk
+							 otherButtonTitles:nil];
+	[_warningAlert show];
 }
 
 // -------------------------------------------------------------------------------
@@ -104,12 +121,12 @@
 	} else {
 		message = textNoServerConnection;
 	}
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: textInformation
-													message: message
-												   delegate:nil
-										  cancelButtonTitle: textOk
-										  otherButtonTitles: nil];
-	[alert show];
+	 _warningAlert = [[UIAlertView alloc] initWithTitle:textInformation
+												message:message
+											   delegate:nil
+									  cancelButtonTitle:textOk
+									  otherButtonTitles:nil];
+	[_warningAlert show];
 }
 
 // -------------------------------------------------------------------------------
@@ -158,10 +175,10 @@
 	if ([segue.identifier isEqualToString: @"logTableSegue"]) {
 		// Устанавливаем статус приложения в "Не готово к сканированию"
 		[self setAppBusyStatus: YES];
-#warning Нужно изменить логику 15-секундного таймера занятости
+		
 		// Передаем в контроллер таблицы данные лога
-		TCTLLogTableViewController *tableView = (TCTLLogTableViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
-		if ([tableView isKindOfClass:[TCTLLogTableViewController class]]) {
+		if ([[segue.destinationViewController topViewController] isKindOfClass:[TCTLLogTableViewController class]]) {
+			TCTLLogTableViewController *tableView = (TCTLLogTableViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
 			tableView.scanResultItems = self.scanResultItems;
 		}
 	} 
@@ -319,7 +336,7 @@
 #pragma mark - NotificationHandler
 
 // -------------------------------------------------------------------------------
-// Вызывается Framework'ом при подкдючении сканера
+// Being called-back by the framework after the scanner connection
 // -------------------------------------------------------------------------------
 - (void)connectNotify
 {
@@ -407,43 +424,42 @@
 }
 
 #pragma mark - XMLRPC Delegates
+
 // ------------------------------------------------------------------------------
 // Обработчик, вызываемый XMLRPC, при получении ответа или ошибки от сервера
 // ------------------------------------------------------------------------------
 - (void)request: (XMLRPCRequest *)request didReceiveResponse: (XMLRPCResponse *)xmlResponse {
-	
-	UIAlertView *alert;
-	
 #ifdef DEBUG
 	NSLog(@"didReceiveResponse from XMLRPC.");
 #endif
 	
     if ([xmlResponse isFault]) {
-		// Если получили ошибку, то...
+		// If we have an error, than...
 #ifdef DEBUG
         NSLog(@"Fault code: %@", [xmlResponse faultCode]);
         NSLog(@"Fault string: %@", [xmlResponse faultString]);
 #endif
-		// Показываем алерт
+		// Showing the alert
 		NSString *message = textErrorConnectingToServer;
 		[message stringByAppendingFormat:@"\n Код ошибки: %@ (%@)", [xmlResponse faultCode], [xmlResponse faultString]];
-		alert = [[UIAlertView alloc] initWithTitle:textError
-										   message:message
-										  delegate:nil
-								 cancelButtonTitle:textRetry
-								 otherButtonTitles:nil];
-		[alert show];
-		// Отображаем разрыв соединения с сервером
+		_warningAlert = [[UIAlertView alloc] initWithTitle:textError
+												   message:message
+												  delegate:nil
+										 cancelButtonTitle:textRetry
+										 otherButtonTitles:nil];
+		[_warningAlert show];
+		
+		// Displaying no server connection
 		[self serverConnectionStatus:NO];
 		[self displayReadyToScan];
     } else {
-		// Если ответ нормальный, то обрабатываем...
+		// If the server response is ok, than...
 #ifdef DEBUG
         NSLog(@"Parsed response: %@", [xmlResponse object]);
 #endif
 		TCTLServerResponse *serverResponse = [[TCTLServerCommand sharedInstance] unpackResponse:[xmlResponse object]];
 		
-		// Обрабатываем возможные ответы сервера
+		// Handling possible server responses
 		switch (serverResponse.responseCode) {
 			case resultOk:
 				[self serverConnectionStatus:YES];
@@ -459,16 +475,16 @@
 			case setActiveUserNotFound:
 				[self serverConnectionStatus:NO];
 				_isUserNameSet = NO;
-				// Устанавливаем имя пользователя на главном экране в значение имени текущего девайса
+				// Setting the user name on the main view to a current device's name
 				[self.userNameLabel setText: [UIDevice currentDevice].name];
 
-				// Показываем алерт
-				alert = [[UIAlertView alloc]initWithTitle:textError
-												  message:@"Неверный GUID! Обратитесь к администратору системы"
-												 delegate:nil
-										cancelButtonTitle:textCancel
-										otherButtonTitles:nil];
-				[alert show];
+				// Showing alert
+				_warningAlert = [[UIAlertView alloc]initWithTitle:textError
+														  message:@"Неверный GUID! Обратитесь к администратору системы"
+														 delegate:nil
+												cancelButtonTitle:textCancel
+												otherButtonTitles:nil];
+				[_warningAlert show];
 				break;
 				
 			case setActiveEvent:
@@ -487,9 +503,10 @@
 				NSLog(@"Barcodes: %@ (scanned %i chars), %@ (returned %i chars)", _lastScannedBarcode, [_lastScannedBarcode length], serverResponse.barcode, [serverResponse.barcode length]);
 #endif
 				[self serverConnectionStatus:YES];
-				// Проверяем совпадение штрих-кода
+				// Checking if the barcode matches to what we've sent
 				if ([serverResponse.barcode isEqualToString: _lastScannedBarcode]) {
-					// Показываем результат
+					
+					// Showing the result
 					[self displayScanResult: serverResponse];
 					
 					// Запускаем таймер, по окончании которого снова отображается "Ожидание Проверки"
@@ -498,16 +515,22 @@
 					// Упаковываем результат сканирования в формат лога
 					TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode:serverResponse.barcode
 																					 FillTextWith:serverResponse];
+					// Adding NSDictionary parsed fro XML response to logItem
+					logItem.serverParsedResponse = xmlResponse.object;
+					
+					// Adding logItem to log table
 					[self addScanResultItemToLog:logItem];
+					
+					// Displaying the logItem in the lower part of the screen
 					[self displayLogResultItem:logItem];
 				} else {
 					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
-					alert = [[UIAlertView alloc]initWithTitle:textError
-													  message:@"Неверный ответ сервера"
-													 delegate:nil
-											cancelButtonTitle:textRetry
-											otherButtonTitles:nil];
-					[alert show];
+					_warningAlert = [[UIAlertView alloc]initWithTitle:textError
+															  message:@"Неверный ответ сервера"
+															 delegate:nil
+													cancelButtonTitle:textRetry
+													otherButtonTitles:nil];
+					[_warningAlert show];
 					[self displayReadyToScan];
 				}
 				break;
@@ -520,12 +543,12 @@
 				NSLog(@"Unknown response. Body: %@", [xmlResponse object]);
 #endif
 				// Показываем алерт
-				alert = [[UIAlertView alloc]initWithTitle:textError
-												  message:@"Неизвестный ответ сервера"
-												 delegate:nil
-										cancelButtonTitle:textRetry
-										otherButtonTitles:nil];
-				[alert show];
+				_warningAlert = [[UIAlertView alloc]initWithTitle:textError
+														  message:@"Неизвестный ответ сервера"
+														 delegate:nil
+												cancelButtonTitle:textRetry
+												otherButtonTitles:nil];
+				[_warningAlert show];
 				[self displayReadyToScan];
 
 				break;
@@ -546,23 +569,29 @@
 	// Показываем алерт
 	NSString *message = textErrorConnectingToServer;
 	
-	if ((error.domain == NSURLErrorDomain) && (error.code == -1009)) {
-		message = [message stringByAppendingFormat:@"\nПроверьте сетевое соединение"];
-	} else {
-		message = [message stringByAppendingFormat:@"\n%@ error %i", error.domain, error.code];
+	if (error.domain == NSURLErrorDomain) {
+		switch (error.code) {
+			case -1009:
+				message = [message stringByAppendingFormat:@"\nПроверьте сетевое соединение"];
+				break;
+			case -1001:
+				message = [message stringByAppendingFormat:@"\nПревышено время ожидания"];
+				break;
+			default:
+				message = [message stringByAppendingFormat:@"\n%@ error %i", error.domain, error.code];
+		}
 	}
-
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:textError
-													message:message
-												   delegate:nil
-										  cancelButtonTitle:textRetry
-										  otherButtonTitles: nil];
-	[alert show];
+	 _warningAlert = [[UIAlertView alloc] initWithTitle:textError
+												message:message
+											   delegate:nil
+									  cancelButtonTitle:textRetry
+									  otherButtonTitles:nil];
+	[_warningAlert show];
 
 	[self setAppBusyStatus:NO];
 	[self displayReadyToScan];
 	
-	// Отображаем разрыв соединения с сервером
+	// Displaying the server connection fail
 	[self serverConnectionStatus:NO];
 }
 
@@ -621,7 +650,7 @@
 										   withCommand: getCodeResult
 											  withGUID:_userGUID
 										   withBarcode: barcode];
-	[[TCTLServerCommand sharedInstance] doSendCommand: self];
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithDelegate: self];
 //#endif
 }
 
@@ -775,13 +804,13 @@
 	if (yes) {
 		_isBusy = YES;
 		[self.scanButton setEnabled: NO];
-		
+		/* Not needed so far...
 		// Запускаем таймер на 15 сек, по истечении отменяем статус занятости
 		timer = [NSTimer scheduledTimerWithTimeInterval:XMLRPC_TIMEOUT
 												 target:self
 											   selector:@selector(cancelAppBusyStatus)
 											   userInfo:nil
-												repeats:NO];
+												repeats:NO]; */
 	} else {
 		_isBusy = NO;
 		[self.scanButton setEnabled: YES];
@@ -1155,7 +1184,7 @@
 										   withCommand: noOp
 											  withGUID:_userGUID
 										   withBarcode:@""];
-	[[TCTLServerCommand sharedInstance] doSendCommand: self];
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithDelegate: self];
 }
 
 // -------------------------------------------------------------------------------
@@ -1167,7 +1196,30 @@
 										   withCommand: getUserName
 											  withGUID:_userGUID
 										   withBarcode:@""];
-	[[TCTLServerCommand sharedInstance] doSendCommand:self];
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithDelegate:self];
 }
 
+#pragma mark - Other delegates
+// -------------------------------------------------------------------------------
+//	Sent to the delegate when the user clicks a button on an alert view
+// -------------------------------------------------------------------------------
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+
+}
+
+// -------------------------------------------------------------------------------
+//	Sent to the delegate after an alert view is dismissed from the screen
+// -------------------------------------------------------------------------------
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+#ifdef DEBUG
+	NSLog(@"didDismissWithButtonIndex received");
+#endif
+	[self setAppBusyStatus:NO];
+	
+	if ((alertView == _manualBarcodeAlert) && ([[alertView textFieldAtIndex:0].text length] > 0)) {
+		[self doScannedBarcodeCheck:[alertView textFieldAtIndex:0].text];
+	}
+}
 @end

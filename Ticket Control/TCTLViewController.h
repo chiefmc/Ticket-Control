@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XMLRPC/XMLRPC.h>
 
-@interface TCTLViewController : UIViewController <ReceiveCommandHandler, NotificationHandler,XMLRPCConnectionDelegate>
+@interface TCTLViewController : UIViewController <ReceiveCommandHandler, NotificationHandler,XMLRPCConnectionDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView		*mainView;
 @property (nonatomic, weak) IBOutlet UILabel    *userNameLabel;
@@ -20,6 +20,7 @@
 @property (nonatomic, weak) IBOutlet UIButton	*scannerBatStatusIcon;
 @property (nonatomic, weak) IBOutlet UIButton	*scanButton;
 @property (nonatomic, weak) IBOutlet UIButton	*serverConnectionStatus;
+@property (nonatomic, weak) IBOutlet UIButton	*numKeypad;
 @property (nonatomic, weak) IBOutlet UIView		*background;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView	*waitSign;
 @property (nonatomic, weak) IBOutlet UIButton	*rotateViewOrientation;
@@ -30,7 +31,7 @@
 - (IBAction)tappedScan:(id)sender;              // Сканирует штрихкод
 - (IBAction)showScannerBatDetails:(id)sender;	// Показывает tip с детальным статусом батареи саней
 - (IBAction)showServerConnectionInfo:(id)sender;// Показывает tip со статусом соединения с билетным сервером
-//- (IBAction)logTableButtonTapped:(id)sender;	// Вызывает таблицу лога результатов сканирования
+- (IBAction)numKeypadTapped:(id)sender;	// Вызывает окно ввода штрих-кода вручную
 - (IBAction)unwindToMainScreen:(UIStoryboardSegue *)segue;		// Возвращает на главный экран
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender;
 

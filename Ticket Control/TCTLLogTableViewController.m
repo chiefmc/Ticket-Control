@@ -9,8 +9,11 @@
 #import "TCTLLogTableViewController.h"
 #import "TCTLViewController.h"
 #import "TCTLScanResultItem.h"
+#import "TCTLLogDetailTableViewController.h"
 
 @interface TCTLLogTableViewController ()
+
+@property (weak, nonatomic) TCTLScanResultItem *logItem;
 
 @end
 
@@ -86,6 +89,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+	// Selecting object to tranfer with the segue
+	_logItem = _scanResultItems[indexPath.row];
 	
 	[self performSegueWithIdentifier:@"logItemDetails" sender:self];
 }
@@ -135,8 +141,9 @@
 {
 	// Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-	if ([segue.destinationViewController isKindOfClass:[UITableViewController class]]) {
-#warning нужно передать данные в целевую таблицу
+	if ([segue.destinationViewController isKindOfClass:[TCTLLogDetailTableViewController class]]) {
+		TCTLLogDetailTableViewController *destination = segue.destinationViewController;
+		destination.logItem = _logItem;
 	}
 }
 

@@ -13,4 +13,6 @@
 // Переменная с результатами сканирования
 @property (weak, nonatomic) NSMutableArray *scanResultItems;
 
+// -(IBAction)unwindToLogTable:(UIStoryboardSegue *)segue;
+
 @end

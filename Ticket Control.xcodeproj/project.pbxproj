@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD11A19219B83BEE00A94BBD /* TCTLLogDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */; };
 		BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8519AD51E20013B226 /* TCTLConstants.m */; };
 		BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */; };
 		BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431B819A608CC008BC19A /* Foundation.framework */; };
@@ -45,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogDetailTableViewController.h; sourceTree = "<group>"; };
+		BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogDetailTableViewController.m; sourceTree = "<group>"; };
 		BD14FA8519AD51E20013B226 /* TCTLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLConstants.m; sourceTree = "<group>"; };
 		BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerCommand.h; sourceTree = "<group>"; };
 		BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerCommand.m; sourceTree = "<group>"; };
@@ -200,6 +203,8 @@
 				BD14FA8519AD51E20013B226 /* TCTLConstants.m */,
 				BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */,
 				BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */,
+				BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */,
+				BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */,
 				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
 				BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */,
 				BD2431CD19A608CC008BC19A /* TCTLViewController.h */,
@@ -340,6 +345,7 @@
 				BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */,
 				BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */,
 				BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */,
+				BD11A19219B83BEE00A94BBD /* TCTLLogDetailTableViewController.m in Sources */,
 				BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */,
 				BD4890FF19AA1A3500A2EB62 /* TCTLServerResponse.m in Sources */,
 			);

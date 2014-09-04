@@ -37,7 +37,7 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
 -(void)initWithServer: (NSURL	*)serverURL withCommand: (ServerCommand) serverCommand withGUID: (NSString *) guid withBarcode: (NSString *) barcode;
 
 // Инициирует отправление сформированной команды на сервер
--(void)doSendCommand: (id<XMLRPCConnectionDelegate>)delegate;
+-(void)doPreparedCommandWithDelegate: (id<XMLRPCConnectionDelegate>)delegate;
 
 // Распаковываем данные из XML-RPC ответа и возвращаем
 -(TCTLServerResponse *)unpackResponse:(id)xmlResponse;

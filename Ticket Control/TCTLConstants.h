@@ -27,6 +27,9 @@
 #define AGENT_CHECKED_KEY		@"AgentChecked"
 #define TIME_CHECKED_KEY		@"TimeChecked"
 #define CLIENT_NEEDS_UPDATE_KEY	@"ClientNeedsUpdate"
+#define SECTOR_KEY				@"Sector"
+#define ROW_KEY					@"Row"
+#define SEAT_KEY				@"Seat"
 
 #pragma mark - Константы различных настроек
 #define XMLRPC_TIMEOUT			15

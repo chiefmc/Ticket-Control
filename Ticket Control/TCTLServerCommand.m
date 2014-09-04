@@ -106,7 +106,7 @@
 // -------------------------------------------------------------------------
 // Выполняет синхронно команду и фиксирует результат
 // -------------------------------------------------------------------------
--(void)doSendCommand: (id<XMLRPCConnectionDelegate>)delegate
+-(void)doPreparedCommandWithDelegate: (id<XMLRPCConnectionDelegate>)delegate
 {
 	XMLRPCConnectionManager *xmlManager = [XMLRPCConnectionManager sharedManager];
 	
