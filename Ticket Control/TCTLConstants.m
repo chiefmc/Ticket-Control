@@ -33,7 +33,6 @@ NSString* const textWrongEntrance		= @"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХ
 NSString* const textNoEventToControl	= @"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ";
 NSString* const	textUnknownError		= @"НЕИЗВЕСТНАЯ ОШИБКА";
 NSString* const textError				= @"Ошибка";
-NSString* const textErrorConnectingToServer = @"Ошибка соединения с сервером";
 NSString* const textRetry				= @"Повторить";
 NSString* const textCancel				= @"Отмена";
 NSString* const textOk					= @"Ok";

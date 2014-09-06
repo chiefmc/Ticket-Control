@@ -35,7 +35,10 @@
 #define XMLRPC_TIMEOUT			15
 #define XMLRPC_USER_AGENT		@"vTicketControl/1.0.0 (iOS)"
 #define NUMBER_OF_HISTORY_ITEMS	50
-#define ISO8601_DATETIME_FORMAT	@"yyyyMMdd'T'HH':'mm':'ss"
+#define DATETIME_FORMAT			@"yyyyMMdd'T'HH':'mm':'ss"
+
+// Macro that defines that we want to use JSON-RPC over XML-RPC
+#define JSON_RPC
 
 // Константы версионности
 extern NSString* const clientAppVersion;
@@ -61,7 +64,6 @@ extern NSString* const textWrongEntrance;
 extern NSString* const textNoEventToControl;
 extern NSString* const textUnknownError;
 extern NSString* const textError;
-extern NSString* const textErrorConnectingToServer;
 extern NSString* const textRetry;
 extern NSString* const textCancel;
 extern NSString* const textOk;

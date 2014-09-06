@@ -38,7 +38,6 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
 	// Translating Date/Time to a readable format
-#warning toDo
 	
 	// Dictionaries to translate
 	NSDictionary* logKeysTranslation = @{

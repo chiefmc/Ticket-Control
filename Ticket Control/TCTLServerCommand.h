@@ -28,19 +28,25 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
 
 @property (readonly) ServerCommand		serverCommand;		// метод (команда) посылаемая серверу
 
-// Синглтон
+// Class method (singleton)
 +(id)sharedInstance;
 
-// Инициализаторы объекта
+// Initializers
 -(id)init;
-//-(id)initWithServer: (NSURL *)serverURL withCommand: (ServerCommand) serverCommand withGUID: (NSString *) guid;
--(void)initWithServer: (NSURL	*)serverURL withCommand: (ServerCommand) serverCommand withGUID: (NSString *) guid withBarcode: (NSString *) barcode;
+-(void)initWithServer: (NSURL *)serverURL
+		  withCommand: (ServerCommand)
+serverCommand withGUID: (NSString *) guid
+		  withBarcode: (NSString *) barcode;
 
-// Инициирует отправление сформированной команды на сервер
--(void)doPreparedCommandWithDelegate: (id<XMLRPCConnectionDelegate>)delegate;
+// Invoking the prepared command to the XML-RPC command and calls back to delegates method
+-(void)doPreparedCommandWithXMLdelegate: (id<XMLRPCConnectionDelegate>)delegate;
 
-// Распаковываем данные из XML-RPC ответа и возвращаем
--(TCTLServerResponse *)unpackResponse:(id)xmlResponse;
+// Invoking the prepared command to the JSON-RPC command and calls blocks
+-(void)doPreparedCommandWithJSONsuccess:(void(^)(id responseObject))success
+								failure:(void(^)(NSError *error))failure;
+
+// Unpacking data from XML-RPC/JSON-RPC response and sending back
+-(TCTLServerResponse *)unpackResponse:(id)responseObject;
 
 // Возвращает полученный ответ от сервера или nil, если не операция окончилась ошибкой
 //-(TCTLServerResponse *)getServerResponse;

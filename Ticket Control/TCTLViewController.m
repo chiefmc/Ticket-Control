@@ -12,7 +12,6 @@
 #import "TCTLServerResponse.h"
 #import "TCTLServerCommand.h"
 #import "TCTLLogTableViewController.h"
-#import "XMLDictionary.h"
 
 @interface TCTLViewController ()
 
@@ -85,22 +84,23 @@
 #ifdef DEBUG
 	NSLog(@"showScannerBatDetails received");
 #endif
+	[[MLScanner sharedInstance] updateAccessoryInfo];
 	NSString *message;
 	if ([self isScannerConnected]) {
 		if ([self isScannerOnCharge]) {
 			message = textScannerBatteryOnCharge;
 		} else {
-			message = [textScannerBatteryCharge stringByAppendingFormat: @"%@%%", [self getScannerBatRemain]];
+			message = [textScannerBatteryCharge stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)", [self getScannerBatRemain], [[MLScanner sharedInstance] powerRemainInmV], [[MLScanner sharedInstance] powerRemainInMin], [[MLScanner sharedInstance] powerRemainPercent]];
 		}
 	} else {
 		message = textScannerIsNotConnected;
 
 	}
 	_warningAlert = [[UIAlertView alloc] initWithTitle:textInformation
-									   message:message
-									  delegate:nil
-							 cancelButtonTitle:textOk
-							 otherButtonTitles:nil];
+											   message:message
+											  delegate:nil
+									 cancelButtonTitle:textOk
+									 otherButtonTitles:nil];
 	[_warningAlert show];
 }
 
@@ -424,9 +424,9 @@
 }
 
 #pragma mark - XMLRPC Delegates
-
+#ifndef JSON_RPC
 // ------------------------------------------------------------------------------
-// Обработчик, вызываемый XMLRPC, при получении ответа или ошибки от сервера
+// Обработчик, вызываемый XMLRPC, при получении ответа или ошибки от сервера в ответе
 // ------------------------------------------------------------------------------
 - (void)request: (XMLRPCRequest *)request didReceiveResponse: (XMLRPCResponse *)xmlResponse {
 #ifdef DEBUG
@@ -440,7 +440,7 @@
         NSLog(@"Fault string: %@", [xmlResponse faultString]);
 #endif
 		// Showing the alert
-		NSString *message = textErrorConnectingToServer;
+		NSString *message = @"Ошибка соединения с сервером";
 		[message stringByAppendingFormat:@"\n Код ошибки: %@ (%@)", [xmlResponse faultCode], [xmlResponse faultString]];
 		_warningAlert = [[UIAlertView alloc] initWithTitle:textError
 												   message:message
@@ -453,107 +453,7 @@
 		[self serverConnectionStatus:NO];
 		[self displayReadyToScan];
     } else {
-		// If the server response is ok, than...
-#ifdef DEBUG
-        NSLog(@"Parsed response: %@", [xmlResponse object]);
-#endif
-		TCTLServerResponse *serverResponse = [[TCTLServerCommand sharedInstance] unpackResponse:[xmlResponse object]];
-		
-		// Handling possible server responses
-		switch (serverResponse.responseCode) {
-			case resultOk:
-				[self serverConnectionStatus:YES];
-				[self displayReadyToScan];
-				break;
-			
-			case setActiveUser:
-				[self serverConnectionStatus:YES];
-				[_userNameLabel setText: serverResponse.userName];
-				_isUserNameSet = YES;
-				break;
-			
-			case setActiveUserNotFound:
-				[self serverConnectionStatus:NO];
-				_isUserNameSet = NO;
-				// Setting the user name on the main view to a current device's name
-				[self.userNameLabel setText: [UIDevice currentDevice].name];
-
-				// Showing alert
-				_warningAlert = [[UIAlertView alloc]initWithTitle:textError
-														  message:@"Неверный GUID! Обратитесь к администратору системы"
-														 delegate:nil
-												cancelButtonTitle:textCancel
-												otherButtonTitles:nil];
-				[_warningAlert show];
-				break;
-				
-			case setActiveEvent:
-				[self serverConnectionStatus:YES];
-#warning Пока не реализовано
-				break;
-				
-			case setActiveEventNotFound:
-				[self serverConnectionStatus:YES];
-#warning Пока не реализовано
-				break;
-				
-			case accessAllowed ... accessDeniedUnknownError:
-			{
-#ifdef DEBUG
-				NSLog(@"Barcodes: %@ (scanned %i chars), %@ (returned %i chars)", _lastScannedBarcode, [_lastScannedBarcode length], serverResponse.barcode, [serverResponse.barcode length]);
-#endif
-				[self serverConnectionStatus:YES];
-				// Checking if the barcode matches to what we've sent
-				if ([serverResponse.barcode isEqualToString: _lastScannedBarcode]) {
-					
-					// Showing the result
-					[self displayScanResult: serverResponse];
-					
-					// Запускаем таймер, по окончании которого снова отображается "Ожидание Проверки"
-					[self runStatusRevertTimer];
-					
-					// Упаковываем результат сканирования в формат лога
-					TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode:serverResponse.barcode
-																					 FillTextWith:serverResponse];
-					// Adding NSDictionary parsed fro XML response to logItem
-					logItem.serverParsedResponse = xmlResponse.object;
-					
-					// Adding logItem to log table
-					[self addScanResultItemToLog:logItem];
-					
-					// Displaying the logItem in the lower part of the screen
-					[self displayLogResultItem:logItem];
-				} else {
-					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
-					_warningAlert = [[UIAlertView alloc]initWithTitle:textError
-															  message:@"Неверный ответ сервера"
-															 delegate:nil
-													cancelButtonTitle:textRetry
-													otherButtonTitles:nil];
-					[_warningAlert show];
-					[self displayReadyToScan];
-				}
-				break;
-			}
-				
-			case errorNetworkError ... errorServerResponseUnkown:
-				
-			default:
-#ifdef DEBUG
-				NSLog(@"Unknown response. Body: %@", [xmlResponse object]);
-#endif
-				// Показываем алерт
-				_warningAlert = [[UIAlertView alloc]initWithTitle:textError
-														  message:@"Неизвестный ответ сервера"
-														 delegate:nil
-												cancelButtonTitle:textRetry
-												otherButtonTitles:nil];
-				[_warningAlert show];
-				[self displayReadyToScan];
-
-				break;
-			[self serverConnectionStatus:YES];
-		}
+		[self handleSuccessResponse:xmlResponse.object];
     }
 	[self setAppBusyStatus:NO];
 }
@@ -563,36 +463,7 @@
 // ------------------------------------------------------------------------------
 - (void)request: (XMLRPCRequest *)request didFailWithError: (NSError *)error
 {
-#ifdef DEBUG
-	NSLog(@"didFailWithError from XMLRPC: %@", error);
-#endif
-	// Показываем алерт
-	NSString *message = textErrorConnectingToServer;
-	
-	if (error.domain == NSURLErrorDomain) {
-		switch (error.code) {
-			case -1009:
-				message = [message stringByAppendingFormat:@"\nПроверьте сетевое соединение"];
-				break;
-			case -1001:
-				message = [message stringByAppendingFormat:@"\nПревышено время ожидания"];
-				break;
-			default:
-				message = [message stringByAppendingFormat:@"\n%@ error %i", error.domain, error.code];
-		}
-	}
-	 _warningAlert = [[UIAlertView alloc] initWithTitle:textError
-												message:message
-											   delegate:nil
-									  cancelButtonTitle:textRetry
-									  otherButtonTitles:nil];
-	[_warningAlert show];
-
-	[self setAppBusyStatus:NO];
-	[self displayReadyToScan];
-	
-	// Displaying the server connection fail
-	[self serverConnectionStatus:NO];
+	[self handleFailureResponse:error];
 }
 
 - (BOOL)request: (XMLRPCRequest *)request canAuthenticateAgainstProtectionSpace: (NSURLProtectionSpace *)protectionSpace
@@ -617,6 +488,146 @@
 #endif
 }
 
+#endif
+
+// ------------------------------------------------------------------------------
+// This is how we handle the success response from JSON-RPC/XML-RPC
+// ------------------------------------------------------------------------------
+- (void)handleSuccessResponse:(id)responseObject
+{
+	// If the server response is ok, than...
+	TCTLServerResponse *serverResponse = [[TCTLServerCommand sharedInstance] unpackResponse:responseObject];
+	
+	if (serverResponse) {
+	// Handling possible server responses
+		switch (serverResponse.responseCode) {
+			case resultOk:
+				[self serverConnectionStatus:YES];
+				[self displayReadyToScan];
+				break;
+				
+			case setActiveUser:
+				[self serverConnectionStatus:YES];
+				[_userNameLabel setText: serverResponse.userName];
+				_isUserNameSet = YES;
+				break;
+				
+			case setActiveUserNotFound:
+				[self serverConnectionStatus:NO];
+				_isUserNameSet = NO;
+				
+				// Setting the user name on the main view to a current device's name
+				[self.userNameLabel setText: [UIDevice currentDevice].name];
+				
+				// Showing alert
+				_warningAlert = [[UIAlertView alloc]initWithTitle:textError
+														  message:@"Неверный GUID! Обратитесь к администратору системы"
+														 delegate:nil
+												cancelButtonTitle:textCancel
+												otherButtonTitles:nil];
+				[_warningAlert show];
+				break;
+				
+			case setActiveEvent:
+				[self serverConnectionStatus:YES];
+	#warning Пока не реализовано
+				break;
+				
+			case setActiveEventNotFound:
+				[self serverConnectionStatus:YES];
+	#warning Пока не реализовано
+				break;
+				
+			case accessAllowed ... accessDeniedUnknownError:
+			{
+				[self serverConnectionStatus:YES];
+				// Checking if the barcode matches to what we've sent
+				if ([serverResponse.barcode isEqualToString: _lastScannedBarcode]) {
+					
+					// Showing the result
+					[self displayScanResult: serverResponse];
+					
+					// Запускаем таймер, по окончании которого снова отображается "Ожидание Проверки"
+					[self runStatusRevertTimer];
+					
+					// Упаковываем результат сканирования в формат лога
+					TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode:serverResponse.barcode
+																					 FillTextWith:serverResponse];
+					// Adding NSDictionary parsed fro XML response to logItem
+					logItem.serverParsedResponse = responseObject;
+					
+					// Adding logItem to log table
+					[self addScanResultItemToLog:logItem];
+					
+					// Displaying the logItem in the lower part of the screen
+					[self displayLogResultItem:logItem];
+				} else {
+					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
+					_warningAlert = [[UIAlertView alloc]initWithTitle:textError
+															  message:@"Неверный ответ сервера"
+															 delegate:nil
+													cancelButtonTitle:textRetry
+													otherButtonTitles:nil];
+					[_warningAlert show];
+					[self displayReadyToScan];
+				}
+				break;
+			}
+				
+			case errorNetworkError ... errorServerResponseUnkown:
+				
+			default:
+				// Показываем алерт
+				_warningAlert = [[UIAlertView alloc]initWithTitle:textError
+														  message:@"Неизвестный ответ сервера"
+														 delegate:nil
+												cancelButtonTitle:textRetry
+												otherButtonTitles:nil];
+				[_warningAlert show];
+				[self displayReadyToScan];
+				
+				break;
+				[self serverConnectionStatus:YES];
+		}
+	}
+}
+
+// ------------------------------------------------------------------------------
+// This is how we handle the failure response from JSON-RPC/XML-RPC
+// ------------------------------------------------------------------------------
+- (void)handleFailureResponse:(NSError *)error
+{
+	// Показываем алерт
+	NSString *message = @"Ошибка соединения с сервером";
+	
+	switch (error.code) {
+		case -1016:
+			message = [message stringByAppendingFormat:@"\nНеверный формат ответа"];
+			break;
+		case -1009:
+			message = [message stringByAppendingFormat:@"\nПроверьте сетевое соединение"];
+			break;
+		case -1001:
+			message = [message stringByAppendingFormat:@"\nПревышено время ожидания"];
+			break;
+		default:
+			message = [message stringByAppendingFormat:@"\n%@ error %li", error.domain, (long)error.code];
+	}
+
+	_warningAlert = [[UIAlertView alloc] initWithTitle:textError
+											   message:message
+											  delegate:nil
+									 cancelButtonTitle:textRetry
+									 otherButtonTitles:nil];
+	[_warningAlert show];
+	
+	[self setAppBusyStatus:NO];
+	[self displayReadyToScan];
+	
+	// Displaying the server connection fail
+	[self serverConnectionStatus:NO];
+}
+
 #pragma mark - private
 
 // -------------------------------------------------------------------------------
@@ -636,7 +647,7 @@
 	// Устанавливаем статус приложения
 	[self setAppBusyStatus: YES];
 	[self displayProgress];
-/*
+/* // Включить эти строки, если нужно получать фиксированный результат, при тестировании
 #ifdef TARGET_IPHONE_SIMULATOR
 	TCTLServerResponse *item = [TCTLServerResponse new];
 	item.barcode = _lastScannedBarcode;
@@ -645,12 +656,25 @@
 	[self setAppBusyStatus:NO];
 	[self runTimer];
 #else*/
+	
 	// Опрашиваем сервер и ждём ответ
 	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL
 										   withCommand: getCodeResult
 											  withGUID:_userGUID
 										   withBarcode: barcode];
-	[[TCTLServerCommand sharedInstance] doPreparedCommandWithDelegate: self];
+#ifndef JSON_RPC
+	// If we're working with XML-RPC we're just dending the delegate to handle the response
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithXMLdelegate: self];
+	
+#else
+	// If we're working JSON-RPC all the work should be done here inside the blocks
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
+																	[self handleSuccessResponse:responseObject];
+																}
+																 failure:^(NSError *error) {
+																	 [self handleFailureResponse:error];
+																 }];
+#endif
 //#endif
 }
 
@@ -1075,14 +1099,14 @@
 {
 	[UIView animateWithDuration:0.1
 						  delay:0
-						options:UIViewAnimationOptionCurveEaseIn
+						options:UIViewAnimationOptionCurveEaseInOut
 					 animations:^{
-						 self.scannedStatus.transform = CGAffineTransformMakeScale(1.2, 1.1);
+						 self.scannedStatus.transform = CGAffineTransformMakeScale(1.3, 1.2);
 						 self.scannedStatus.alpha = 0.6;
 					 } completion:^(BOOL finished) {
 						 [UIView animateWithDuration:0.1
-											   delay:0
-											 options:UIViewAnimationOptionCurveEaseOut
+											   delay:0.2
+											 options:UIViewAnimationOptionCurveEaseInOut
 										  animations:^{
 											  self.scannedStatus.transform = CGAffineTransformMakeScale(1, 1);
 											  self.scannedStatus.alpha = 1;
@@ -1123,8 +1147,6 @@
 					 }];
 
 }
-
-#warning Нужно реализовать ввод кода вручную
 
 #pragma mark - Preferences
 
@@ -1184,7 +1206,16 @@
 										   withCommand: noOp
 											  withGUID:_userGUID
 										   withBarcode:@""];
-	[[TCTLServerCommand sharedInstance] doPreparedCommandWithDelegate: self];
+#ifndef JSON_RPC
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithXMLdelegate: self];
+#else
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
+																	[self handleSuccessResponse:responseObject];
+																}
+																 failure:^(NSError *error) {
+																	 [self handleFailureResponse:error];
+																 }];
+#endif
 }
 
 // -------------------------------------------------------------------------------
@@ -1196,7 +1227,16 @@
 										   withCommand: getUserName
 											  withGUID:_userGUID
 										   withBarcode:@""];
-	[[TCTLServerCommand sharedInstance] doPreparedCommandWithDelegate:self];
+#ifndef JSON_RPC
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithXMLdelegate:self];
+#else
+	[[TCTLServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
+																	[self handleSuccessResponse:responseObject];
+																}
+																 failure:^(NSError *error) {
+																	 [self handleFailureResponse:error];
+																 }];
+#endif
 }
 
 #pragma mark - Other delegates

@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <XMLRPC/XMLRPC.h>
 
-@interface TCTLViewController : UIViewController <ReceiveCommandHandler, NotificationHandler,XMLRPCConnectionDelegate, UIAlertViewDelegate>
+@interface TCTLViewController : UIViewController <ReceiveCommandHandler, NotificationHandler,
+#ifndef JSON_RPC
+XMLRPCConnectionDelegate,
+#endif
+UIAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView		*mainView;
 @property (nonatomic, weak) IBOutlet UILabel    *userNameLabel;
@@ -35,11 +39,13 @@
 - (IBAction)unwindToMainScreen:(UIStoryboardSegue *)segue;		// Возвращает на главный экран
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender;
 
+#ifndef JSON_RPC
 // Делегаты получения сообщений от XMLRPC
 - (void)request: (XMLRPCRequest *)request didReceiveResponse: (XMLRPCResponse *)xmlResponse;
 - (void)request: (XMLRPCRequest *)request didFailWithError: (NSError *)error;
 - (BOOL)request: (XMLRPCRequest *)request canAuthenticateAgainstProtectionSpace: (NSURLProtectionSpace *)protectionSpace;
 - (void)request: (XMLRPCRequest *)request didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge;
 - (void)request: (XMLRPCRequest *)request didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge;
+#endif
 
 @end

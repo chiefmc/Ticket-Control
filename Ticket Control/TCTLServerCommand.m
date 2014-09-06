@@ -9,6 +9,8 @@
 #import "TCTLServerCommand.h"
 #import "TCTLConstants.h"
 #import <Foundation/Foundation.h>
+#import <AFJSONRPCClient/AFJSONRPCClient.h>
+#import <xmlrpc/XMLRPC.h>
 
 @interface TCTLServerCommand ()
 
@@ -43,14 +45,12 @@
 		_barcode			= barcode;
 	}
 }
+
 // -------------------------------------------------------------------------
-// Упаковывает данные в формат запроса и возращает его
+// Packing data into NSDictionary
 // -------------------------------------------------------------------------
--(XMLRPCRequest *)packRequest
+- (NSDictionary *)packParameters
 {
-	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithURL:_serverURL];
-	NSString *method = [[[NSString alloc] init] stringByAppendingFormat: @"0x%x", _serverCommand];
-	
 	// Проверяем данные на nil
 	if (!_guid) {
 		_guid = @"";
@@ -63,6 +63,18 @@
 								 BARCODE_KEY			:_barcode,
 								 CLIENT_APP_VERSION_KEY	:APP_VERSION,
 								 SERVER_API_VERSION_KEY	:API_VERSION};
+	return parameters;
+}
+
+// -------------------------------------------------------------------------
+// Packing data into XML request
+// -------------------------------------------------------------------------
+-(XMLRPCRequest *)packXMLRequest
+{
+	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithURL:_serverURL];
+	NSString *method = [[NSString new] stringByAppendingFormat: @"0x%x", _serverCommand];
+	
+	NSDictionary *parameters = [self packParameters];
 	[request setMethod: method withParameter: parameters];
 	
 	[request setTimeoutInterval: XMLRPC_TIMEOUT];
@@ -72,46 +84,73 @@
 }
 
 // -------------------------------------------------------------------------
-// Распаковываем данные из XML-RPC ответа и возвращаем
+// Unpacking data from XML-RPC/JSON-RPC response and sending back
 // -------------------------------------------------------------------------
--(TCTLServerResponse *)unpackResponse:(id)xmlResponseObject
+-(TCTLServerResponse *)unpackResponse:(id)responseObject
 {
-	TCTLServerResponse *response = [TCTLServerResponse alloc];
-	NSDictionary *decodedXML	= (NSDictionary *)xmlResponseObject;
-	
-	// Подготавливаем форматтер с шаблоном под дату/время стандарта ISO8601
-	NSDateFormatter *dateFormat = [NSDateFormatter new];
-	[dateFormat setDateFormat:ISO8601_DATETIME_FORMAT];
+	if ([responseObject isKindOfClass:[NSDictionary class]]) {
+		NSDictionary *decodedResponse	= (NSDictionary *)responseObject;
 
-	NSString *responseCodeStr	= decodedXML[RESPONSE_CODE_KEY];
-	NSScanner *scanner			= [NSScanner scannerWithString:responseCodeStr];
-	unsigned int responseCodeInt;
-	if ([scanner scanHexInt:&responseCodeInt]) {
-		response.responseCode		= responseCodeInt;
-		response.barcode			= decodedXML[BARCODE_KEY];
-		response.userName			= decodedXML[USER_NAME_KEY];
-		response.eventName			= decodedXML[EVENT_NAME_KEY];
-		response.eventStart			= [dateFormat dateFromString:decodedXML[EVENT_START_KEY]];
-		response.controlStart		= [dateFormat dateFromString:decodedXML[CONTROL_START_KEY]];
-		response.controlEnd			= [dateFormat dateFromString:decodedXML[CONTROL_END_KEY]];
-		response.agentChecked		= decodedXML[AGENT_CHECKED_KEY];
-		response.timeChecked		= [dateFormat dateFromString:decodedXML[TIME_CHECKED_KEY]];
-		response.clientNeedsUpdate	= [decodedXML[CLIENT_NEEDS_UPDATE_KEY] boolValue];
-	} else {
-		response.responseCode		= errorServerResponseUnkown;
-	}
-	return response;
+		TCTLServerResponse *response = [TCTLServerResponse alloc];
+		
+		// Подготавливаем форматтер с шаблоном под дату/время
+		NSDateFormatter *dateFormat = [NSDateFormatter new];
+		[dateFormat setDateFormat:DATETIME_FORMAT];
+
+		NSString *responseCodeStr	= decodedResponse[RESPONSE_CODE_KEY];
+		NSScanner *scanner			= [NSScanner scannerWithString:responseCodeStr];
+		unsigned int responseCodeInt;
+		if ([scanner scanHexInt:&responseCodeInt]) {
+			response.responseCode		= responseCodeInt;
+			response.barcode			= decodedResponse[BARCODE_KEY];
+			response.userName			= decodedResponse[USER_NAME_KEY];
+			response.eventName			= decodedResponse[EVENT_NAME_KEY];
+			response.eventStart			= [dateFormat dateFromString:decodedResponse[EVENT_START_KEY]];
+			response.controlStart		= [dateFormat dateFromString:decodedResponse[CONTROL_START_KEY]];
+			response.controlEnd			= [dateFormat dateFromString:decodedResponse[CONTROL_END_KEY]];
+			response.agentChecked		= decodedResponse[AGENT_CHECKED_KEY];
+			response.timeChecked		= [dateFormat dateFromString:decodedResponse[TIME_CHECKED_KEY]];
+			response.clientNeedsUpdate	= [decodedResponse[CLIENT_NEEDS_UPDATE_KEY] boolValue];
+		} else {
+			response.responseCode		= errorServerResponseUnkown;
+		}
+		return response;
+	} else return nil;
 }
 
 // -------------------------------------------------------------------------
-// Выполняет синхронно команду и фиксирует результат
+// Sending an async XML-RPC command
 // -------------------------------------------------------------------------
--(void)doPreparedCommandWithDelegate: (id<XMLRPCConnectionDelegate>)delegate
+-(void)doPreparedCommandWithXMLdelegate: (id<XMLRPCConnectionDelegate>)delegate
 {
 	XMLRPCConnectionManager *xmlManager = [XMLRPCConnectionManager sharedManager];
 	
-	[xmlManager spawnConnectionWithXMLRPCRequest:[self packRequest]
+	[xmlManager spawnConnectionWithXMLRPCRequest:[self packXMLRequest]
 										delegate:delegate];
 }
 
+// -------------------------------------------------------------------------
+// Invoking the prepared command to the JSON-RPC command and calls blocks
+// -------------------------------------------------------------------------
+-(void)doPreparedCommandWithJSONsuccess:(void(^)(id responseObject))success
+								failure:(void(^)(NSError *error))failure;
+{
+	AFJSONRPCClient *jsonClient = [AFJSONRPCClient clientWithEndpointURL:_serverURL];
+	
+	NSString *method = [[NSString new] stringByAppendingFormat: @"0x%x", _serverCommand];
+	[jsonClient invokeMethod:method
+			  withParameters:[self packParameters]
+					 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+#ifdef DEBUG
+						 NSLog(@"JSON-RPC success. Operation: %@\n Response Object: %@", operation, responseObject);
+#endif
+						 success(responseObject);
+					 }
+					 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+#ifdef DEBUG
+						 NSLog(@"JSON-RPC failure! Operation: %@\n Error: %@", operation, error);
+#endif
+						 failure(error);
+					 }];
+}
 @end
