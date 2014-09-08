@@ -38,9 +38,6 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
 serverCommand withGUID: (NSString *) guid
 		  withBarcode: (NSString *) barcode;
 
-// Invoking the prepared command to the XML-RPC command and calls back to delegates method
--(void)doPreparedCommandWithXMLdelegate: (id<XMLRPCConnectionDelegate>)delegate;
-
 // Invoking the prepared command to the JSON-RPC command and calls blocks
 -(void)doPreparedCommandWithJSONsuccess:(void(^)(id responseObject))success
 								failure:(void(^)(NSError *error))failure;

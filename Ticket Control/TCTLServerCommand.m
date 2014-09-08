@@ -10,11 +10,10 @@
 #import "TCTLConstants.h"
 #import <Foundation/Foundation.h>
 #import <AFJSONRPCClient/AFJSONRPCClient.h>
-#import <xmlrpc/XMLRPC.h>
 
 @interface TCTLServerCommand ()
 
-@property (weak, nonatomic) NSString	*guid;				// GUID клиента (может быть пустым)
+@property (weak, nonatomic) NSString	*guid;				// client's GUID (may be empty with some methods)
 @property (weak, nonatomic) NSURL		*serverURL;			// URL XML-RPC сервера
 @property (weak, readonly) NSString		*barcode;			// штрих-код проверяемого билета (может быть пустым)
 
@@ -67,29 +66,13 @@
 }
 
 // -------------------------------------------------------------------------
-// Packing data into XML request
-// -------------------------------------------------------------------------
--(XMLRPCRequest *)packXMLRequest
-{
-	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithURL:_serverURL];
-	NSString *method = [[NSString new] stringByAppendingFormat: @"0x%x", _serverCommand];
-	
-	NSDictionary *parameters = [self packParameters];
-	[request setMethod: method withParameter: parameters];
-	
-	[request setTimeoutInterval: XMLRPC_TIMEOUT];
-	[request setUserAgent: XMLRPC_USER_AGENT];
-	
-	return request;
-}
-
-// -------------------------------------------------------------------------
-// Unpacking data from XML-RPC/JSON-RPC response and sending back
+// Unpacking data from JSON-RPC response and returning the result
 // -------------------------------------------------------------------------
 -(TCTLServerResponse *)unpackResponse:(id)responseObject
 {
 	if ([responseObject isKindOfClass:[NSDictionary class]]) {
-		NSDictionary *decodedResponse	= (NSDictionary *)responseObject;
+		// Getting inner 'params' dictionary
+		NSDictionary *decodedResponse	= [(NSDictionary *)responseObject objectForKey:@"params"];
 
 		TCTLServerResponse *response = [TCTLServerResponse alloc];
 		
@@ -97,7 +80,13 @@
 		NSDateFormatter *dateFormat = [NSDateFormatter new];
 		[dateFormat setDateFormat:DATETIME_LOG_FORMAT];
 
-		NSString *responseCodeStr	= decodedResponse[RESPONSE_CODE_KEY];
+		// Getting server response code dictionary from the object top-level dictionary
+		NSString *responseCodeStr	= [(NSDictionary *)responseObject objectForKey:@"result"];
+		
+		// Checking the response code string for nil
+		if (!responseCodeStr) return nil;
+		
+		// Getting the hex value from the resonseCode string
 		NSScanner *scanner			= [NSScanner scannerWithString:responseCodeStr];
 		unsigned int responseCodeInt;
 		if ([scanner scanHexInt:&responseCodeInt]) {
@@ -116,17 +105,6 @@
 		}
 		return response;
 	} else return nil;
-}
-
-// -------------------------------------------------------------------------
-// Sending an async XML-RPC command
-// -------------------------------------------------------------------------
--(void)doPreparedCommandWithXMLdelegate: (id<XMLRPCConnectionDelegate>)delegate
-{
-	XMLRPCConnectionManager *xmlManager = [XMLRPCConnectionManager sharedManager];
-	
-	[xmlManager spawnConnectionWithXMLRPCRequest:[self packXMLRequest]
-										delegate:delegate];
 }
 
 // -------------------------------------------------------------------------

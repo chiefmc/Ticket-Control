@@ -11,8 +11,8 @@
 
 @interface TCTLLogDetailTableViewController ()
 
-@property (strong, nonatomic) NSMutableArray *logKeys;		// Names of the keys we get from the logItem's NSDictionary
-@property (strong, nonatomic) NSMutableArray *logValues;	// Values of the above keys
+@property (weak, nonatomic) NSMutableArray *logKeys;		// Names of the keys we get from the logItem's NSDictionary
+@property (weak, nonatomic) NSMutableArray *logValues;	// Values of the above keys
 
 @end
 
@@ -78,8 +78,7 @@
 										   };
 	
 	// Cleaning the details from hidden data
-	NSMutableDictionary *log = (NSMutableDictionary *)_logItem.serverParsedResponse;
-	log[GUID_KEY] = @"***-***";
+	NSDictionary *log = (NSDictionary *)_logItem.serverParsedResponse;
 		
 	// Extracting keys and values from the logItem
 	_logKeys	= [NSMutableArray arrayWithArray:[log allKeys]];
@@ -91,6 +90,12 @@
 	NSString *value;
 	
 	for (NSString *logKey in log) {
+		// If the item is the GUID - we're hiding it's value
+		if ([logKey isEqualToString:GUID_KEY]) {
+			[_logValues replaceObjectAtIndex:i
+								  withObject:@"***-***"];
+		}
+		// We're  going through dictionary
 		key = logKeysTranslation[logKey];
 		if (key) {
 			[_logKeys replaceObjectAtIndex:i

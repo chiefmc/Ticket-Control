@@ -2,5 +2,4 @@ platform :ios, '6.1'
 
 xcodeproj '/Users/chief_mc/Dev/Ticket Control/Ticket Control.xcodeproj'
 
-pod 'xmlrpc', '~> 2.3'
 pod 'AFJSONRPCClient', '~> 2.1'

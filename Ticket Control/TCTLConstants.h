@@ -37,7 +37,7 @@
 #define NUMBER_OF_HISTORY_ITEMS	50
 #define DATETIME_LOG_FORMAT			@"yyyyMMdd'T'HH':'mm':'ss"
 
-// Macro that defines that we want to use JSON-RPC over XML-RPC
+// Macro that defines that we're using JSON-RPC to whom it may concern
 #define JSON_RPC
 
 // Константы версионности
