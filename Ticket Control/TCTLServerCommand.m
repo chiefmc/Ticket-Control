@@ -93,9 +93,9 @@
 
 		TCTLServerResponse *response = [TCTLServerResponse alloc];
 		
-		// Подготавливаем форматтер с шаблоном под дату/время
+		// Preparing formatter with pre-set date/time format
 		NSDateFormatter *dateFormat = [NSDateFormatter new];
-		[dateFormat setDateFormat:DATETIME_FORMAT];
+		[dateFormat setDateFormat:DATETIME_LOG_FORMAT];
 
 		NSString *responseCodeStr	= decodedResponse[RESPONSE_CODE_KEY];
 		NSScanner *scanner			= [NSScanner scannerWithString:responseCodeStr];
@@ -130,7 +130,7 @@
 }
 
 // -------------------------------------------------------------------------
-// Invoking the prepared command to the JSON-RPC command and calls blocks
+// Invoking the prepared command to the JSON-RPC command and callback blocks
 // -------------------------------------------------------------------------
 -(void)doPreparedCommandWithJSONsuccess:(void(^)(id responseObject))success
 								failure:(void(^)(NSError *error))failure;
@@ -140,11 +140,11 @@
 	NSString *method = [[NSString new] stringByAppendingFormat: @"0x%x", _serverCommand];
 	[jsonClient invokeMethod:method
 			  withParameters:[self packParameters]
-					 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+					 success:^(AFHTTPRequestOperation *operation, id responseCode) {
 #ifdef DEBUG
-						 NSLog(@"JSON-RPC success. Operation: %@\n Response Object: %@", operation, responseObject);
+						 NSLog(@"JSON-RPC success. Response code: %@\nOperation: %@", responseCode, operation.responseObject);
 #endif
-						 success(responseObject);
+						 success(operation.responseObject);
 					 }
 					 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 #ifdef DEBUG

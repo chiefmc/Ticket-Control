@@ -35,7 +35,7 @@
 #define XMLRPC_TIMEOUT			15
 #define XMLRPC_USER_AGENT		@"vTicketControl/1.0.0 (iOS)"
 #define NUMBER_OF_HISTORY_ITEMS	50
-#define DATETIME_FORMAT			@"yyyyMMdd'T'HH':'mm':'ss"
+#define DATETIME_LOG_FORMAT			@"yyyyMMdd'T'HH':'mm':'ss"
 
 // Macro that defines that we want to use JSON-RPC over XML-RPC
 #define JSON_RPC

@@ -66,14 +66,16 @@
 // -------------------------------------------------------------------------------
 - (IBAction)numKeypadTapped:(id)sender
 {
-	[self setAppBusyStatus:YES];
-	_manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:@"Введите штрих-код"
-													 message:@""
-													delegate:self
-										   cancelButtonTitle:@"Готово"
-										   otherButtonTitles:nil];
-	[_manualBarcodeAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-	[_manualBarcodeAlert show];
+	if (!_isBusy) {
+		[self setAppBusyStatus:YES];
+		_manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:@"Введите штрих-код"
+														 message:@""
+														delegate:self
+											   cancelButtonTitle:@"Готово"
+											   otherButtonTitles:nil];
+		[_manualBarcodeAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+		[_manualBarcodeAlert show];
+	}
 }
 
 // -------------------------------------------------------------------------------
@@ -502,18 +504,15 @@
 	// Handling possible server responses
 		switch (serverResponse.responseCode) {
 			case resultOk:
-				[self serverConnectionStatus:YES];
 				[self displayReadyToScan];
 				break;
 				
 			case setActiveUser:
-				[self serverConnectionStatus:YES];
 				[_userNameLabel setText: serverResponse.userName];
 				_isUserNameSet = YES;
 				break;
 				
 			case setActiveUserNotFound:
-				[self serverConnectionStatus:NO];
 				_isUserNameSet = NO;
 				
 				// Setting the user name on the main view to a current device's name
@@ -529,12 +528,10 @@
 				break;
 				
 			case setActiveEvent:
-				[self serverConnectionStatus:YES];
 	#warning Пока не реализовано
 				break;
 				
 			case setActiveEventNotFound:
-				[self serverConnectionStatus:YES];
 	#warning Пока не реализовано
 				break;
 				
@@ -587,9 +584,18 @@
 				[self displayReadyToScan];
 				
 				break;
-				[self serverConnectionStatus:YES];
 		}
+	} else {
+		// Показываем алерт
+		_warningAlert = [[UIAlertView alloc]initWithTitle:textError
+												  message:@"Пустой ответ сервера"
+												 delegate:nil
+										cancelButtonTitle:textRetry
+										otherButtonTitles:nil];
+		[_warningAlert show];
+		[self displayReadyToScan];
 	}
+	[self serverConnectionStatus:YES];
 }
 
 // ------------------------------------------------------------------------------
@@ -601,14 +607,41 @@
 	NSString *message = @"Ошибка соединения с сервером";
 	
 	switch (error.code) {
-		case -1016:
+		case NSURLErrorBadURL:
+			message = [message stringByAppendingFormat:@"\nНеверный URL сервера"];
+			break;
+		case NSURLErrorTimedOut:
+			message = [message stringByAppendingFormat:@"\nПревышено время ожидания"];
+			break;
+		case NSURLErrorUnsupportedURL:
+			message = [message stringByAppendingFormat:@"\nНеверный URL сервера"];
+			break;
+		case NSURLErrorCannotFindHost:
+			message = [message stringByAppendingFormat:@"\nНеверный URL сервера"];
+			break;
+		case NSURLErrorCannotConnectToHost:
+			message = [message stringByAppendingFormat:@"\nНе могу соединиться с сервером"];
+			break;
+		case NSURLErrorNetworkConnectionLost:
+			message = [message stringByAppendingFormat:@"\nСетевое соединение потеряно"];
+			break;
+		case NSURLErrorDNSLookupFailed:
+			message = [message stringByAppendingFormat:@"\nОшибка DNS"];
+			break;
+		case NSURLErrorHTTPTooManyRedirects:
+			message = [message stringByAppendingFormat:@"\nСлишком много редиректов"];
+			break;
+		case NSURLErrorCannotParseResponse ... NSURLErrorCannotDecodeRawData:
 			message = [message stringByAppendingFormat:@"\nНеверный формат ответа"];
 			break;
-		case -1009:
+		case NSURLErrorNotConnectedToInternet:
 			message = [message stringByAppendingFormat:@"\nПроверьте сетевое соединение"];
 			break;
-		case -1001:
-			message = [message stringByAppendingFormat:@"\nПревышено время ожидания"];
+		case NSURLErrorDataLengthExceedsMaximum:
+			message = [message stringByAppendingFormat:@"\nПревышен максимальный размер данных"];
+			break;
+		case NSURLErrorClientCertificateRequired ... NSURLErrorSecureConnectionFailed:
+			message = [message stringByAppendingFormat:@"\nОшибка безопасности (SSL)"];
 			break;
 		default:
 			message = [message stringByAppendingFormat:@"\n%@ error %li", error.domain, (long)error.code];
