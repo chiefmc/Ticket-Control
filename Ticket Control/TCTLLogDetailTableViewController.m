@@ -89,12 +89,35 @@
 	NSString *key;
 	NSString *value;
 	
+	// This is date/time tamplates to operate the data in server's response
+	NSDateFormatter *dateFormatFromServer = [NSDateFormatter new];
+	[dateFormatFromServer setDateFormat:DATETIME_SERVER_FORMAT];
+	
+	NSDateFormatter *dateFormatToDisplay = [NSDateFormatter new];
+	[dateFormatToDisplay setDateFormat:DATETIME_TO_DISPLAY];
+	
+	// Below are a temp vars for date from server and a converted localized string
+	NSDate   *dateTime;
+	NSString *dateTimeConverted;
+	
 	for (NSString *logKey in log) {
-		// If the item is the GUID - we're hiding it's value
-		if ([logKey isEqualToString:GUID_KEY]) {
+		if ([logKey isEqualToString:GUID_KEY])
+		{
+			// If the item is the GUID - we're hiding it's value
 			[_logValues replaceObjectAtIndex:i
 								  withObject:@"***-***"];
+		} else if (([logKey isEqualToString:EVENT_START_KEY]) ||
+				   ([logKey isEqualToString:CONTROL_START_KEY]) ||
+				   ([logKey isEqualToString:CONTROL_END_KEY]) ||
+				   ([logKey isEqualToString:TIME_CHECKED_KEY]))
+		{
+			// If the parameter is date/time, we're changing it to a viewable format
+			dateTime = [dateFormatFromServer dateFromString:_logValues[i]];
+			dateTimeConverted = [dateFormatToDisplay stringFromDate:dateTime];
+			[_logValues replaceObjectAtIndex:i
+								  withObject:dateTimeConverted];
 		}
+		
 		// We're  going through dictionary
 		key = logKeysTranslation[logKey];
 		if (key) {

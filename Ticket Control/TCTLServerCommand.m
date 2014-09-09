@@ -71,17 +71,17 @@
 -(TCTLServerResponse *)unpackResponse:(id)responseObject
 {
 	if ([responseObject isKindOfClass:[NSDictionary class]]) {
-		// Getting inner 'params' dictionary
+		// Getting inner [params] dictionary
 		NSDictionary *decodedResponse	= [(NSDictionary *)responseObject objectForKey:@"params"];
 
 		TCTLServerResponse *response = [TCTLServerResponse alloc];
 		
 		// Preparing formatter with pre-set date/time format
 		NSDateFormatter *dateFormat = [NSDateFormatter new];
-		[dateFormat setDateFormat:DATETIME_LOG_FORMAT];
+		[dateFormat setDateFormat:DATETIME_SERVER_FORMAT];
 
-		// Getting server response code dictionary from the object top-level dictionary
-		NSString *responseCodeStr	= [(NSDictionary *)responseObject objectForKey:@"result"];
+		// Getting server response code from [params]
+		NSString *responseCodeStr	= decodedResponse[RESPONSE_CODE_KEY];
 		
 		// Checking the response code string for nil
 		if (!responseCodeStr) return nil;

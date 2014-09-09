@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "TCTLServerResponse.h"
-#import <XMLRPC/XMLRPC.h>
 
 // -----------------------------------------------------------
 // API обмена данными с билетным сервером

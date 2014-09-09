@@ -133,6 +133,8 @@
 #ifdef DEBUG
 	NSLog(@"applicationDidBecomeActive received");
 #endif
+	// Re-initiazling the scanner. It might be necessary after a long sleep
+	[MLScanner sharedInstance];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
