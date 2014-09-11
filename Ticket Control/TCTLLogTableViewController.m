@@ -77,12 +77,16 @@
 	title = [title stringByAppendingFormat: @" Билет %@", logItem.barcode];
     cell.textLabel.text = title;
 	cell.detailTextLabel.text = logItem.resultText;
+	
+	// Setting text colors and accessiories
 	if (logItem.allowedAccess) {
 		[cell.detailTextLabel setTextColor: [UIColor greenColor]];
+		[cell setAccessoryType: UITableViewCellAccessoryNone];
 	} else {
 		[cell.detailTextLabel setTextColor: [UIColor redColor]];
+		[cell setAccessoryType: UITableViewCellAccessoryDisclosureIndicator];
 	}
-
+	
     return cell;
 }
 
@@ -93,7 +97,10 @@
 	// Selecting object to tranfer with the segue
 	_logItem = _scanResultItems[indexPath.row];
 	
-	[self performSegueWithIdentifier:@"logItemDetails" sender:self];
+	// If the item is a NOT an Allowed-access one, we going into detailed view
+	if (!_logItem.allowedAccess) {
+		[self performSegueWithIdentifier:@"logItemDetails" sender:self];
+	}
 }
 
 /*

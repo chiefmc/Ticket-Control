@@ -11,8 +11,8 @@
 
 @interface TCTLLogDetailTableViewController ()
 
-@property (weak, nonatomic) NSMutableArray *logKeys;		// Names of the keys we get from the logItem's NSDictionary
-@property (weak, nonatomic) NSMutableArray *logValues;	// Values of the above keys
+@property (strong, nonatomic) NSMutableArray *logKeys;		// Names of the keys we get from the logItem's NSDictionary
+@property (strong, nonatomic) NSMutableArray *logValues;	// Values of the above keys
 
 @end
 
@@ -105,7 +105,7 @@
 		{
 			// If the item is the GUID - we're hiding it's value
 			[_logValues replaceObjectAtIndex:i
-								  withObject:@"***-***"];
+								  withObject:@"******"];
 		} else if (([logKey isEqualToString:EVENT_START_KEY]) ||
 				   ([logKey isEqualToString:CONTROL_START_KEY]) ||
 				   ([logKey isEqualToString:CONTROL_END_KEY]) ||

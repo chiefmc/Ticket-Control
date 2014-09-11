@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Главный экран-->
+        <!--Главный экран-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController title="Главный экран" id="vXZ-lx-hvc" customClass="TCTLViewController" sceneMemberID="viewController">
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="none" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4tV-DB-Xue">
-                                <rect key="frame" x="38" y="10" width="243" height="23"/>
+                                <rect key="frame" x="38" y="11" width="243" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="sU1-eH-LQv"/>
                                 </constraints>
@@ -138,10 +138,10 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E7c-ef-HE8">
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E7c-ef-HE8">
                                 <rect key="frame" x="6" y="2" width="36" height="38"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="36" id="CI2-5Y-0Ii"/>
+                                    <constraint firstAttribute="width" constant="36" id="z4H-2y-d7W"/>
                                 </constraints>
                                 <state key="normal" image="keyboard">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -154,35 +154,35 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="E7c-ef-HE8" firstAttribute="baseline" secondItem="bgj-JN-TsB" secondAttribute="baseline" id="1Ro-f8-coN"/>
                             <constraint firstItem="Qqt-Oz-7H3" firstAttribute="bottom" secondItem="obf-hp-QcY" secondAttribute="bottom" id="4Zs-jt-M9A"/>
-                            <constraint firstItem="4tV-DB-Xue" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="10" id="5Vi-KJ-aX5"/>
+                            <constraint firstItem="4tV-DB-Xue" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="11" id="5Vi-KJ-aX5"/>
+                            <constraint firstItem="4eV-GO-krv" firstAttribute="top" secondItem="E7c-ef-HE8" secondAttribute="bottom" constant="3" id="7bz-k9-5u6"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="JuJ-9h-2RS" secondAttribute="bottom" constant="10" id="8Bc-pe-nWF"/>
+                            <constraint firstItem="E7c-ef-HE8" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="2" id="8rK-Pe-sZN"/>
                             <constraint firstAttribute="trailing" secondItem="4eV-GO-krv" secondAttribute="trailing" id="9FC-wM-6dC"/>
                             <constraint firstItem="bgj-JN-TsB" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="5" id="9N4-Ym-vKD"/>
                             <constraint firstItem="Qqt-Oz-7H3" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="6" id="Iaf-nP-M2z"/>
+                            <constraint firstItem="E7c-ef-HE8" firstAttribute="centerY" secondItem="Qqt-Oz-7H3" secondAttribute="centerY" id="NKH-7I-qXj"/>
                             <constraint firstItem="JuJ-9h-2RS" firstAttribute="top" secondItem="4eV-GO-krv" secondAttribute="bottom" constant="8" symbolic="YES" id="PHw-oO-0fn"/>
                             <constraint firstItem="4tV-DB-Xue" firstAttribute="leading" secondItem="Qqt-Oz-7H3" secondAttribute="trailing" constant="8" symbolic="YES" id="Pbl-Ub-bhX"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Wtk-ZG-3hV" secondAttribute="bottom" constant="24" id="Sc1-XG-LB3"/>
-                            <constraint firstItem="4eV-GO-krv" firstAttribute="top" secondItem="E7c-ef-HE8" secondAttribute="bottom" constant="3" id="SdL-h7-LqL"/>
                             <constraint firstItem="JuJ-9h-2RS" firstAttribute="leading" secondItem="x1s-ZE-U8n" secondAttribute="trailing" constant="8" symbolic="YES" id="UFJ-M7-l37"/>
                             <constraint firstItem="obf-hp-QcY" firstAttribute="leading" secondItem="4tV-DB-Xue" secondAttribute="trailing" constant="1" id="Wd6-2X-trK"/>
                             <constraint firstItem="bgj-JN-TsB" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="27" id="XWZ-9R-M5h"/>
-                            <constraint firstItem="Qqt-Oz-7H3" firstAttribute="centerY" secondItem="E7c-ef-HE8" secondAttribute="centerY" id="agf-cN-NIX"/>
+                            <constraint firstItem="E7c-ef-HE8" firstAttribute="leading" secondItem="Qqt-Oz-7H3" secondAttribute="leading" id="XY7-UG-xc8"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="x1s-ZE-U8n" secondAttribute="bottom" constant="5" id="d7Z-Id-IJE"/>
                             <constraint firstItem="Qqt-Oz-7H3" firstAttribute="top" secondItem="obf-hp-QcY" secondAttribute="top" id="eAW-zw-Apv"/>
-                            <constraint firstItem="Qqt-Oz-7H3" firstAttribute="centerY" secondItem="4tV-DB-Xue" secondAttribute="centerY" id="gjq-9f-5qX"/>
-                            <constraint firstItem="Qqt-Oz-7H3" firstAttribute="leading" secondItem="E7c-ef-HE8" secondAttribute="leading" id="i4P-Sh-8ob"/>
+                            <constraint firstItem="E7c-ef-HE8" firstAttribute="centerY" secondItem="bgj-JN-TsB" secondAttribute="centerY" id="gZO-Va-EWi"/>
+                            <constraint firstItem="Qqt-Oz-7H3" firstAttribute="centerY" secondItem="4tV-DB-Xue" secondAttribute="centerY" constant="-1.5" id="gjq-9f-5qX"/>
                             <constraint firstItem="Wtk-ZG-3hV" firstAttribute="top" secondItem="4eV-GO-krv" secondAttribute="bottom" constant="5" id="kQx-ks-dWs"/>
-                            <constraint firstItem="bgj-JN-TsB" firstAttribute="centerY" secondItem="E7c-ef-HE8" secondAttribute="centerY" id="npH-op-Qyy"/>
                             <constraint firstAttribute="trailing" secondItem="obf-hp-QcY" secondAttribute="trailing" constant="4" id="qgc-Ma-K77"/>
                             <constraint firstItem="4eV-GO-krv" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="r4o-lC-DiO"/>
                             <constraint firstItem="x1s-ZE-U8n" firstAttribute="top" secondItem="4eV-GO-krv" secondAttribute="bottom" constant="24" id="sdQ-1U-enZ"/>
                             <constraint firstItem="Wtk-ZG-3hV" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="15" id="tJO-9E-jxg"/>
-                            <constraint firstItem="Qqt-Oz-7H3" firstAttribute="bottom" secondItem="4tV-DB-Xue" secondAttribute="bottom" id="u11-EK-3bt"/>
+                            <constraint firstItem="Qqt-Oz-7H3" firstAttribute="bottom" secondItem="4tV-DB-Xue" secondAttribute="bottom" constant="-1" id="u11-EK-3bt"/>
                             <constraint firstItem="JuJ-9h-2RS" firstAttribute="leading" secondItem="Wtk-ZG-3hV" secondAttribute="trailing" constant="8" symbolic="YES" id="ueD-PZ-gkO"/>
-                            <constraint firstItem="bgj-JN-TsB" firstAttribute="baseline" secondItem="E7c-ef-HE8" secondAttribute="baseline" id="v2d-gG-7zF"/>
                             <constraint firstAttribute="trailing" secondItem="JuJ-9h-2RS" secondAttribute="trailing" constant="5" id="wCP-yL-WuA"/>
-                            <constraint firstItem="E7c-ef-HE8" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="2" id="xu4-pW-J0P"/>
                             <constraint firstItem="x1s-ZE-U8n" firstAttribute="leading" secondItem="Wtk-ZG-3hV" secondAttribute="leading" id="zGf-1q-Yzo"/>
                         </constraints>
                     </view>
@@ -206,7 +206,7 @@
             </objects>
             <point key="canvasLocation" x="1157" y="77"/>
         </scene>
-        <!--Log Table View Controller - Лог операций-->
+        <!--Лог операций-->
         <scene sceneID="tpA-YL-etZ">
             <objects>
                 <tableViewController title="Лог операций" id="1Te-0B-KdI" customClass="TCTLLogTableViewController" sceneMemberID="viewController">
@@ -263,7 +263,7 @@
             </objects>
             <point key="canvasLocation" x="2006" y="77"/>
         </scene>
-        <!--Log Detail Table View Controller - Детали-->
+        <!--Детали-->
         <scene sceneID="c0A-HU-ptg">
             <objects>
                 <tableViewController id="ZXE-b7-0oJ" customClass="TCTLLogDetailTableViewController" sceneMemberID="viewController">
@@ -338,10 +338,10 @@
         <image name="scanner" width="26" height="15"/>
         <image name="serverInactive" width="17" height="17"/>
     </resources>
-    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

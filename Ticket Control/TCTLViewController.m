@@ -12,6 +12,7 @@
 #import "TCTLServerResponse.h"
 #import "TCTLServerCommand.h"
 #import "TCTLLogTableViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface TCTLViewController ()
 
@@ -35,6 +36,8 @@
 @property NSString						*lastScannedBarcode;
 @property (nonatomic) UIAlertView		*warningAlert;
 @property (nonatomic) UIAlertView		*manualBarcodeAlert;
+@property (assign) SystemSoundID		deniedSound;
+@property (assign) SystemSoundID		allowedSound;
 
 @end
 
@@ -57,6 +60,8 @@
 
 #if TARGET_IPHONE_SIMULATOR
 		[self doScannedBarcodeCheck: @"1234567890123"];
+#elif TEST_IPOD_WITHOUT_SCANNER == 1
+		[self doScannedBarcodeCheck: @"1234567890123"];
 #endif
 	}
 }
@@ -74,6 +79,7 @@
 											   cancelButtonTitle:@"Готово"
 											   otherButtonTitles:nil];
 		[_manualBarcodeAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+		[[_manualBarcodeAlert textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
 		[_manualBarcodeAlert show];
 	}
 }
@@ -92,7 +98,11 @@
 		if ([self isScannerOnCharge]) {
 			message = textScannerBatteryOnCharge;
 		} else {
+#ifdef DEBUG
 			message = [textScannerBatteryCharge stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)", [self getScannerBatRemain], [[MLScanner sharedInstance] powerRemainInmV], [[MLScanner sharedInstance] powerRemainInMin], [[MLScanner sharedInstance] powerRemainPercent]];
+#else
+			message = [textScannerBatteryCharge stringByAppendingFormat: @"%@%%", [self getScannerBatRemain]];
+#endif
 		}
 	} else {
 		message = textScannerIsNotConnected;
@@ -211,6 +221,16 @@
 	[[MLScanner sharedInstance] addAccessoryDidDisconnectNotification:self];
 	[[MLScanner sharedInstance] addReceiveCommandHandler:self];
 	
+	// Preparing sound resources
+	NSURL *deniedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"denied"
+																			  ofType:@"wav"]];
+	AudioServicesCreateSystemSoundID((__bridge CFURLRef)deniedURL, &_deniedSound);
+	
+	NSURL *allowedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"allowed"
+																			   ofType:@"wav"]];
+	AudioServicesCreateSystemSoundID((__bridge CFURLRef)allowedURL, &_allowedSound);
+
+	
 	// Готовим лог ответов от сервера
 	[self prepareScanResultItems];
 	
@@ -231,6 +251,7 @@
 	}
 	
 #ifdef DEBUG
+	[self.scannerBatStatusIcon setUserInteractionEnabled:YES];
 	NSLog(@"viewDidLoad done.");
 #endif
 }
@@ -254,6 +275,8 @@
 	if (self.isScannerConnected) {
 		[self postponeBatteryRemain];
 #if TARGET_IPHONE_SIMULATOR
+		[self setBatteryRemainIcon];
+#elif TEST_IPOD_WITHOUT_SCANNER == 1
 		[self setBatteryRemainIcon];
 #endif
 
@@ -528,7 +551,7 @@
 	} else {
 		// Показываем алерт
 		_warningAlert = [[UIAlertView alloc]initWithTitle:textError
-												  message:@"Пустой ответ сервера"
+												  message:@"Нет кода ответа сервера"
 												 delegate:self
 										cancelButtonTitle:textRetry
 										otherButtonTitles:nil];
@@ -539,7 +562,7 @@
 }
 
 // ------------------------------------------------------------------------------
-// This is how we handle the failure response from JSON-RPC/XML-RPC
+// This is how we handle the failure response from JSON-RPC
 // ------------------------------------------------------------------------------
 - (void)handleFailureResponse:(NSError *)error
 {
@@ -547,6 +570,9 @@
 	NSString *message = @"Ошибка соединения с сервером";
 	
 	switch (error.code) {
+		case 0:
+			message = [message stringByAppendingFormat:@"\nНеверный ответ сервера"];
+			break;
 		case NSURLErrorBadURL:
 			message = [message stringByAppendingFormat:@"\nНеверный URL сервера"];
 			break;
@@ -554,7 +580,7 @@
 			message = [message stringByAppendingFormat:@"\nПревышено время ожидания"];
 			break;
 		case NSURLErrorUnsupportedURL:
-			message = [message stringByAppendingFormat:@"\nНеверный URL сервера"];
+			message = [message stringByAppendingFormat:@"\nОшибка в URL сервера"];
 			break;
 		case NSURLErrorCannotFindHost:
 			message = [message stringByAppendingFormat:@"\nНеверный URL сервера"];
@@ -584,7 +610,7 @@
 			message = [message stringByAppendingFormat:@"\nОшибка безопасности (SSL)"];
 			break;
 		default:
-			message = [message stringByAppendingFormat:@"\n%@ error %li", error.domain, (long)error.code];
+			message = [message stringByAppendingFormat:@"\n%@ ошибка %li", error.domain, (long)error.code];
 	}
 
 	_warningAlert = [[UIAlertView alloc] initWithTitle:textError
@@ -620,15 +646,23 @@
 	// Устанавливаем статус приложения
 	[self setAppBusyStatus: YES];
 	[self displayProgress];
-/* // Включить эти строки, если нужно получать фиксированный результат, при тестировании
-#ifdef TARGET_IPHONE_SIMULATOR
+	
+#if TEST_IPOD_WITHOUT_SCANNER == 1
 	TCTLServerResponse *item = [TCTLServerResponse new];
 	item.barcode = _lastScannedBarcode;
-	item.responseCode = accessDeniedAlreadyPassed;
+	item.responseCode = accessAllowed;
+
+	TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode:_lastScannedBarcode FillTextWith:item];
+	logItem.serverParsedResponse = @{@"GUID": @"123",
+									 @"ResponseCode": @"0x210",
+									 @"TimeChecked": @"20140809T14:00:00",
+									 };
+	
+	[self addScanResultItemToLog:logItem];
 	[self displayScanResult: item];
 	[self setAppBusyStatus:NO];
-	[self runTimer];
-#else*/
+	[self runStatusRevertTimer];
+#else
 	
 	// Опрашиваем сервер и ждём ответ
 	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL
@@ -642,7 +676,7 @@
 																 failure:^(NSError *error) {
 																	 [self handleFailureResponse:error];
 																 }];
-//#endif
+#endif
 }
 
 // -------------------------------------------------------------------------------
@@ -652,6 +686,8 @@
 {
 	BOOL connected;
 #if TARGET_IPHONE_SIMULATOR
+	connected = YES;
+#elif TEST_IPOD_WITHOUT_SCANNER == 1
 	connected = YES;
 #else
 	connected = [[MLScanner sharedInstance] isConnected];
@@ -1064,6 +1100,9 @@
 // -------------------------------------------------------------------------------
 -(void)doAllowedStatusAnimation
 {
+	// Playing the system Allowed sound
+	// AudioServicesPlaySystemSound(_allowedSound);
+	
 	self.scannedStatus.alpha = 0;
 	self.scannedStatus.transform = CGAffineTransformMakeScale(1.3, 1.3);
 	[UIView animateWithDuration:0.2
@@ -1088,6 +1127,10 @@
 // -------------------------------------------------------------------------------
 -(void)doDeniedStatusAnimation
 {
+	// Playing the system Denied sound
+	AudioServicesPlaySystemSound(_deniedSound);
+	
+	// Animatiting the lables
 	[UIView animateWithDuration:0.08
 						  delay:0
 						options:UIViewAnimationOptionCurveEaseInOut

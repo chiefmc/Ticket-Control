@@ -33,7 +33,10 @@
 		BD4890FF19AA1A3500A2EB62 /* TCTLServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */; };
 		BD48910219AA312500A2EB62 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD48910119AA312500A2EB62 /* Settings.bundle */; };
 		BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */; };
+		BD768BFB19C07E9B0028FF38 /* denied.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD768BFA19C07E9B0028FF38 /* denied.wav */; };
+		BD768BFD19C07EA20028FF38 /* allowed.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD768BFC19C07EA20028FF38 /* allowed.wav */; };
 		BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */; };
+		BD82990919BF672B008C54BD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD82990819BF672A008C54BD /* AudioToolbox.framework */; };
 		CA4AA12C53A1468B96A9D489 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FEC220309E4A4EA091B59C /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -87,8 +90,12 @@
 		BD48910119AA312500A2EB62 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogTableViewController.h; sourceTree = "<group>"; };
 		BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogTableViewController.m; sourceTree = "<group>"; };
+		BD768BFA19C07E9B0028FF38 /* denied.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = denied.wav; sourceTree = "<group>"; };
+		BD768BFC19C07EA20028FF38 /* allowed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = allowed.wav; sourceTree = "<group>"; };
 		BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLScanResultItem.h; sourceTree = "<group>"; };
 		BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLScanResultItem.m; sourceTree = "<group>"; };
+		BD82990819BF672A008C54BD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		BDC6B48519C0F474004E2BB1 /* Ticket Control.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Ticket Control.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD82990919BF672B008C54BD /* AudioToolbox.framework in Frameworks */,
 				BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */,
 				BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */,
 				BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */,
@@ -143,6 +151,7 @@
 		BD2431B719A608CC008BC19A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BD82990819BF672A008C54BD /* AudioToolbox.framework */,
 				BD2431F319A60982008BC19A /* ExternalAccessory.framework */,
 				BD2431EF19A60957008BC19A /* Barcode.framework */,
 				BD2431F019A60957008BC19A /* MobilogicsCore.framework */,
@@ -159,9 +168,11 @@
 		BD2431BE19A608CC008BC19A /* Ticket Control */ = {
 			isa = PBXGroup;
 			children = (
+				BDC6B48519C0F474004E2BB1 /* Ticket Control.entitlements */,
 				BD48910119AA312500A2EB62 /* Settings.bundle */,
 				BD48910019AA2CDB00A2EB62 /* Sources */,
 				BD2431D019A608CC008BC19A /* Images.xcassets */,
+				BD82990519BF63FA008C54BD /* Assets */,
 				BD2431BF19A608CC008BC19A /* Supporting Files */,
 			);
 			path = "Ticket Control";
@@ -223,6 +234,15 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
+		BD82990519BF63FA008C54BD /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				BD768BFC19C07EA20028FF38 /* allowed.wav */,
+				BD768BFA19C07E9B0028FF38 /* denied.wav */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -276,6 +296,14 @@
 				TargetAttributes = {
 					BD2431B419A608CC008BC19A = {
 						DevelopmentTeam = 2PA7N3Y7EY;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					BD2431D519A608CC008BC19A = {
 						TestTargetID = BD2431B419A608CC008BC19A;
@@ -308,10 +336,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD11A19419B9D38A00A94BBD /* Podfile in Resources */,
+				BD768BFD19C07EA20028FF38 /* allowed.wav in Resources */,
 				BD48910219AA312500A2EB62 /* Settings.bundle in Resources */,
 				BD2431D119A608CC008BC19A /* Images.xcassets in Resources */,
 				BD2431C319A608CC008BC19A /* InfoPlist.strings in Resources */,
 				BD2431CC19A608CC008BC19A /* Main.storyboard in Resources */,
+				BD768BFB19C07E9B0028FF38 /* denied.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,7 +481,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -478,6 +509,7 @@
 					"-ObjC",
 					"-all_load",
 				);
+				PROVISIONING_PROFILE = "56a313d3-3e51-4873-9c9d-b160ecf936ab";
 				SDKROOT = iphoneos;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -499,8 +531,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: VIRUS Music, LLC (2PA7N3Y7EY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: VIRUS Music, LLC (2PA7N3Y7EY)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework";
@@ -520,6 +552,7 @@
 					"-ObjC",
 					"-all_load",
 				);
+				PROVISIONING_PROFILE = "56a313d3-3e51-4873-9c9d-b160ecf936ab";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -532,6 +565,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "Ticket Control/Ticket Control.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "";
@@ -545,8 +579,8 @@
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = "Ticket Control";
+				PROVISIONING_PROFILE = "1f8e2003-89db-47a0-a5a0-002b0ffc5df3";
 				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_FILE = "$(PRODUCT_NAME)_vers.c";
@@ -560,8 +594,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "Ticket Control/Ticket Control.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: VIRUS Music, LLC (2PA7N3Y7EY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: VIRUS Music, LLC (2PA7N3Y7EY)";
 				CURRENT_PROJECT_VERSION = "";
 				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -573,8 +608,8 @@
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = "Ticket Control";
+				PROVISIONING_PROFILE = "1f8e2003-89db-47a0-a5a0-002b0ffc5df3";
 				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_FILE = "$(PRODUCT_NAME)_vers.c";

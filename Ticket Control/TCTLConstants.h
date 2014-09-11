@@ -32,14 +32,15 @@
 #define SEAT_KEY				@"Seat"
 
 #pragma mark - Константы различных настроек
-#define XMLRPC_TIMEOUT			15
-#define XMLRPC_USER_AGENT		@"vTicketControl/1.0.0 (iOS)"
-#define NUMBER_OF_HISTORY_ITEMS	50
+#define NUMBER_OF_HISTORY_ITEMS	20
 #define DATETIME_SERVER_FORMAT	@"yyyyMMdd'T'HH':'mm':'ss"
-#define DATETIME_TO_DISPLAY		@"HH':'mm':'ss' 'dd'/'MM'"
+#define DATETIME_TO_DISPLAY		@"dd' 'MMM' 'HH':'mm':'ss"
 
 // Macro that defines that we're using JSON-RPC to whom it may concern
 #define JSON_RPC
+
+// Macro that defines that we want to test the iPod without a connection to actual scanner
+#define TEST_IPOD_WITHOUT_SCANNER 0
 
 // Константы версионности
 extern NSString* const clientAppVersion;
