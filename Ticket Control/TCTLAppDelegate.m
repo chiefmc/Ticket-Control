@@ -133,6 +133,14 @@
 #ifdef DEBUG
 	NSLog(@"applicationDidBecomeActive received");
 #endif
+	// Scheduling the reinizialization of the scanner hardware
+	[self performSelector:@selector(reInitTheScannerDevice)
+			   withObject:nil
+			   afterDelay:3.0f];
+}
+
+-(void)reInitTheScannerDevice
+{
 	// Trying to re-initiazle the scanner if it is not responding. It might be necessary after a long sleep
 	if (![[MLScanner sharedInstance] isConnected]) {
 		[MLScanner sharedInstance];

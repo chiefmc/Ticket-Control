@@ -8,20 +8,19 @@
 
 #import "TCTLServerCommand.h"
 #import "TCTLConstants.h"
-#import <Foundation/Foundation.h>
 #import <AFJSONRPCClient/AFJSONRPCClient.h>
 
 @interface TCTLServerCommand ()
 
-@property (weak, nonatomic) NSString	*guid;				// client's GUID (may be empty with some methods)
-@property (weak, nonatomic) NSURL		*serverURL;			// URL XML-RPC сервера
-@property (weak, readonly) NSString		*barcode;			// штрих-код проверяемого билета (может быть пустым)
+@property (nonatomic, copy) NSString	*guid;				// client's GUID (may be empty with some methods)
+@property (nonatomic, strong) NSURL		*serverURL;			// URL XML-RPC сервера
+@property (readonly, copy) NSString		*barcode;			// штрих-код проверяемого билета (может быть пустым)
 
 @end
 
 @implementation TCTLServerCommand
 
-+(id)sharedInstance {
++(instancetype)sharedInstance {
     static TCTLServerCommand *sharedServerCommand = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -30,12 +29,15 @@
     return sharedServerCommand;
 }
 
--(id)init
+-(instancetype)init
 {
 	return [super init];
 }
 
--(void)initWithServer: (NSURL *)serverURL withCommand: (ServerCommand)serverCommand withGUID: (NSString *)guid withBarcode: (NSString *)barcode
+-(void)prepareWithServer: (NSURL *)serverURL
+			 withCommand: (ServerCommand)serverCommand
+				withGUID: (NSString *)guid
+			 withBarcode: (NSString *)barcode
 {
 	if (self) {
 		_serverURL			= serverURL;
@@ -51,10 +53,10 @@
 - (NSDictionary *)packParameters
 {
 	// Проверяем данные на nil
-	if (!_guid) {
+	if (!self.guid) {
 		_guid = @"";
 	}
-	if (!_barcode) {
+	if (!self.barcode) {
 		_barcode = @"";
 	}
 	
@@ -113,9 +115,9 @@
 -(void)doPreparedCommandWithJSONsuccess:(void(^)(id responseObject))success
 								failure:(void(^)(NSError *error))failure;
 {
-	AFJSONRPCClient *jsonClient = [AFJSONRPCClient clientWithEndpointURL:_serverURL];
+	AFJSONRPCClient *jsonClient = [AFJSONRPCClient clientWithEndpointURL:self.serverURL];
 	
-	NSString *method = [[NSString new] stringByAppendingFormat: @"0x%x", _serverCommand];
+	NSString *method = [[NSString new] stringByAppendingFormat: @"0x%x", self.serverCommand];
 	[jsonClient invokeMethod:method
 			  withParameters:[self packParameters]
 					 success:^(AFHTTPRequestOperation *operation, id responseCode) {

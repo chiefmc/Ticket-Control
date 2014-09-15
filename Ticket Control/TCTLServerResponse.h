@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 // -----------------------------------------------------------
-// API обмена данными с билетным сервером
-// Версия 1.0
+// This is a class that implements a Ticket server exchange API
+// Current supported API version 1.0
 // -----------------------------------------------------------
 
 // Возможные коды ответа от билетного сервера
@@ -37,16 +37,16 @@ typedef NS_ENUM(unsigned int, ServerResponse) {
 @interface TCTLServerResponse : NSObject
 
 @property (nonatomic) ServerResponse	responseCode;		// код ответа от сервера (см. выше)
-@property (strong, nonatomic) NSString	*barcode;			// штрих-код проверенного билета
-@property (strong, nonatomic) NSString	*userName;			// текстовое имя пользователя
-@property (strong, nonatomic) NSString	*eventName;			// текстовое название ивента
+@property (copy, nonatomic) NSString	*barcode;			// штрих-код проверенного билета
+@property (copy, nonatomic) NSString	*userName;			// текстовое имя пользователя
+@property (copy, nonatomic) NSString	*eventName;			// текстовое название ивента
 @property (strong, nonatomic) NSDate	*eventStart;		// дата/время начала ивента
 @property (strong, nonatomic) NSDate	*controlStart;		// дата/время начала контроля на этот ивент
 @property (strong, nonatomic) NSDate	*controlEnd;		// дата/время окончания контроля на этот ивент
-@property (strong, nonatomic) NSString	*agentChecked;		// пользователь системы (контроллёр), через которого этот билет уже проходил
+@property (copy, nonatomic) NSString	*agentChecked;		// пользователь системы (контроллёр), через которого этот билет уже проходил
 @property (strong, nonatomic) NSDate	*timeChecked;		// дата/время в которое этот билет уже проходил
 @property (nonatomic) BOOL				clientNeedsUpdate;	// сервер возвращает вместе с именем пользователя, если нужно обновить клиент
 @property (strong, nonatomic) NSNumber	*errorCode;			// код ошибки, возвращённый XMLRPC фреймворком
-@property (strong, nonatomic) NSString	*errorDescription;	// описание ошибки, переданное фреймворком
+@property (copy, nonatomic) NSString	*errorDescription;	// описание ошибки, переданное фреймворком
 
 @end

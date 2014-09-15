@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 #pragma mark - Константы версионоости приложения
 #define APP_VERSION				@"1.0"
@@ -39,40 +39,15 @@
 // Macro that defines that we're using JSON-RPC to whom it may concern
 #define JSON_RPC
 
+
 // Macro that defines that we want to test the iPod without a connection to actual scanner
 #define TEST_IPOD_WITHOUT_SCANNER 0
 
-// Константы версионности
-extern NSString* const clientAppVersion;
-extern NSString* const serverAPIVersion;
 
 // Константы настроек приложения Settings Bundle
-extern NSString* const kVibroStrength;
-extern NSString* const kDisableAutolock;
-extern NSString* const kUserGUID;
-extern NSString* const kResultDisplayTime;
-extern NSString* const kServerURL;
-extern NSString* const kScannerBeep;
-
-// Текстовые константы для локализации
-extern NSString* const textNotReady;
-extern NSString* const textReadyToCheck;
-extern NSString* const textLookingForTicket;
-extern NSString* const textAccessAllowed;
-extern NSString* const textAccessDenied;
-extern NSString* const textTicketNotFound;
-extern NSString* const textTicketAlreadyPassed;
-extern NSString* const textWrongEntrance;
-extern NSString* const textNoEventToControl;
-extern NSString* const textUnknownError;
-extern NSString* const textError;
-extern NSString* const textRetry;
-extern NSString* const textCancel;
-extern NSString* const textOk;
-extern NSString* const textWrongGUID;
-extern NSString* const textInformation;
-extern NSString* const textScannerBatteryCharge;
-extern NSString* const textScannerIsNotConnected;
-extern NSString* const textServerConnected;
-extern NSString* const textNoServerConnection;
-extern NSString* const textScannerBatteryOnCharge;
+#define VIBRO_STRENGTH_S		@"vibroStrength"
+#define DISABLE_AUTOLOCK_S		@"disableAutolock"
+#define USER_GUID_S				@"userGUID"
+#define RESULT_DISPLAY_TIME_S	@"resultDisplayTime"
+#define SERVER_URL_S			@"serverURL"
+#define SCANNER_BEEP_S			@"scannerBeep"

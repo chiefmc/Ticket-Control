@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface TCTLLogTableViewController : UITableViewController
 
 // Переменная с результатами сканирования
-@property (weak, nonatomic) NSMutableArray *scanResultItems;
+@property (strong, nonatomic) NSMutableArray *scanResultItems;
 
 // -(IBAction)unwindToLogTable:(UIStoryboardSegue *)segue;
 

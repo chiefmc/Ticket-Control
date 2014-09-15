@@ -7,7 +7,7 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @protocol BarcodeCommandHandler <NSObject>
 
@@ -21,10 +21,10 @@
 
 @end
 
-@interface VTBarcodeScannerHAL : NSObject <ReceiveCommandHandler, NotificationHandler>
+@interface VTKBarcodeScannerHAL : NSObject <ReceiveCommandHandler, NotificationHandler>
 
 // Class method that resturns a shared static instance for the below operations
-+(id)sharedInstance;
++(instancetype)sharedInstance;
 
 
 // Types of currently supported frameworks

@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "VTBarcodeScannerHAL.h"
+#import "VTKBarcodeScannerHAL.h"
 
-@implementation VTBarcodeScannerHAL
+@implementation VTKBarcodeScannerHAL
 
-+(id)sharedInstance {
-    static VTBarcodeScannerHAL *scannerHAL = nil;
++(instancetype)sharedInstance {
+    static VTKBarcodeScannerHAL *scannerHAL = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         scannerHAL = [[self alloc] init];

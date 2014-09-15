@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "TCTLServerResponse.h"
 
-// -----------------------------------------------------------
-// API обмена данными с билетным сервером
-// Версия 1.0
-// -----------------------------------------------------------
+// --------------------------------------------------------------
+// This is a class that implements a Ticket server exchange API
+// Current supported API version 1.0
+// --------------------------------------------------------------
 
 
-// Команды отправляемые билетному серверу
+// Commands sent to Ticketing server
 typedef NS_ENUM(unsigned int, ServerCommand) {
 	noOp						= 0x100,	// отсутствие действий
 	getUserName					= 0x110,	// запрашивает текстовое имя текущего контролёра
@@ -25,26 +25,23 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
 
 @interface TCTLServerCommand : NSObject
 
-@property (readonly) ServerCommand		serverCommand;		// метод (команда) посылаемая серверу
+@property (readonly, nonatomic) ServerCommand		serverCommand;		// метод (команда) посылаемая серверу
 
 // Class method (singleton)
-+(id)sharedInstance;
++ (instancetype)sharedInstance;
 
 // Initializers
--(id)init;
--(void)initWithServer: (NSURL *)serverURL
-		  withCommand: (ServerCommand)
-serverCommand withGUID: (NSString *) guid
-		  withBarcode: (NSString *) barcode;
+- (id)init;
+- (void)prepareWithServer: (NSURL *)serverURL
+			  withCommand: (ServerCommand)
+	serverCommand withGUID: (NSString *) guid
+			  withBarcode: (NSString *) barcode;
 
 // Invoking the prepared command to the JSON-RPC command and calls blocks
--(void)doPreparedCommandWithJSONsuccess:(void(^)(id responseObject))success
-								failure:(void(^)(NSError *error))failure;
+- (void)doPreparedCommandWithJSONsuccess:(void(^)(id responseObject))success
+								 failure:(void(^)(NSError *error))failure;
 
-// Unpacking data from XML-RPC/JSON-RPC response and sending back
--(TCTLServerResponse *)unpackResponse:(id)responseObject;
-
-// Возвращает полученный ответ от сервера или nil, если не операция окончилась ошибкой
-//-(TCTLServerResponse *)getServerResponse;
+// Unpacking data from JSON-RPC response and sending back
+- (TCTLServerResponse *)unpackResponse:(id)responseObject;
 
 @end

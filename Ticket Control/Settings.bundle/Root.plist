@@ -18,7 +18,7 @@
 			<key>Title</key>
 			<string>Vibro strength</string>
 			<key>DefaultValue</key>
-			<string>Low</string>
+			<string>1</string>
 			<key>Titles</key>
 			<array>
 				<string>Off</string>
@@ -92,7 +92,7 @@
 			<key>Key</key>
 			<string>serverURL</string>
 			<key>DefaultValue</key>
-			<string>http://ticket.circus.kiev.ua/entry/appcheck</string>
+			<string>https://your-ticket-server/check-api.php</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

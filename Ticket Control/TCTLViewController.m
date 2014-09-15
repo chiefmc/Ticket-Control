@@ -12,28 +12,28 @@
 #import "TCTLServerResponse.h"
 #import "TCTLServerCommand.h"
 #import "TCTLLogTableViewController.h"
-#import <AudioToolbox/AudioToolbox.h>
+@import AudioToolbox;
 
 @interface TCTLViewController ()
 
 // Признак того, что система не готова сканировать следующий код. Если YES, то система будет игнорировать все сканирования
-@property BOOL							isBusy;
+@property (nonatomic) BOOL				isAppBusy;
 
 // Признак того, что сервер подключён
-@property BOOL							isServerConnected;
+@property (nonatomic) BOOL				isServerConnected;
 
 // Переменные в которые читаются настройки париложения из Settings Bundle
-@property NSInteger						vibroStrength;
-@property BOOL							disableAutolock;
-@property NSString						*userGUID;
-@property NSTimeInterval				resultDisplayTime;
-@property NSURL							*serverURL;
-@property BOOL							scannerBeep;
+@property (nonatomic) NSInteger			vibroStrength;
+@property (nonatomic) BOOL				disableAutolock;
+@property (nonatomic, copy) NSString	*userGUID;
+@property (nonatomic) NSTimeInterval	resultDisplayTime;
+@property (nonatomic, strong) NSURL		*serverURL;
+@property (nonatomic) BOOL				scannerBeep;
 
 // Служебные переменные
-@property BOOL							isUserNameSet;
-@property BOOL							isUpsideDown;
-@property NSString						*lastScannedBarcode;
+@property (nonatomic) BOOL				isUserNameSet;
+@property (nonatomic) BOOL				isUpsideDown;
+@property (nonatomic, copy) NSString 	*lastScannedBarcode;
 @property (nonatomic) UIAlertView		*warningAlert;
 @property (nonatomic) UIAlertView		*manualBarcodeAlert;
 @property (assign) SystemSoundID		deniedSound;
@@ -55,7 +55,7 @@
 #endif
 
     // Если система не занята, то запускаем сканирование
-	if (!_isBusy) {
+	if (!_isAppBusy) {
 		[[MLScanner sharedInstance] scan];
 
 #if TARGET_IPHONE_SIMULATOR
@@ -71,8 +71,8 @@
 // -------------------------------------------------------------------------------
 - (IBAction)numKeypadTapped:(id)sender
 {
-	if (!_isBusy) {
-		[self setAppBusyStatus:YES];
+	if (!_isAppBusy) {
+		self.isAppBusy = YES;
 		_manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:@"Введите штрих-код"
 														 message:@""
 														delegate:self
@@ -92,28 +92,30 @@
 #ifdef DEBUG
 	NSLog(@"showScannerBatDetails received");
 #endif
+	
+	// Updating accessory info as per framework manual
 	[[MLScanner sharedInstance] updateAccessoryInfo];
 	NSString *message;
 	if ([self isScannerConnected]) {
 		if ([self isScannerOnCharge]) {
-			message = textScannerBatteryOnCharge;
+			message = @"Батарея сканера заряжается";
 		} else {
 #ifdef DEBUG
-			message = [textScannerBatteryCharge stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)", [self getScannerBatRemain], [[MLScanner sharedInstance] powerRemainInmV], [[MLScanner sharedInstance] powerRemainInMin], [[MLScanner sharedInstance] powerRemainPercent]];
+			message = [@"Заряд батареи сканнера: " stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)", [self getScannerBatRemain], [[MLScanner sharedInstance] powerRemainInmV], [[MLScanner sharedInstance] powerRemainInMin], [[MLScanner sharedInstance] powerRemainPercent]];
 #else
-			message = [textScannerBatteryCharge stringByAppendingFormat: @"%@%%", [self getScannerBatRemain]];
+			message = [@"Заряд батареи сканнера: " stringByAppendingFormat: @"%@%%", [self getScannerBatRemain]];
 #endif
 		}
 	} else {
-		message = textScannerIsNotConnected;
+		message = @"Сканнер не подключен";
 
 	}
-	_warningAlert = [[UIAlertView alloc] initWithTitle:textInformation
-											   message:message
-											  delegate:self
-									 cancelButtonTitle:textOk
-									 otherButtonTitles:nil];
-	[_warningAlert show];
+	self.warningAlert = [[UIAlertView alloc] initWithTitle:@"Информация"
+												   message:message
+												  delegate:self
+										 cancelButtonTitle:@"Ok"
+										 otherButtonTitles:nil];
+	[self.warningAlert show];
 }
 
 // -------------------------------------------------------------------------------
@@ -128,17 +130,17 @@
 	NSLog(@"showScannerBatDetails received");
 #endif
 	NSString *message;
-	if (_isServerConnected) {
-		message = textServerConnected;
+	if (self.isServerConnected) {
+		message = @"Соединение с сервером установлено";
 	} else {
-		message = textNoServerConnection;
+		message = @"Нет соединения с сервером";
 	}
-	 _warningAlert = [[UIAlertView alloc] initWithTitle:textInformation
-												message:message
-											   delegate:self
-									  cancelButtonTitle:textOk
-									  otherButtonTitles:nil];
-	[_warningAlert show];
+	 self.warningAlert = [[UIAlertView alloc] initWithTitle:@"Информация"
+													message:message
+												   delegate:self
+										  cancelButtonTitle:@"Ok"
+										  otherButtonTitles:nil];
+	[self.warningAlert show];
 }
 
 // -------------------------------------------------------------------------------
@@ -169,7 +171,7 @@
 // -------------------------------------------------------------------------------
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-	if (([identifier isEqual: @"logTableSegue"]) && (!_isBusy)) {
+	if (([identifier isEqual: @"logTableSegue"]) && (!self.isAppBusy)) {
 		return YES;
 	} else {
 		return NO;
@@ -186,7 +188,7 @@
 #endif
 	if ([segue.identifier isEqualToString: @"logTableSegue"]) {
 		// Устанавливаем статус приложения в "Не готово к сканированию"
-		[self setAppBusyStatus: YES];
+		[self setIsAppBusy: YES];
 		
 		// Передаем в контроллер таблицы данные лога
 		if ([[segue.destinationViewController topViewController] isKindOfClass:[TCTLLogTableViewController class]]) {
@@ -201,7 +203,10 @@
 // -------------------------------------------------------------------------------
 - (IBAction)unwindToMainScreen:(UIStoryboardSegue *)segue
 {
-	[self setAppBusyStatus:NO];
+#ifdef DEBUG
+	NSLog(@"unwindToMainScreen received.");
+#endif
+	self.isAppBusy = NO;
 }
 
 // ------------------------------------------------------------------------------
@@ -215,7 +220,7 @@
 	[super viewDidLoad];
 	
 	// Do any additional setup after loading the view, typically from a nib.
-	_isUpsideDown = NO;
+	self.isUpsideDown = NO;
 	
 	[[MLScanner sharedInstance] addAccessoryDidConnectNotification:self];
 	[[MLScanner sharedInstance] addAccessoryDidDisconnectNotification:self];
@@ -238,16 +243,47 @@
 	[self serverConnectionStatus: NO];
 	
 	// Устанавливаем имя пользователя на главном экране в значение имени текущего девайса
-	[self.userNameLabel setText: [UIDevice currentDevice].name];
-	_isUserNameSet = NO;
+	self.userNameLabel.text = [UIDevice currentDevice].name;
+	self.isUserNameSet = NO;
 		
 	// Проверка подключения сканера и отображение статуса
 	if ([self isScannerConnected]) {
-		[self setAppBusyStatus: NO];
+		self.isAppBusy = NO;
 		[self displayReadyToScan];
 	} else {
-		[self setAppBusyStatus: YES];
+		self.isAppBusy = YES;
 		[self displayNotReady];
+	}
+	
+	// Load our preferences.  Preloading the relevant preferences here will
+	// prevent possible diskIO latency from stalling our code in more time
+	// critical areas, such as tableView:cellForRowAtIndexPath:, where the
+	// values associated with these preferences are actually needed.
+	[self performSelector:@selector(onDefaultsChanged:)
+			   withObject:self
+			   afterDelay:1.0];
+	// [self onDefaultsChanged:nil];
+	
+	// Begin listening for changes to our preferences when the Settings app does
+	// so, when we are resumed from the backround, this will give us a chance to
+	// update our UI
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(onDefaultsChanged:)
+												 name:NSUserDefaultsDidChangeNotification
+											   object:nil];
+
+	// Setting up the right icon for scanner hardware connection
+	if (self.isScannerConnected) {
+		[self performSelector:@selector(postponeBatteryRemain)
+				   withObject:self
+				   afterDelay:2.0f];
+#if TARGET_IPHONE_SIMULATOR
+		[self setBatteryRemainIcon];
+#elif TEST_IPOD_WITHOUT_SCANNER == 1
+		[self setBatteryRemainIcon];
+#endif
+	} else {
+		[self setBatteryRemainIcon];
 	}
 	
 #ifdef DEBUG
@@ -271,19 +307,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-	// Устанавливаем правльную иконку подключения сканера
-	if (self.isScannerConnected) {
-		[self postponeBatteryRemain];
-#if TARGET_IPHONE_SIMULATOR
-		[self setBatteryRemainIcon];
-#elif TEST_IPOD_WITHOUT_SCANNER == 1
-		[self setBatteryRemainIcon];
-#endif
-
-	} else {
-		[self setBatteryRemainIcon];
-	}
-	
+	[super viewDidAppear:animated];
 #ifdef DEBUG
 	NSLog(@"viewDidAppear done.");
 #endif
@@ -306,21 +330,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    // Load our preferences.  Preloading the relevant preferences here will
-    // prevent possible diskIO latency from stalling our code in more time
-    // critical areas, such as tableView:cellForRowAtIndexPath:, where the
-    // values associated with these preferences are actually needed.
-    [self onDefaultsChanged:nil];
-    
-    // Begin listening for changes to our preferences when the Settings app does
-    // so, when we are resumed from the backround, this will give us a chance to
-    // update our UI
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onDefaultsChanged:)
-                                                 name:NSUserDefaultsDidChangeNotification
-                                               object:nil];
-		
+	
 #ifdef DEBUG
 	NSLog(@"viewWillAppear done.");
 #endif
@@ -341,6 +351,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
 													name:NSUserDefaultsDidChangeNotification
 												  object:nil];
+	[super viewWillDisappear:animated];
 }
 
 #pragma mark - Inherited methods
@@ -369,7 +380,7 @@
 	NSLog(@"connectNotify received");
 #endif
 	// Показываем статус готовности к сканированию
-	[self setAppBusyStatus: NO];
+	self.isAppBusy = NO;
 	[self displayReadyToScan];
 	
 	// Инициируем опрос заряда батареи
@@ -397,7 +408,7 @@
 	NSLog(@"disconnectNotify received");
 #endif
 	// Показываем статус неготовности к сканированию
-	[self setAppBusyStatus:YES];
+	self.isAppBusy = YES;
 	[self displayNotReady];
 	
 	// Отображаем статус отключённого девайса
@@ -431,7 +442,7 @@
 	NSLog(@"handleRequest received");
 #endif
 	// Если система занята, то игнорируем результаты сканирования
-	if (!_isBusy) {
+	if (!self.isAppBusy) {
 		[self doScannedBarcodeCheck: [command receiveString]];
 	}
 }
@@ -463,45 +474,45 @@
 		switch (serverResponse.responseCode) {
 			case resultOk:
 				[self displayReadyToScan];
-				[self setAppBusyStatus:NO];
+				self.isAppBusy = NO;
 				break;
 				
 			case setActiveUser:
-				[_userNameLabel setText: serverResponse.userName];
-				_isUserNameSet = YES;
-				[self setAppBusyStatus:NO];
+				self.userNameLabel.text = serverResponse.userName;
+				self.isUserNameSet = YES;
+				self.isAppBusy = NO;
 				break;
 				
 			case setActiveUserNotFound:
-				_isUserNameSet = NO;
+				self.isUserNameSet = NO;
 				
 				// Setting the user name on the main view to a current device's name
-				[self.userNameLabel setText: [UIDevice currentDevice].name];
+				self.userNameLabel.text = [UIDevice currentDevice].name;
 				
 				// Showing alert
-				_warningAlert = [[UIAlertView alloc]initWithTitle:textError
-														  message:@"Неверный GUID! Обратитесь к администратору системы"
-														 delegate:self
-												cancelButtonTitle:textCancel
-												otherButtonTitles:nil];
-				[_warningAlert show];
+				self.warningAlert = [[UIAlertView alloc]initWithTitle:@"Ошибка"
+															  message:@"Неверный GUID! Обратитесь к администратору системы"
+															 delegate:self
+													cancelButtonTitle:@"Отмена"
+													otherButtonTitles:nil];
+				[self.warningAlert show];
 				[self displayReadyToScan];
 				break;
 				
 			case setActiveEvent:
 	#warning Пока не реализовано
-				[self setAppBusyStatus:NO];
+				self.isAppBusy = NO;
 				break;
 				
 			case setActiveEventNotFound:
 	#warning Пока не реализовано
-				[self setAppBusyStatus:NO];
+				self.isAppBusy = NO;
 				break;
 				
 			case accessAllowed ... accessDeniedUnknownError:
 			{
 				// Checking if the barcode matches to what we've sent
-				if ([serverResponse.barcode isEqualToString: _lastScannedBarcode]) {
+				if ([serverResponse.barcode isEqualToString: self.lastScannedBarcode]) {
 					
 					// Showing the result
 					[self displayScanResult: serverResponse];
@@ -520,15 +531,15 @@
 					
 					// Displaying the logItem in the lower part of the screen
 					[self displayLogResultItem:logItem];
-					[self setAppBusyStatus:NO];
+					self.isAppBusy = NO;
 				} else {
 					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
-					_warningAlert = [[UIAlertView alloc]initWithTitle:textError
-															  message:@"Неверный ответ сервера"
-															 delegate:self
-													cancelButtonTitle:textRetry
-													otherButtonTitles:nil];
-					[_warningAlert show];
+					self.warningAlert = [[UIAlertView alloc]initWithTitle:@"Ошибка"
+																  message:@"Неверный ответ сервера"
+																 delegate:self
+														cancelButtonTitle:@"Повторить"
+														otherButtonTitles:nil];
+					[self.warningAlert show];
 					[self displayReadyToScan];
 				}
 				break;
@@ -538,24 +549,24 @@
 				
 			default:
 				// Показываем алерт
-				_warningAlert = [[UIAlertView alloc]initWithTitle:textError
-														  message:@"Неизвестный ответ сервера"
-														 delegate:self
-												cancelButtonTitle:textRetry
-												otherButtonTitles:nil];
-				[_warningAlert show];
+				self.warningAlert = [[UIAlertView alloc]initWithTitle:@"Ошибка"
+															  message:@"Неизвестный ответ сервера"
+															 delegate:self
+													cancelButtonTitle:@"Повторить"
+													otherButtonTitles:nil];
+				[self.warningAlert show];
 				[self displayReadyToScan];
 				
 				break;
 		}
 	} else {
 		// Показываем алерт
-		_warningAlert = [[UIAlertView alloc]initWithTitle:textError
-												  message:@"Нет кода ответа сервера"
-												 delegate:self
-										cancelButtonTitle:textRetry
-										otherButtonTitles:nil];
-		[_warningAlert show];
+		self.warningAlert = [[UIAlertView alloc]initWithTitle:@"Ошибка"
+													  message:@"Нет кода ответа сервера"
+													 delegate:self
+											cancelButtonTitle:@"Повторить"
+											otherButtonTitles:nil];
+		[self.warningAlert show];
 		[self displayReadyToScan];
 	}
 	[self serverConnectionStatus:YES];
@@ -613,14 +624,14 @@
 			message = [message stringByAppendingFormat:@"\n%@ ошибка %li", error.domain, (long)error.code];
 	}
 
-	_warningAlert = [[UIAlertView alloc] initWithTitle:textError
-											   message:message
-											  delegate:self
-									 cancelButtonTitle:textRetry
-									 otherButtonTitles:nil];
-	[_warningAlert show];
+	self.warningAlert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+												   message:message
+												  delegate:self
+										 cancelButtonTitle:@"Повторить"
+										 otherButtonTitles:nil];
+	[self.warningAlert show];
 	
-	[self setAppBusyStatus:NO];
+	self.isAppBusy = NO;
 	[self displayReadyToScan];
 	
 	// Displaying the server connection fail
@@ -641,18 +652,19 @@
 	barcode = [barcode stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	
 	// Запоминаем последний код
-	_lastScannedBarcode = barcode;
+	self.lastScannedBarcode = barcode;
 	
 	// Устанавливаем статус приложения
-	[self setAppBusyStatus: YES];
+	self.isAppBusy = YES;
 	[self displayProgress];
 	
 #if TEST_IPOD_WITHOUT_SCANNER == 1
 	TCTLServerResponse *item = [TCTLServerResponse new];
-	item.barcode = _lastScannedBarcode;
+	item.barcode = self.lastScannedBarcode;
 	item.responseCode = accessAllowed;
 
-	TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode:_lastScannedBarcode FillTextWith:item];
+	TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode:self.lastScannedBarcode
+																	 FillTextWith:item];
 	logItem.serverParsedResponse = @{@"GUID": @"123",
 									 @"ResponseCode": @"0x210",
 									 @"TimeChecked": @"20140809T14:00:00",
@@ -660,12 +672,12 @@
 	
 	[self addScanResultItemToLog:logItem];
 	[self displayScanResult: item];
-	[self setAppBusyStatus:NO];
+	self.isAppBusy = NO;
 	[self runStatusRevertTimer];
 #else
 	
 	// Опрашиваем сервер и ждём ответ
-	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL
+	[[TCTLServerCommand sharedInstance] prepareWithServer:_serverURL
 										   withCommand: getCodeResult
 											  withGUID:_userGUID
 										   withBarcode: barcode];
@@ -766,7 +778,7 @@
 	if (timer != nil) {
 		[timer invalidate];
 	}
-	timer = [NSTimer scheduledTimerWithTimeInterval:_resultDisplayTime
+	timer = [NSTimer scheduledTimerWithTimeInterval:self.resultDisplayTime
 											 target:self
 										   selector:@selector(displayReadyToScan)
 										   userInfo:nil
@@ -821,16 +833,16 @@
 // -------------------------------------------------------------------------------
 // Устанавливает статус готовности приложения к новому сканированию
 // -------------------------------------------------------------------------------
--(void)setAppBusyStatus: (BOOL)yes
+-(void)setIsAppBusy: (BOOL)yes
 {
 	static  NSTimer	*timer;
-	if (timer != nil) {
+	if (timer) {
 		[timer invalidate];
 	}
 	
 	if (yes) {
-		_isBusy = YES;
-		[self.scanButton setEnabled: NO];
+		_isAppBusy = YES;
+		self.scanButton.enabled = NO;
 		/* Not needed so far...
 		// Запускаем таймер на 15 сек, по истечении отменяем статус занятости
 		timer = [NSTimer scheduledTimerWithTimeInterval:XMLRPC_TIMEOUT
@@ -839,8 +851,8 @@
 											   userInfo:nil
 												repeats:NO]; */
 	} else {
-		_isBusy = NO;
-		[self.scanButton setEnabled: YES];
+		_isAppBusy = NO;
+		self.scanButton.enabled = YES;
 	}
 
 #ifdef DEBUG
@@ -856,7 +868,7 @@
 #ifdef DEBUG
 	NSLog(@"cancelAppBusyStatus received");
 #endif
-	[self setAppBusyStatus:NO];
+	self.isAppBusy = NO;
 	[self displayReadyToScan];
 }
 
@@ -865,10 +877,10 @@
 // -------------------------------------------------------------------------------
 - (void)displayNotReady
 {
-	[self.background setBackgroundColor: [UIColor lightGrayColor]];
-	[self.scannedStatus setText: textNotReady];
-	[self.scannedStatus setTextColor: [UIColor darkGrayColor]];
-	[self.scannedSubStatus setTextColor: [UIColor clearColor]];
+	self.background.backgroundColor = [UIColor lightGrayColor];
+	self.scannedStatus.text = @"НЕ ГОТОВ";
+	self.scannedStatus.textColor = [UIColor darkGrayColor];
+	self.scannedSubStatus.textColor = [UIColor clearColor];
 	[self showWaitingSign: NO];
 }
 
@@ -877,13 +889,13 @@
 // -------------------------------------------------------------------------------
 - (void)displayReadyToScan
 {
-	[self.background setBackgroundColor: [UIColor colorWithRed:0.92f
-														 green:0.92f
-														  blue:0.92f
-														 alpha:1.0f]];
-	[self.scannedStatus setText: textReadyToCheck];
-	[self.scannedStatus setTextColor: [UIColor lightGrayColor]];
-	[self.scannedSubStatus setTextColor: [UIColor clearColor]];
+	self.background.backgroundColor = [UIColor colorWithRed:0.92f
+													  green:0.92f
+													   blue:0.92f
+													  alpha:1.0f];
+	self.scannedStatus.text = @"ОЖИДАНИЕ ПРОВЕРКИ";
+	self.scannedStatus.textColor = [UIColor lightGrayColor];
+	self.scannedSubStatus.textColor = [UIColor clearColor];
 	[self showWaitingSign: NO];
 }
 
@@ -892,10 +904,10 @@
 // -------------------------------------------------------------------------------
 - (void)displayProgress
 {
-	[self.background setBackgroundColor: [UIColor lightGrayColor]];
-	[self.scannedStatus setText: textLookingForTicket];
-	[self.scannedStatus setTextColor: [UIColor darkGrayColor]];
-	[self.scannedSubStatus setTextColor: [UIColor clearColor]];
+	self.background.backgroundColor = [UIColor lightGrayColor];
+	self.scannedStatus.text = @"ПОИСК БИЛЕТА";
+	self.scannedStatus.textColor = [UIColor darkGrayColor];
+	self.scannedSubStatus.textColor = [UIColor clearColor];
 	[self showWaitingSign: YES];
 }
 
@@ -907,66 +919,66 @@
 	[self showWaitingSign: NO];
 	switch (scanResult.responseCode) {
 		case accessAllowed: {
-			[self.background setBackgroundColor: [UIColor greenColor]];
+			self.background.backgroundColor = [UIColor greenColor];
 			self.scannedStatus.alpha = 0;
-			[self.scannedStatus setText: textAccessAllowed];
-			[self.scannedStatus setTextColor: [UIColor whiteColor]];
-			[self.scannedSubStatus setTextColor: [UIColor clearColor]];
+			self.scannedStatus.text = @"ДОСТУП РАЗРЕШЁН";
+			self.scannedStatus.textColor = [UIColor whiteColor];
+			self.scannedSubStatus.textColor = [UIColor clearColor];
 			
 			[self doAllowedStatusAnimation];
 
 			break;
 		}
 		case accessDeniedTicketNotFound:
-			[self.background setBackgroundColor: [UIColor redColor]];
-			[self.scannedStatus setText: textAccessDenied];
-			[self.scannedStatus setTextColor: [UIColor whiteColor]];
-			[self.scannedSubStatus setText: textTicketNotFound];
-			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			self.background.backgroundColor = [UIColor redColor];
+			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
+			self.scannedStatus.textColor = [UIColor whiteColor];
+			self.scannedSubStatus.text = @"БИЛЕТА НЕТ В БАЗЕ";
+			self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
 			break;
 			
 		case accessDeniedAlreadyPassed:
-			[self.background setBackgroundColor: [UIColor redColor]];
-			[self.scannedStatus setText: textAccessDenied];
-			[self.scannedStatus setTextColor: [UIColor whiteColor]];
-			[self.scannedSubStatus setText: textTicketAlreadyPassed];
-			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			self.background.backgroundColor = [UIColor redColor];
+			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
+			self.scannedStatus.textColor = [UIColor whiteColor];
+			self.scannedSubStatus.text = @"БИЛЕТ УЖЕ ПРОХОДИЛ";
+			self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
 			break;
 			
 		case accessDeniedWrongEntrance:
-			[self.background setBackgroundColor: [UIColor redColor]];
-			[self.scannedStatus setText: textAccessDenied];
-			[self.scannedStatus setTextColor: [UIColor whiteColor]];
-			[self.scannedSubStatus setText: textWrongEntrance];
-			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			self.background.backgroundColor = [UIColor redColor];
+			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
+			self.scannedStatus.textColor = [UIColor whiteColor];
+			self.scannedSubStatus.text = @"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД";
+			self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
 			break;
 			
 		case accessDeniedNoActiveEvent:
-			[self.background setBackgroundColor: [UIColor redColor]];
-			[self.scannedStatus setText: textAccessDenied];
-			[self.scannedStatus setTextColor: [UIColor whiteColor]];
-			[self.scannedSubStatus setText: textNoEventToControl];
-			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			self.background.backgroundColor = [UIColor redColor];
+			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
+			self.scannedStatus.textColor = [UIColor whiteColor];
+			self.scannedSubStatus.text = @"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ";
+			self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
 			break;
 			
 		default:
-			[self.background setBackgroundColor: [UIColor redColor]];
-			[self.scannedStatus setText: textAccessDenied];
-			[self.scannedStatus setTextColor: [UIColor whiteColor]];
-			[self.scannedSubStatus setText: textUnknownError];
-			[self.scannedSubStatus setTextColor: [UIColor whiteColor]];
+			self.background.backgroundColor = [UIColor redColor];
+			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
+			self.scannedStatus.textColor = [UIColor whiteColor];
+			self.scannedSubStatus.text = @"НЕИЗВЕСТНАЯ ОШИБКА";
+			self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
@@ -996,7 +1008,7 @@
 - (void)prepareScanResultItems
 {
 	// фильтрация истории сканирования
-	if (self.scanResultItems != nil) {
+	if (self.scanResultItems) {
 		for (TCTLScanResultItem *logItem in self.scanResultItems) {
 			// если записи в логе больше 24 часов удаляем её
 			if ([logItem.locallyCheckedTime compare: [[NSDate date] dateByAddingTimeInterval: -24*60*60]] == NSOrderedAscending) {
@@ -1005,7 +1017,7 @@
 		}
 	} else {
 		// если лога нет, то создаём пустой
-		self.scanResultItems = [[NSMutableArray alloc] init];
+		self.scanResultItems = [NSMutableArray new];
 	}
 }
 
@@ -1015,7 +1027,7 @@
 - (void)addScanResultItemToLog:(TCTLScanResultItem *)logItem
 {
 	if (!self.scanResultItems) {
-		self.scanResultItems = [NSMutableArray init];
+		self.scanResultItems = [NSMutableArray new];
 	} else if ([self.scanResultItems count] == NUMBER_OF_HISTORY_ITEMS) {
 		[self.scanResultItems removeLastObject];
 	}
@@ -1044,7 +1056,7 @@
 					 }
 					 completion:^(BOOL finished){
 						 // Обновляем содержимое
-						 [self.lastTicketNumberLabel setText:title];
+						 self.lastTicketNumberLabel.text = title;
 
 						 self.lastTicketNumberLabel.transform = CGAffineTransformMakeTranslation(-200, 0);
 						 self.lastTicketNumberLabel.alpha = 1;
@@ -1066,11 +1078,11 @@
 					 }
 					 completion:^(BOOL finished){
 						 // Обновляем содержимое
-						 [self.lastTicketStatusLabel setText:logItem.resultText];
+						 self.lastTicketStatusLabel.text = logItem.resultText;
 						 if (logItem.allowedAccess) {
-							 [self.lastTicketStatusLabel setTextColor:[UIColor greenColor]];
+							 self.lastTicketStatusLabel.textColor = [UIColor greenColor];
 						 } else {
-							 [self.lastTicketStatusLabel setTextColor:[UIColor redColor]];
+							 self.lastTicketStatusLabel.textColor = [UIColor redColor];
 						 }
 
 						 self.lastTicketStatusLabel.transform = CGAffineTransformMakeTranslation(-250, 0);
@@ -1085,14 +1097,6 @@
 										  }
 										  completion:nil];
 					 }];
-	/*
-	[self.lastTicketNumberLabel setText:title];
-	[self.lastTicketStatusLabel setText:logItem.resultText];
-	if (logItem.allowedAccess) {
-		[self.lastTicketStatusLabel setTextColor:[UIColor greenColor]];
-	} else {
-		[self.lastTicketStatusLabel setTextColor:[UIColor redColor]];
-	}*/
 }
 
 // -------------------------------------------------------------------------------
@@ -1101,7 +1105,7 @@
 -(void)doAllowedStatusAnimation
 {
 	// Playing the system Allowed sound
-	// AudioServicesPlaySystemSound(_allowedSound);
+	AudioServicesPlaySystemSound(self.allowedSound);
 	
 	self.scannedStatus.alpha = 0;
 	self.scannedStatus.transform = CGAffineTransformMakeScale(1.3, 1.3);
@@ -1128,7 +1132,7 @@
 -(void)doDeniedStatusAnimation
 {
 	// Playing the system Denied sound
-	AudioServicesPlaySystemSound(_deniedSound);
+	AudioServicesPlaySystemSound(self.deniedSound);
 	
 	// Animatiting the lables
 	[UIView animateWithDuration:0.08
@@ -1174,18 +1178,18 @@
 #endif
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     
-    _vibroStrength		= (NSInteger)[standardDefaults integerForKey: kVibroStrength];
-	_scannerBeep		= [standardDefaults boolForKey: kScannerBeep];
-	_disableAutolock	= [standardDefaults boolForKey: kDisableAutolock];
-    _userGUID			= [standardDefaults objectForKey: kUserGUID];
-    _resultDisplayTime	= (NSTimeInterval)[standardDefaults integerForKey:kResultDisplayTime];
-	_serverURL			= [NSURL URLWithString:[standardDefaults objectForKey: kServerURL]];
+    self.vibroStrength		= (NSInteger)[standardDefaults integerForKey: VIBRO_STRENGTH_S];
+	self.scannerBeep		= [standardDefaults boolForKey: SCANNER_BEEP_S];
+	self.disableAutolock	= [standardDefaults boolForKey: DISABLE_AUTOLOCK_S];
+    self.userGUID			= [standardDefaults objectForKey: USER_GUID_S];
+    self.resultDisplayTime	= (NSTimeInterval)[standardDefaults integerForKey:RESULT_DISPLAY_TIME_S];
+	self.serverURL			= [NSURL URLWithString:[standardDefaults objectForKey: SERVER_URL_S]];
     
 	if ([self isScannerConnected]) {
 		[self setScannerPreferences];
 	}
 	
-	if (_disableAutolock) {
+	if (self.disableAutolock) {
 		[UIApplication sharedApplication].idleTimerDisabled = YES;
 	} else {
 		[UIApplication sharedApplication].idleTimerDisabled = NO;
@@ -1213,10 +1217,10 @@
 // -------------------------------------------------------------------------------
 - (void)invocateServerAliveCheck
 {
-	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL
-										   withCommand: noOp
-											  withGUID:_userGUID
-										   withBarcode:@""];
+	[[TCTLServerCommand sharedInstance] prepareWithServer:self.serverURL
+											  withCommand:noOp
+												 withGUID:self.userGUID
+											  withBarcode:@""];
 	
 	[[TCTLServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
 																	[self handleSuccessResponse:responseObject];
@@ -1231,10 +1235,10 @@
 // -------------------------------------------------------------------------------
 - (void)invocateGetUserName
 {
-	[[TCTLServerCommand sharedInstance] initWithServer:_serverURL
-										   withCommand: getUserName
-											  withGUID:_userGUID
-										   withBarcode:@""];
+	[[TCTLServerCommand sharedInstance] prepareWithServer:self.serverURL
+											  withCommand:getUserName
+												 withGUID:self.userGUID
+											  withBarcode:@""];
 
 	[[TCTLServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
 																	[self handleSuccessResponse:responseObject];
@@ -1261,9 +1265,9 @@
 #ifdef DEBUG
 	NSLog(@"didDismissWithButtonIndex received");
 #endif
-	[self setAppBusyStatus:NO];
+	self.isAppBusy = NO;
 	
-	if ((alertView == _manualBarcodeAlert) && ([[alertView textFieldAtIndex:0].text length] > 0)) {
+	if ((alertView == self.manualBarcodeAlert) && ([[alertView textFieldAtIndex:0].text length] > 0)) {
 		[self doScannedBarcodeCheck:[alertView textFieldAtIndex:0].text];
 	}
 }

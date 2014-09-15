@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		BD11A19219B83BEE00A94BBD /* TCTLLogDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */; };
 		BD11A19419B9D38A00A94BBD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = BD11A19319B9D38A00A94BBD /* Podfile */; };
-		BD11A19719B9D76500A94BBD /* VTBarcodeScannerHAL.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19619B9D76500A94BBD /* VTBarcodeScannerHAL.m */; };
+		BD11A19719B9D76500A94BBD /* VTKBarcodeScannerHAL.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19619B9D76500A94BBD /* VTKBarcodeScannerHAL.m */; };
 		BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8519AD51E20013B226 /* TCTLConstants.m */; };
 		BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */; };
 		BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431B819A608CC008BC19A /* Foundation.framework */; };
@@ -32,9 +32,11 @@
 		BD2431F419A60982008BC19A /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F319A60982008BC19A /* ExternalAccessory.framework */; };
 		BD4890FF19AA1A3500A2EB62 /* TCTLServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */; };
 		BD48910219AA312500A2EB62 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD48910119AA312500A2EB62 /* Settings.bundle */; };
+		BD4CB46919C6FD7900C5E15C /* allowed2.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46219C6FD7900C5E15C /* allowed2.wav */; };
+		BD4CB46A19C6FD7900C5E15C /* allowed.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46319C6FD7900C5E15C /* allowed.wav */; };
+		BD4CB46D19C6FD7900C5E15C /* denied.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46619C6FD7900C5E15C /* denied.wav */; };
+		BD4CB46F19C6FD7900C5E15C /* denied2.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46819C6FD7900C5E15C /* denied2.wav */; };
 		BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */; };
-		BD768BFB19C07E9B0028FF38 /* denied.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD768BFA19C07E9B0028FF38 /* denied.wav */; };
-		BD768BFD19C07EA20028FF38 /* allowed.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD768BFC19C07EA20028FF38 /* allowed.wav */; };
 		BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */; };
 		BD82990919BF672B008C54BD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD82990819BF672A008C54BD /* AudioToolbox.framework */; };
 		CA4AA12C53A1468B96A9D489 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FEC220309E4A4EA091B59C /* libPods.a */; };
@@ -56,8 +58,8 @@
 		BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogDetailTableViewController.h; sourceTree = "<group>"; };
 		BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogDetailTableViewController.m; sourceTree = "<group>"; };
 		BD11A19319B9D38A00A94BBD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
-		BD11A19519B9D76500A94BBD /* VTBarcodeScannerHAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTBarcodeScannerHAL.h; sourceTree = "<group>"; };
-		BD11A19619B9D76500A94BBD /* VTBarcodeScannerHAL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTBarcodeScannerHAL.m; sourceTree = "<group>"; };
+		BD11A19519B9D76500A94BBD /* VTKBarcodeScannerHAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKBarcodeScannerHAL.h; sourceTree = "<group>"; };
+		BD11A19619B9D76500A94BBD /* VTKBarcodeScannerHAL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKBarcodeScannerHAL.m; sourceTree = "<group>"; };
 		BD14FA8519AD51E20013B226 /* TCTLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLConstants.m; sourceTree = "<group>"; };
 		BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerCommand.h; sourceTree = "<group>"; };
 		BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerCommand.m; sourceTree = "<group>"; };
@@ -88,10 +90,12 @@
 		BD4890FD19AA1A3500A2EB62 /* TCTLServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerResponse.h; sourceTree = "<group>"; };
 		BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerResponse.m; sourceTree = "<group>"; };
 		BD48910119AA312500A2EB62 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		BD4CB46219C6FD7900C5E15C /* allowed2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = allowed2.wav; sourceTree = "<group>"; };
+		BD4CB46319C6FD7900C5E15C /* allowed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = allowed.wav; sourceTree = "<group>"; };
+		BD4CB46619C6FD7900C5E15C /* denied.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = denied.wav; sourceTree = "<group>"; };
+		BD4CB46819C6FD7900C5E15C /* denied2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = denied2.wav; sourceTree = "<group>"; };
 		BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogTableViewController.h; sourceTree = "<group>"; };
 		BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogTableViewController.m; sourceTree = "<group>"; };
-		BD768BFA19C07E9B0028FF38 /* denied.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = denied.wav; sourceTree = "<group>"; };
-		BD768BFC19C07EA20028FF38 /* allowed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = allowed.wav; sourceTree = "<group>"; };
 		BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLScanResultItem.h; sourceTree = "<group>"; };
 		BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLScanResultItem.m; sourceTree = "<group>"; };
 		BD82990819BF672A008C54BD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -228,8 +232,8 @@
 				BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */,
 				BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */,
 				BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */,
-				BD11A19519B9D76500A94BBD /* VTBarcodeScannerHAL.h */,
-				BD11A19619B9D76500A94BBD /* VTBarcodeScannerHAL.m */,
+				BD11A19519B9D76500A94BBD /* VTKBarcodeScannerHAL.h */,
+				BD11A19619B9D76500A94BBD /* VTKBarcodeScannerHAL.m */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -237,8 +241,10 @@
 		BD82990519BF63FA008C54BD /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				BD768BFC19C07EA20028FF38 /* allowed.wav */,
-				BD768BFA19C07E9B0028FF38 /* denied.wav */,
+				BD4CB46219C6FD7900C5E15C /* allowed2.wav */,
+				BD4CB46319C6FD7900C5E15C /* allowed.wav */,
+				BD4CB46619C6FD7900C5E15C /* denied.wav */,
+				BD4CB46819C6FD7900C5E15C /* denied2.wav */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -336,12 +342,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD11A19419B9D38A00A94BBD /* Podfile in Resources */,
-				BD768BFD19C07EA20028FF38 /* allowed.wav in Resources */,
 				BD48910219AA312500A2EB62 /* Settings.bundle in Resources */,
 				BD2431D119A608CC008BC19A /* Images.xcassets in Resources */,
+				BD4CB46919C6FD7900C5E15C /* allowed2.wav in Resources */,
 				BD2431C319A608CC008BC19A /* InfoPlist.strings in Resources */,
 				BD2431CC19A608CC008BC19A /* Main.storyboard in Resources */,
-				BD768BFB19C07E9B0028FF38 /* denied.wav in Resources */,
+				BD4CB46A19C6FD7900C5E15C /* allowed.wav in Resources */,
+				BD4CB46F19C6FD7900C5E15C /* denied2.wav in Resources */,
+				BD4CB46D19C6FD7900C5E15C /* denied.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,7 +419,7 @@
 				BD2431CF19A608CC008BC19A /* TCTLViewController.m in Sources */,
 				BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */,
 				BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */,
-				BD11A19719B9D76500A94BBD /* VTBarcodeScannerHAL.m in Sources */,
+				BD11A19719B9D76500A94BBD /* VTKBarcodeScannerHAL.m in Sources */,
 				BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */,
 				BD11A19219B83BEE00A94BBD /* TCTLLogDetailTableViewController.m in Sources */,
 				BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */,
@@ -566,8 +574,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Ticket Control/Ticket Control.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
 				CURRENT_PROJECT_VERSION = "";
 				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -580,7 +588,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Ticket Control";
-				PROVISIONING_PROFILE = "1f8e2003-89db-47a0-a5a0-002b0ffc5df3";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_FILE = "$(PRODUCT_NAME)_vers.c";
@@ -609,7 +617,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "Ticket Control";
-				PROVISIONING_PROFILE = "1f8e2003-89db-47a0-a5a0-002b0ffc5df3";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_FILE = "$(PRODUCT_NAME)_vers.c";

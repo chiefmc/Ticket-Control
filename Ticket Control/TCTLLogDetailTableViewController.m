@@ -78,11 +78,11 @@
 										   };
 	
 	// Cleaning the details from hidden data
-	NSDictionary *log = (NSDictionary *)_logItem.serverParsedResponse;
+	NSDictionary *log = (NSDictionary *)self.logItem.serverParsedResponse;
 		
 	// Extracting keys and values from the logItem
-	_logKeys	= [NSMutableArray arrayWithArray:[log allKeys]];
-	_logValues	= [NSMutableArray arrayWithArray:[log allValues]];
+	self.logKeys	= [NSMutableArray arrayWithArray:[log allKeys]];
+	self.logValues	= [NSMutableArray arrayWithArray:[log allValues]];
 	
 	// Translating keys and values into readable format
 	unsigned int i = 0;
@@ -104,30 +104,30 @@
 		if ([logKey isEqualToString:GUID_KEY])
 		{
 			// If the item is the GUID - we're hiding it's value
-			[_logValues replaceObjectAtIndex:i
-								  withObject:@"******"];
+			[self.logValues replaceObjectAtIndex:i
+									  withObject:@"******"];
 		} else if (([logKey isEqualToString:EVENT_START_KEY]) ||
 				   ([logKey isEqualToString:CONTROL_START_KEY]) ||
 				   ([logKey isEqualToString:CONTROL_END_KEY]) ||
 				   ([logKey isEqualToString:TIME_CHECKED_KEY]))
 		{
 			// If the parameter is date/time, we're changing it to a viewable format
-			dateTime = [dateFormatFromServer dateFromString:_logValues[i]];
+			dateTime = [dateFormatFromServer dateFromString:self.logValues[i]];
 			dateTimeConverted = [dateFormatToDisplay stringFromDate:dateTime];
-			[_logValues replaceObjectAtIndex:i
-								  withObject:dateTimeConverted];
+			[self.logValues replaceObjectAtIndex:i
+									  withObject:dateTimeConverted];
 		}
 		
 		// We're  going through dictionary
 		key = logKeysTranslation[logKey];
 		if (key) {
-			[_logKeys replaceObjectAtIndex:i
-								withObject:key];
+			[self.logKeys replaceObjectAtIndex:i
+									withObject:key];
 		}
 		value = logValuesTranslation[log[logKey]];
 		if (value) {
-			[_logValues replaceObjectAtIndex:i
-								  withObject:value];
+			[self.logValues replaceObjectAtIndex:i
+									  withObject:value];
 		}
 		i++;
 	}
@@ -150,7 +150,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [_logItem.serverParsedResponse count];
+    return [self.logItem.serverParsedResponse count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -159,8 +159,8 @@
     
     // Configure the cell...
 	
-	cell.textLabel.text			= _logKeys[indexPath.row];
-	cell.detailTextLabel.text	= _logValues[indexPath.row];
+	cell.textLabel.text			= self.logKeys[indexPath.row];
+	cell.detailTextLabel.text	= self.logValues[indexPath.row];
 
     return cell;
 }

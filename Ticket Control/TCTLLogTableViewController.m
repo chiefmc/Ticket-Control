@@ -95,10 +95,10 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 
 	// Selecting object to tranfer with the segue
-	_logItem = _scanResultItems[indexPath.row];
+	self.logItem = self.scanResultItems[indexPath.row];
 	
 	// If the item is a NOT an Allowed-access one, we going into detailed view
-	if (!_logItem.allowedAccess) {
+	if (!self.logItem.allowedAccess) {
 		[self performSegueWithIdentifier:@"logItemDetails" sender:self];
 	}
 }
@@ -150,7 +150,7 @@
     // Pass the selected object to the new view controller.
 	if ([segue.destinationViewController isKindOfClass:[TCTLLogDetailTableViewController class]]) {
 		TCTLLogDetailTableViewController *destination = segue.destinationViewController;
-		destination.logItem = _logItem;
+		destination.logItem = self.logItem;
 	}
 }
 

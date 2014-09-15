@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface TCTLAppDelegate : UIResponder <UIApplicationDelegate>
 
