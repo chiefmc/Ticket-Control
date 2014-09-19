@@ -36,4 +36,7 @@ typedef NS_ENUM(unsigned int, VTBarcodeFramework) {
 // This should be the first method to initate the sharedInstance connection to a hardware
 -(void)setupWith: (VTBarcodeFramework)framework;
 
+// Below are the wrap-up methods that cover the Mobilogics framework
+- (void)configSyncSwitch: (BOOL)yes;
+
 @end

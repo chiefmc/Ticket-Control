@@ -136,7 +136,7 @@
 	// Scheduling the reinizialization of the scanner hardware
 	[self performSelector:@selector(reInitTheScannerDevice)
 			   withObject:nil
-			   afterDelay:3.0f];
+			   afterDelay:5.0f];
 }
 
 -(void)reInitTheScannerDevice

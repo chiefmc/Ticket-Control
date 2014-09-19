@@ -187,10 +187,10 @@
 	NSLog(@"prepareForSegue received");
 #endif
 	if ([segue.identifier isEqualToString: @"logTableSegue"]) {
-		// Устанавливаем статус приложения в "Не готово к сканированию"
-		[self setIsAppBusy: YES];
+		// Setting AppBusy status, before going into Log Table
+		self.isAppBusy = YES;
 		
-		// Передаем в контроллер таблицы данные лога
+		// Sending data to Log Table
 		if ([[segue.destinationViewController topViewController] isKindOfClass:[TCTLLogTableViewController class]]) {
 			TCTLLogTableViewController *tableView = (TCTLLogTableViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
 			tableView.scanResultItems = self.scanResultItems;
@@ -199,13 +199,14 @@
 }
 
 // -------------------------------------------------------------------------------
-// Возвращает на главный экран
+// An action of returning back to the main app screen
 // -------------------------------------------------------------------------------
 - (IBAction)unwindToMainScreen:(UIStoryboardSegue *)segue
 {
 #ifdef DEBUG
 	NSLog(@"unwindToMainScreen received.");
 #endif
+	// Set AppBusy status to available upon return to main app screen
 	self.isAppBusy = NO;
 }
 
@@ -287,7 +288,13 @@
 	}
 	
 #ifdef DEBUG
+	// Allow an alert window with detailed bat data
 	[self.scannerBatStatusIcon setUserInteractionEnabled:YES];
+	
+	// If we're in debug mode, enable to connect to iPod's interface via the USB connection
+	// of the scanner, to ease up the bebug process
+	[[MLScanner sharedInstance] configSyncSwitch:YES];
+	
 	NSLog(@"viewDidLoad done.");
 #endif
 }
@@ -344,14 +351,12 @@
 #ifdef DEBUG
 	NSLog(@"viewWillDisappear received");
 #endif
-	// Устанавливаем статус приложения в "Готово к сканированию"
-	// [self setAppBusyStatus: NO];
-
     // Stop listening for the NSUserDefaultsDidChangeNotification
     [[NSNotificationCenter defaultCenter] removeObserver:self
 													name:NSUserDefaultsDidChangeNotification
 												  object:nil];
 	[super viewWillDisappear:animated];
+
 }
 
 #pragma mark - Inherited methods
@@ -448,7 +453,7 @@
 }
 
 // ------------------------------------------------------------------------------
-// Обработчик, вызываемый сканером, при обновлении статуса заряда и батареи
+// Handler, that is being called by the framework to update the device bat status
 // ------------------------------------------------------------------------------
 - (void)handleInformationUpdate
 {
@@ -457,6 +462,23 @@
 #endif
 	// Обрабатываем обновлённую информацию о заряде
 	[self setBatteryRemainIcon];
+}
+
+// ------------------------------------------------------------------------------
+// Handler, that is called when the scanner battery gets critically low
+// ------------------------------------------------------------------------------
+- (void)handleLowPower
+{
+#ifdef DEBUG
+	NSLog(@"handleLowPower received");
+#endif
+	self.isAppBusy = YES;
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Информация"
+													message:@"Низкий заряд батареи сканера. Пожалуйста, подключите сканер к зарядному устройству"
+												   delegate:self
+										  cancelButtonTitle:@"Ок"
+										  otherButtonTitles:nil];
+	[alert show];
 }
 
 #pragma mark - Server response handlers
