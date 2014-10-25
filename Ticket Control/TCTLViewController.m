@@ -55,7 +55,7 @@
 #endif
 
     // Если система не занята, то запускаем сканирование
-	if (!_isAppBusy) {
+	if (!self.isAppBusy) {
 		[[MLScanner sharedInstance] scan];
 
 #if TARGET_IPHONE_SIMULATOR
@@ -71,16 +71,19 @@
 // -------------------------------------------------------------------------------
 - (IBAction)numKeypadTapped:(id)sender
 {
-	if (!_isAppBusy) {
+	if (!self.isAppBusy) {
 		self.isAppBusy = YES;
-		_manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:@"Введите штрих-код"
-														 message:@""
-														delegate:self
-											   cancelButtonTitle:@"Готово"
-											   otherButtonTitles:nil];
-		[_manualBarcodeAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-		[[_manualBarcodeAlert textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
-		[_manualBarcodeAlert show];
+		self.manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:@"Введите штрих-код"
+															 message:@""
+															delegate:self
+												   cancelButtonTitle:@"Готово"
+												   otherButtonTitles:nil];
+		self.manualBarcodeAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+		UITextField *barcodeField	= [self.manualBarcodeAlert textFieldAtIndex:0];
+		barcodeField.keyboardType	= UIKeyboardTypeNumberPad;
+		barcodeField.placeholder	= @"1234567890123";
+		barcodeField.font			= [UIFont systemFontOfSize:22];
+		[self.manualBarcodeAlert show];
 	}
 }
 
@@ -680,7 +683,7 @@
 	self.isAppBusy = YES;
 	[self displayProgress];
 	
-#if TEST_IPOD_WITHOUT_SCANNER == 1
+/*#if TEST_IPOD_WITHOUT_SCANNER == 1
 	TCTLServerResponse *item = [TCTLServerResponse new];
 	item.barcode = self.lastScannedBarcode;
 	item.responseCode = accessAllowed;
@@ -696,7 +699,7 @@
 	[self displayScanResult: item];
 	self.isAppBusy = NO;
 	[self runStatusRevertTimer];
-#else
+#else */
 	
 	// Опрашиваем сервер и ждём ответ
 	[[TCTLServerCommand sharedInstance] prepareWithServer:_serverURL
@@ -710,7 +713,7 @@
 																 failure:^(NSError *error) {
 																	 [self handleFailureResponse:error];
 																 }];
-#endif
+//#endif
 }
 
 // -------------------------------------------------------------------------------
