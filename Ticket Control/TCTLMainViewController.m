@@ -7,14 +7,14 @@
 //
 
 #import "TCTLConstants.h"
-#import "TCTLViewController.h"
+#import "TCTLMainViewController.h"
 #import "TCTLScanResultItem.h"
 #import "TCTLServerResponse.h"
 #import "TCTLServerCommand.h"
 #import "TCTLLogTableViewController.h"
 @import AudioToolbox;
 
-@interface TCTLViewController ()
+@interface TCTLMainViewController ()
 
 // Признак того, что система не готова сканировать следующий код. Если YES, то система будет игнорировать все сканирования
 @property (nonatomic) BOOL				isAppBusy;
@@ -22,8 +22,8 @@
 // Признак того, что сервер подключён
 @property (nonatomic) BOOL				isServerConnected;
 
-// Переменные в которые читаются настройки париложения из Settings Bundle
-@property (nonatomic) NSInteger			vibroStrength;
+// Переменные в которые читаются настройки приложения из Settings Bundle
+@property (nonatomic) NSInteger         vibroStrength;
 @property (nonatomic) BOOL				disableAutolock;
 @property (nonatomic, copy) NSString	*userGUID;
 @property (nonatomic) NSTimeInterval	resultDisplayTime;
@@ -34,20 +34,22 @@
 @property (nonatomic) BOOL				isUserNameSet;
 @property (nonatomic) BOOL				isUpsideDown;
 @property (nonatomic, copy) NSString 	*lastScannedBarcode;
-@property (nonatomic) UIAlertView		*warningAlert;
-@property (nonatomic) UIAlertView		*manualBarcodeAlert;
+@property (nonatomic, strong) UIAlertView *warningAlert;
+@property (nonatomic, strong) UIAlertView *manualBarcodeAlert;
 @property (assign) SystemSoundID		deniedSound;
 @property (assign) SystemSoundID		allowedSound;
 
 @end
 
-@implementation TCTLViewController
+@implementation TCTLMainViewController
 
 #pragma mark - Actions:
 
-// -------------------------------------------------------------------------------
-// Invocating the barcode scan via the framework
-// -------------------------------------------------------------------------------
+/**
+ *  Invocates barcode scan via the scanner framework
+ *
+ *  @param sender the object that trigerred the action
+ */
 - (IBAction)tappedScan:(id)sender
 {
 #ifdef DEBUG
@@ -66,17 +68,19 @@
 	}
 }
 
-// -------------------------------------------------------------------------------
-// Displaying the screen to enter the barcode manually
-// -------------------------------------------------------------------------------
+/**
+ *  Displaying the alert box to enter the barcode manually
+ *
+ *  @param sender the object that trigerred the action
+ */
 - (IBAction)numKeypadTapped:(id)sender
 {
 	if (!self.isAppBusy) {
 		self.isAppBusy = YES;
-		self.manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:@"Введите штрих-код"
+		self.manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Введите штрих-код", @"Текст в диалоговом окне ввода штрихкода вручную")
 															 message:@""
 															delegate:self
-												   cancelButtonTitle:@"Готово"
+												   cancelButtonTitle:NSLocalizedString(@"Готово", @"Кнопка Готово")
 												   otherButtonTitles:nil];
 		self.manualBarcodeAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
 		UITextField *barcodeField	= [self.manualBarcodeAlert textFieldAtIndex:0];
@@ -87,43 +91,51 @@
 	}
 }
 
-// -------------------------------------------------------------------------------
-// Displaying the alert with a battery status
-// -------------------------------------------------------------------------------
+/**
+ *  Displaying the alert with a battery status
+ *
+ *  @param sender the object that trigerred the action
+ */
 - (IBAction)showScannerBatDetails:(id)sender
 {
 #ifdef DEBUG
 	NSLog(@"showScannerBatDetails received");
 #endif
 	
-	// Updating accessory info as per framework manual
+	// Updating accessory info as per Mobilogics framework manual
 	[[MLScanner sharedInstance] updateAccessoryInfo];
 	NSString *message;
 	if ([self isScannerConnected]) {
 		if ([self isScannerOnCharge]) {
-			message = @"Батарея сканера заряжается";
+			message = NSLocalizedString(@"Батарея сканера заряжается", @"Сообщение в алерте");
 		} else {
 #ifdef DEBUG
-			message = [@"Заряд батареи сканнера: " stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)", [self getScannerBatRemain], [[MLScanner sharedInstance] powerRemainInmV], [[MLScanner sharedInstance] powerRemainInMin], [[MLScanner sharedInstance] powerRemainPercent]];
+			message = [NSLocalizedString(@"Заряд батареи сканнера: ", @"Сообщение в алерте") stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)",
+                       [self getScannerBatRemain],
+                       [[MLScanner sharedInstance] powerRemainInmV],
+                       [[MLScanner sharedInstance] powerRemainInMin],
+                       [[MLScanner sharedInstance] powerRemainPercent]];
 #else
-			message = [@"Заряд батареи сканнера: " stringByAppendingFormat: @"%@%%", [self getScannerBatRemain]];
+			message = [NSLocalizedString(@"Заряд батареи сканнера: ", @"Сообщение в алерте") stringByAppendingFormat: @"%@%%", [self getScannerBatRemain]];
 #endif
 		}
 	} else {
-		message = @"Сканнер не подключен";
+		message = NSLocalizedString(@"Сканнер не подключен", @"Сообщение в алерте");
 
 	}
-	self.warningAlert = [[UIAlertView alloc] initWithTitle:@"Информация"
+	self.warningAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Информация", @"Заголовок алерта")
 												   message:message
 												  delegate:self
-										 cancelButtonTitle:@"Ok"
+										 cancelButtonTitle:NSLocalizedString(@"Ok", @"Кнопка Ок")
 										 otherButtonTitles:nil];
 	[self.warningAlert show];
 }
 
-// -------------------------------------------------------------------------------
-// Показывает alert со статусом соединения с билетным сервером
-// -------------------------------------------------------------------------------
+/**
+ *  Shows an alert with ticket server connection status
+ *
+ *  @param sender the object that trigerred the action
+ */
 - (IBAction)showServerConnectionInfo:(id)sender
 {
 #ifdef DEBUG
@@ -134,21 +146,23 @@
 #endif
 	NSString *message;
 	if (self.isServerConnected) {
-		message = @"Соединение с сервером установлено";
+		message = NSLocalizedString(@"Соединение с сервером установлено", @"Сообщение в алерте");
 	} else {
-		message = @"Нет соединения с сервером";
+		message = NSLocalizedString(@"Нет соединения с сервером", @"Сообщение в алерте");
 	}
-	 self.warningAlert = [[UIAlertView alloc] initWithTitle:@"Информация"
+	 self.warningAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Информация", @"Заголовок алерта")
 													message:message
 												   delegate:self
-										  cancelButtonTitle:@"Ok"
+										  cancelButtonTitle:NSLocalizedString(@"Ok", @"Кнопка Ок")
 										  otherButtonTitles:nil];
 	[self.warningAlert show];
 }
 
-// -------------------------------------------------------------------------------
-// Поворачивает отображение приложения на 180 градусов - не работает в версии iOS 6.1+
-// -------------------------------------------------------------------------------
+/**
+ *  Поворачивает отображение приложения на 180 градусов - пока не работает в версии iOS 6.1+
+ *
+ *  @param sender the object that trigerred the action
+ */
 - (IBAction)rotateViewOrientation:(id)sender
 {
 #ifdef DEBUG
@@ -169,9 +183,14 @@
 	}
 }
 
-// -------------------------------------------------------------------------------
-// Метод вызывается перед сегами и не даёт переходить в историю, если приложение занято
-// -------------------------------------------------------------------------------
+/**
+ *  Is being called right before the segue will do the transition to another ViewController and should return BOOL if the segue should be performed. Will refuse the transition if the app is busy
+ *
+ *  @param identifier identifier of the segue
+ *  @param sender     the object that trigerred the action
+ *
+ *  @return returns BOOL if the segue should be performed or not
+ */
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
 	if (([identifier isEqual: @"logTableSegue"]) && (!self.isAppBusy)) {
@@ -181,9 +200,12 @@
 	}
 }
 
-// -------------------------------------------------------------------------------
-// Перед переходом к таблице лога сканирования передаём ссылку на сам лог
-// -------------------------------------------------------------------------------
+/**
+ *  Is being called right before the segue will do the transition to another ViewController and is used to transfer data
+ *
+ *  @param segue  identifier of the segue
+ *  @param sender the object that trigerred the action
+ */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 #ifdef DEBUG
@@ -201,9 +223,11 @@
 	} 
 }
 
-// -------------------------------------------------------------------------------
-// An action of returning back to the main app screen
-// -------------------------------------------------------------------------------
+/**
+ *  An action of returning back to the main app screen
+ *
+ *  @param segue identifier of the segue
+ */
 - (IBAction)unwindToMainScreen:(UIStoryboardSegue *)segue
 {
 #ifdef DEBUG
@@ -213,9 +237,10 @@
 	self.isAppBusy = NO;
 }
 
-// ------------------------------------------------------------------------------
-// Запускается после загрузки view
-// ------------------------------------------------------------------------------
+#pragma mark - UIViewController methods
+/**
+ *  Is being called upon view load from NIB
+ */
 - (void)viewDidLoad
 {
 #ifdef DEBUG
@@ -302,9 +327,9 @@
 #endif
 }
 
-// ------------------------------------------------------------------------------
-// Обработчик при нехватке памяти
-// ------------------------------------------------------------------------------
+/**
+ *  Low memory condition handler
+ */
 - (void)didReceiveMemoryWarning
 {
 #ifdef DEBUG
@@ -315,6 +340,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+/**
+ *  Is being called right after the view has been initially drawn
+ *
+ *  @param animated states if the appearance should be animated
+ */
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
@@ -323,6 +353,9 @@
 #endif
 }
 
+/**
+ *  Is being called upon object destruction
+ */
 - (void)dealloc
 {
 #ifdef DEBUG
@@ -334,9 +367,11 @@
 	[[MLScanner sharedInstance] removeReceiveCommandHandler:self];
 }
 
-// -------------------------------------------------------------------------------
-//	viewWillAppear:
-// -------------------------------------------------------------------------------
+/**
+ *  is being called right before the view will appear on the screen
+ *
+ *  @param animated states if the appearance should be animated
+ */
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -346,9 +381,11 @@
 #endif
 }
 
-// -------------------------------------------------------------------------------
-//	viewWillDisappear:
-// -------------------------------------------------------------------------------
+/**
+ *  is being called right before view disappears from screen
+ *
+ *  @param animated states if the appearance should be animated
+ */
 - (void)viewWillDisappear:(BOOL)animated
 {
 #ifdef DEBUG
@@ -362,12 +399,20 @@
 
 }
 
-#pragma mark - Inherited methods
-
+/**
+ *  should the view autorotate if the device changes orientation?
+ *
+ *  @return returns YES or NO
+ */
 -(BOOL) shouldAutorotate {
 	return NO;
 }
 
+/**
+ *  returns supported by this view controller interface orientations
+ *
+ *  @return returns a bit mask of allowed orientations
+ */
 - (NSUInteger)supportedInterfaceOrientations {
 	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 	/*if (_isUpsideDown) {
@@ -379,9 +424,9 @@
 
 #pragma mark - NotificationHandler
 
-// -------------------------------------------------------------------------------
-// Being called-back by the framework after the scanner connection
-// -------------------------------------------------------------------------------
+/**
+ *  Being called-back by the framework after the scanner connection
+ */
 - (void)connectNotify
 {
 #ifdef DEBUG
@@ -407,9 +452,9 @@
 			   afterDelay:1.0f];
 }
 
-// -------------------------------------------------------------------------------
-// Вызывается Framework'ом при отключении сканера
-// -------------------------------------------------------------------------------
+/**
+ *  Is being called upon scanner hardware disconnection
+ */
 - (void)disconnectNotify
 {
 #ifdef DEBUG
@@ -425,9 +470,13 @@
 
 #pragma mark - ReceiveCommandHandler
 
-// ------------------------------------------------------------------------------
-// Отвечает framework'у, что этот объект является обработчиком
-// ------------------------------------------------------------------------------
+/**
+ *  Responds to scanner framework that this is a specified command handler
+ *
+ *  @param command command description
+ *
+ *  @return returns YES if the command can be handled
+ */
 - (BOOL)isHandler:(NSObject <ReceiveCommandProtocol> *)command
 {
 #ifdef DEBUG
@@ -441,9 +490,11 @@
 	return FALSE;
 }
 
-// ------------------------------------------------------------------------------
-// Обработчик, вызываемый сканером, после успешного сканирования
-// ------------------------------------------------------------------------------
+/**
+ *  This method is being called after scanner succefully scaned a barcode
+ *
+ *  @param command command description
+ */
 - (void)handleRequest:(NSObject <ReceiveCommandProtocol> *)command
 {
 #ifdef DEBUG
@@ -455,9 +506,9 @@
 	}
 }
 
-// ------------------------------------------------------------------------------
-// Handler, that is being called by the framework to update the device bat status
-// ------------------------------------------------------------------------------
+/**
+ *   Handler, that is being called by the framework to update the device bat status
+ */
 - (void)handleInformationUpdate
 {
 #ifdef DEBUG
@@ -467,28 +518,30 @@
 	[self setBatteryRemainIcon];
 }
 
-// ------------------------------------------------------------------------------
-// Handler, that is called when the scanner battery gets critically low
-// ------------------------------------------------------------------------------
+/**
+ *  Handler, that is called when the scanner battery gets critically low
+ */
 - (void)handleLowPower
 {
 #ifdef DEBUG
 	NSLog(@"handleLowPower received");
 #endif
 	self.isAppBusy = YES;
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Информация"
-													message:@"Низкий заряд батареи сканера. Пожалуйста, подключите сканер к зарядному устройству"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Информация", @"Заголовок алерта")
+													message:NSLocalizedString(@"Низкий заряд батареи сканера. Пожалуйста, подключите сканер к зарядному устройству", @"Cообщение алерта")
 												   delegate:self
-										  cancelButtonTitle:@"Ок"
+										  cancelButtonTitle:NSLocalizedString(@"Ок", @"Кнопка Ок")
 										  otherButtonTitles:nil];
 	[alert show];
 }
 
 #pragma mark - Server response handlers
 
-// ------------------------------------------------------------------------------
-// This is how we handle the success response from JSON-RPC
-// ------------------------------------------------------------------------------
+/**
+ *  This is the method that handles the success response from JSON-RPC
+ *
+ *  @param responseObject the NSDictionary that contains the parsed JSON response
+ */
 - (void)handleSuccessResponse:(id)responseObject
 {
 	// If the server response is ok, than...
@@ -515,22 +568,22 @@
 				self.userNameLabel.text = [UIDevice currentDevice].name;
 				
 				// Showing alert
-				self.warningAlert = [[UIAlertView alloc]initWithTitle:@"Ошибка"
-															  message:@"Неверный GUID! Обратитесь к администратору системы"
+				self.warningAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
+															  message:NSLocalizedString(@"Неверный GUID! Обратитесь к администратору системы", @"Сообщение алерта")
 															 delegate:self
-													cancelButtonTitle:@"Отмена"
+													cancelButtonTitle:NSLocalizedString(@"Отмена", @"Кнопка Отмена")
 													otherButtonTitles:nil];
 				[self.warningAlert show];
 				[self displayReadyToScan];
 				break;
 				
 			case setActiveEvent:
-	#warning Пока не реализовано
+	//TODO Пока не реализовано
 				self.isAppBusy = NO;
 				break;
 				
 			case setActiveEventNotFound:
-	#warning Пока не реализовано
+	//TODO Пока не реализовано
 				self.isAppBusy = NO;
 				break;
 				
@@ -559,10 +612,10 @@
 					self.isAppBusy = NO;
 				} else {
 					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
-					self.warningAlert = [[UIAlertView alloc]initWithTitle:@"Ошибка"
-																  message:@"Неверный ответ сервера"
+					self.warningAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
+																  message:NSLocalizedString(@"Неверный ответ сервера", @"Сообщение алерта")
 																 delegate:self
-														cancelButtonTitle:@"Повторить"
+														cancelButtonTitle:NSLocalizedString(@"Повторить", @"Кнопка Повторить")
 														otherButtonTitles:nil];
 					[self.warningAlert show];
 					[self displayReadyToScan];
@@ -574,10 +627,10 @@
 				
 			default:
 				// Показываем алерт
-				self.warningAlert = [[UIAlertView alloc]initWithTitle:@"Ошибка"
-															  message:@"Неизвестный ответ сервера"
+				self.warningAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
+															  message:NSLocalizedString(@"Неизвестный ответ сервера", @"Сообщение алерта")
 															 delegate:self
-													cancelButtonTitle:@"Повторить"
+													cancelButtonTitle:NSLocalizedString(@"Повторить", @"Кнопка Повторить")
 													otherButtonTitles:nil];
 				[self.warningAlert show];
 				[self displayReadyToScan];
@@ -586,10 +639,10 @@
 		}
 	} else {
 		// Показываем алерт
-		self.warningAlert = [[UIAlertView alloc]initWithTitle:@"Ошибка"
-													  message:@"Нет кода ответа сервера"
+		self.warningAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
+													  message:NSLocalizedString(@"Нет кода ответа сервера", @"Сообщение алерта")
 													 delegate:self
-											cancelButtonTitle:@"Повторить"
+											cancelButtonTitle:NSLocalizedString(@"Повторить", @"Кнопка Повторить")
 											otherButtonTitles:nil];
 		[self.warningAlert show];
 		[self displayReadyToScan];
@@ -597,62 +650,64 @@
 	[self serverConnectionStatus:YES];
 }
 
-// ------------------------------------------------------------------------------
-// This is how we handle the failure response from JSON-RPC
-// ------------------------------------------------------------------------------
+/**
+ *  This is how we handle the failure response from JSON-RPC
+ *
+ *  @param error Error description
+ */
 - (void)handleFailureResponse:(NSError *)error
 {
 	// Показываем алерт
-	NSString *message = @"Ошибка соединения с сервером";
+	NSString *message = NSLocalizedString(@"Ошибка соединения с сервером", "Сообщение алерта - 1я строка");
 	
 	switch (error.code) {
 		case 0:
-			message = [message stringByAppendingFormat:@"\nНеверный ответ сервера"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nНеверный ответ сервера", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorBadURL:
-			message = [message stringByAppendingFormat:@"\nНеверный URL сервера"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nНеверный URL сервера", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorTimedOut:
-			message = [message stringByAppendingFormat:@"\nПревышено время ожидания"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nПревышено время ожидания", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorUnsupportedURL:
-			message = [message stringByAppendingFormat:@"\nОшибка в URL сервера"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nОшибка в URL сервера", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorCannotFindHost:
-			message = [message stringByAppendingFormat:@"\nНеверный URL сервера"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nНеверный URL сервера", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorCannotConnectToHost:
-			message = [message stringByAppendingFormat:@"\nНе могу соединиться с сервером"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nНе могу соединиться с сервером", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorNetworkConnectionLost:
-			message = [message stringByAppendingFormat:@"\nСетевое соединение потеряно"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nСетевое соединение потеряно", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorDNSLookupFailed:
-			message = [message stringByAppendingFormat:@"\nОшибка DNS"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nОшибка DNS", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorHTTPTooManyRedirects:
-			message = [message stringByAppendingFormat:@"\nСлишком много редиректов"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nСлишком много редиректов", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorCannotParseResponse ... NSURLErrorCannotDecodeRawData:
-			message = [message stringByAppendingFormat:@"\nНеверный формат ответа"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nНеверный формат ответа", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorNotConnectedToInternet:
-			message = [message stringByAppendingFormat:@"\nПроверьте сетевое соединение"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nПроверьте сетевое соединение", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorDataLengthExceedsMaximum:
-			message = [message stringByAppendingFormat:@"\nПревышен максимальный размер данных"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nПревышен максимальный размер данных", @"Сообщение алерта - 2я строка")];
 			break;
 		case NSURLErrorClientCertificateRequired ... NSURLErrorSecureConnectionFailed:
-			message = [message stringByAppendingFormat:@"\nОшибка безопасности (SSL)"];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\nОшибка безопасности (SSL)", @"Сообщение алерта - 2я строка")];
 			break;
 		default:
-			message = [message stringByAppendingFormat:@"\n%@ ошибка %li", error.domain, (long)error.code];
+			message = [message stringByAppendingFormat:NSLocalizedString(@"\n%@ ошибка %li", @"Сообщение алерта - 2я строка"), error.domain, (long)error.code];
 	}
 
-	self.warningAlert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+	self.warningAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
 												   message:message
 												  delegate:self
-										 cancelButtonTitle:@"Повторить"
+										 cancelButtonTitle:NSLocalizedString(@"Повторить", @"Сообщение алерта")
 										 otherButtonTitles:nil];
 	[self.warningAlert show];
 	
@@ -663,11 +718,13 @@
 	[self serverConnectionStatus:NO];
 }
 
-#pragma mark - private
+#pragma mark - Scanner methods
 
-// -------------------------------------------------------------------------------
-// Осуществляет проверку штих-кода
-// -------------------------------------------------------------------------------
+/**
+ *  Does the barcode lookup & check and passes the data further to show the result
+ *
+ *  @param barcode An NSString that contains the scanned barcode to lookup
+ */
 - (void)doScannedBarcodeCheck: (NSString *)barcode
 {
 #ifdef DEBUG
@@ -716,9 +773,11 @@
 //#endif
 }
 
-// -------------------------------------------------------------------------------
-// Проверяем подключен ли сканер
-// -------------------------------------------------------------------------------
+ /**
+ *  Checks if the hardware barcode scanner is connected and returns the result
+ *
+ *  @return YES if the scanner has been found
+ */
 - (BOOL)isScannerConnected
 {
 	BOOL connected;
@@ -736,9 +795,11 @@
 	return connected;
 }
 
-// -------------------------------------------------------------------------------
-// Возвращает остаток заряда батареи сканера в %
-// -------------------------------------------------------------------------------
+/**
+ *  Returns the hardware scanner remaining battery in percent
+ *
+ *  @return Returns the NSNumber of percents
+ */
 - (NSNumber *)getScannerBatRemain
 {
 	NSNumber *remain;
@@ -755,9 +816,11 @@
 	return remain;
 }
 
-// -------------------------------------------------------------------------------
-// Заряжается ли сканер в данный момент
-// -------------------------------------------------------------------------------
+/**
+ *  Checks if hardware scanner is being charged at the moment and returns the result
+ *
+ *  @return YES if the scanner is on charge
+ */
 - (BOOL)isScannerOnCharge
 {
 #ifdef DEBUG
@@ -770,9 +833,9 @@
 	return [[MLScanner sharedInstance] batteryOnCharge];
 }
 
-// -------------------------------------------------------------------------------
-// Зарядить батарею iДевайса от сканера
-// -------------------------------------------------------------------------------
+/**
+ *  Initiates the charging of iDevice from the scanner's battery
+ */
 - (void)chargeiDeviceBattery {
 #ifdef DEBUG
 	NSLog(@"chargeiDeviceBattery received");
@@ -780,10 +843,12 @@
   [[MLScanner sharedInstance] chargeiDeviceBattery];
 }
 
-
-// -------------------------------------------------------------------------------
-// Включаем или отключаем значок ожидания
-// -------------------------------------------------------------------------------
+#pragma mark - Utility methods
+/**
+ *  Turns on and off the wait sign
+ *
+ *  @param show specifies if the wait sign should be shown
+ */
 - (void)showWaitingSign:(bool)show
 {
 	if (show) {
@@ -793,14 +858,14 @@
 	}
 }
 
-// -------------------------------------------------------------------------------
-// Запускает таймер, сбрасывающий отображение статуса, по истечении времени
-// -------------------------------------------------------------------------------
+/**
+ *  Starts the timer, after the run out of which the Ticket Check result status display will be reset
+ */
 - (void)runStatusRevertTimer
 {
 	static  NSTimer	*timer;
 	
-	if (timer != nil) {
+	if (timer) {
 		[timer invalidate];
 	}
 	timer = [NSTimer scheduledTimerWithTimeInterval:self.resultDisplayTime
@@ -810,9 +875,9 @@
 											repeats:NO];
 }
 
-// -------------------------------------------------------------------------------
-// Запускает начальную проверку заряда сканера с задержкой
-// -------------------------------------------------------------------------------
+/**
+ *  Initiates the scanner charge check. The result comes as a callback from the framework
+ */
 - (void)postponeBatteryRemain
 {
 #ifdef DEBUG
@@ -822,9 +887,9 @@
 	[[MLScanner sharedInstance] batteryRemain];
 }
 
-// -------------------------------------------------------------------------------
-// Запускает начальную проверку заряда сканера с задержкой
-// -------------------------------------------------------------------------------
+/**
+ *  Displays the scanner battery remain icon corresponding to the data returned by the scanner framework
+ */
 - (void)setBatteryRemainIcon
 {
 #ifdef DEBUG
@@ -855,9 +920,11 @@
 	[self.scannerBatStatusIcon setImage: batIcon forState: UIControlStateNormal];
 }
 
-// -------------------------------------------------------------------------------
-// Устанавливает статус готовности приложения к новому сканированию
-// -------------------------------------------------------------------------------
+/**
+ *  Setter for isAppBusy. Sets the busy status of the app, which defines if the app is ready for a new barcode scan. Also resets the status display timer
+ *
+ *  @param yes YES if need to set app busy status
+ */
 -(void)setIsAppBusy: (BOOL)yes
 {
 	static  NSTimer	*timer;
@@ -885,9 +952,9 @@
 #endif
 }
 
-// -------------------------------------------------------------------------------
-// Отменяет статус занятости, после таймаута
-// -------------------------------------------------------------------------------
+/**
+ *  Cancels the app busy status and displays "Ready to scan" as a status
+ */
 - (void)cancelAppBusyStatus
 {
 #ifdef DEBUG
@@ -897,113 +964,115 @@
 	[self displayReadyToScan];
 }
 
-// -------------------------------------------------------------------------------
-// Отображает экран "Не Готов"
-// -------------------------------------------------------------------------------
+/**
+ *  Displays the status "Not Ready"
+ */
 - (void)displayNotReady
 {
-	self.background.backgroundColor = [UIColor lightGrayColor];
-	self.scannedStatus.text = @"НЕ ГОТОВ";
-	self.scannedStatus.textColor = [UIColor darkGrayColor];
-	self.scannedSubStatus.textColor = [UIColor clearColor];
+    self.background.backgroundColor = [UIColor lightGrayColor];
+    self.scannedStatus.text         = NSLocalizedString(@"НЕ ГОТОВ", @"Отображение главного статуса");
+    self.scannedStatus.textColor    = [UIColor darkGrayColor];
+    self.scannedSubStatus.textColor = [UIColor clearColor];
 	[self showWaitingSign: NO];
 }
 
-// -------------------------------------------------------------------------------
-// Отображает начальный экран "Ожидание Проверки"
-// -------------------------------------------------------------------------------
+/**
+ *  Displays the status "Awaiting for check"
+ */
 - (void)displayReadyToScan
 {
 	self.background.backgroundColor = [UIColor colorWithRed:0.92f
 													  green:0.92f
 													   blue:0.92f
 													  alpha:1.0f];
-	self.scannedStatus.text = @"ОЖИДАНИЕ ПРОВЕРКИ";
-	self.scannedStatus.textColor = [UIColor lightGrayColor];
-	self.scannedSubStatus.textColor = [UIColor clearColor];
+    self.scannedStatus.text         = NSLocalizedString(@"ОЖИДАНИЕ ПРОВЕРКИ", @"Отображение главного статуса");
+    self.scannedStatus.textColor    = [UIColor lightGrayColor];
+    self.scannedSubStatus.textColor = [UIColor clearColor];
 	[self showWaitingSign: NO];
 }
 
-// -------------------------------------------------------------------------------
-// Отображает экран "Поиск Билета"
-// -------------------------------------------------------------------------------
+/**
+ *  Displays the status "Searching the ticket"
+ */
 - (void)displayProgress
 {
-	self.background.backgroundColor = [UIColor lightGrayColor];
-	self.scannedStatus.text = @"ПОИСК БИЛЕТА";
-	self.scannedStatus.textColor = [UIColor darkGrayColor];
-	self.scannedSubStatus.textColor = [UIColor clearColor];
+    self.background.backgroundColor = [UIColor lightGrayColor];
+    self.scannedStatus.text         = NSLocalizedString(@"ПОИСК БИЛЕТА", @"Отображение главного статуса");
+    self.scannedStatus.textColor    = [UIColor darkGrayColor];
+    self.scannedSubStatus.textColor = [UIColor clearColor];
 	[self showWaitingSign: YES];
 }
 
-// -------------------------------------------------------------------------------
-// Отображает статус в зависимости от результата
-// -------------------------------------------------------------------------------
+/**
+ *  Displays the status depending on the ticket check result
+ *
+ *  @param scanResult The result of the check, that should be displayed
+ */
 - (void)displayScanResult: (TCTLServerResponse *)scanResult
 {
 	[self showWaitingSign: NO];
 	switch (scanResult.responseCode) {
 		case accessAllowed: {
-			self.background.backgroundColor = [UIColor greenColor];
-			self.scannedStatus.alpha = 0;
-			self.scannedStatus.text = @"ДОСТУП РАЗРЕШЁН";
-			self.scannedStatus.textColor = [UIColor whiteColor];
-			self.scannedSubStatus.textColor = [UIColor clearColor];
+            self.background.backgroundColor = [UIColor greenColor];
+            self.scannedStatus.alpha        = 0;
+            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП РАЗРЕШЁН", @"Отображение главного статуса");
+            self.scannedStatus.textColor    = [UIColor whiteColor];
+            self.scannedSubStatus.textColor = [UIColor clearColor];
 			
 			[self doAllowedStatusAnimation];
 
 			break;
 		}
 		case accessDeniedTicketNotFound:
-			self.background.backgroundColor = [UIColor redColor];
-			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
-			self.scannedStatus.textColor = [UIColor whiteColor];
-			self.scannedSubStatus.text = @"БИЛЕТА НЕТ В БАЗЕ";
-			self.scannedSubStatus.textColor = [UIColor whiteColor];
+            self.background.backgroundColor = [UIColor redColor];
+            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
+            self.scannedStatus.textColor    = [UIColor whiteColor];
+            self.scannedSubStatus.text      = NSLocalizedString(@"БИЛЕТА НЕТ В БАЗЕ", @"Отображение суб-статуса");
+            self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
 			break;
 			
 		case accessDeniedAlreadyPassed:
-			self.background.backgroundColor = [UIColor redColor];
-			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
-			self.scannedStatus.textColor = [UIColor whiteColor];
-			self.scannedSubStatus.text = @"БИЛЕТ УЖЕ ПРОХОДИЛ";
-			self.scannedSubStatus.textColor = [UIColor whiteColor];
+            self.background.backgroundColor = [UIColor redColor];
+            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
+            self.scannedStatus.textColor    = [UIColor whiteColor];
+            self.scannedSubStatus.text      = NSLocalizedString(@"БИЛЕТ УЖЕ ПРОХОДИЛ", @"Отображение суб-статуса");
+            self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
 			break;
 			
 		case accessDeniedWrongEntrance:
-			self.background.backgroundColor = [UIColor redColor];
-			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
-			self.scannedStatus.textColor = [UIColor whiteColor];
-			self.scannedSubStatus.text = @"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД";
-			self.scannedSubStatus.textColor = [UIColor whiteColor];
+            self.background.backgroundColor = [UIColor redColor];
+            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
+            self.scannedStatus.textColor    = [UIColor whiteColor];
+            self.scannedSubStatus.text      = NSLocalizedString(@"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД", @"Отображение суб-статуса");
+            self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
 			break;
 			
 		case accessDeniedNoActiveEvent:
-			self.background.backgroundColor = [UIColor redColor];
-			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
-			self.scannedStatus.textColor = [UIColor whiteColor];
-			self.scannedSubStatus.text = @"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ";
-			self.scannedSubStatus.textColor = [UIColor whiteColor];
+            self.background.backgroundColor = [UIColor redColor];
+            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
+            self.scannedStatus.textColor    = [UIColor whiteColor];
+            self.scannedSubStatus.text      = NSLocalizedString(@"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ", @"Отображение суб-статуса");
+            self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
 			break;
 			
 		default:
-			self.background.backgroundColor = [UIColor redColor];
-			self.scannedStatus.text = @"ДОСТУП ЗАПРЕЩЁН";
-			self.scannedStatus.textColor = [UIColor whiteColor];
-			self.scannedSubStatus.text = @"НЕИЗВЕСТНАЯ ОШИБКА";
-			self.scannedSubStatus.textColor = [UIColor whiteColor];
+            self.background.backgroundColor = [UIColor redColor];
+            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
+            self.scannedStatus.textColor    = [UIColor whiteColor];
+            self.scannedSubStatus.text      = NSLocalizedString(@"НЕИЗВЕСТНАЯ ОШИБКА", @"Отображение суб-статуса");
+            self.scannedSubStatus.textColor = [UIColor whiteColor];
 			
 			[self doDeniedStatusAnimation];
 			
@@ -1011,9 +1080,11 @@
 	}
 }
 
-// -------------------------------------------------------------------------------
-// Отображает правильную иконку коннекта к серверу
-// -------------------------------------------------------------------------------
+/**
+ *  Displays the server connection icon, corresponding to connection status
+ *
+ *  @param сonnected YES if the server is connected
+ */
 - (void)serverConnectionStatus: (BOOL)сonnected
 {
 	if (сonnected) {
@@ -1027,9 +1098,10 @@
 	}
 }
 
-// -------------------------------------------------------------------------------
-// Готовим массив лога сканирований
-// -------------------------------------------------------------------------------
+#pragma mark - Result log methods
+/**
+ *  Prepares the log containing scan results from last session. It deletes all entries older than 24 hours.
+ */
 - (void)prepareScanResultItems
 {
 	// фильтрация истории сканирования
@@ -1046,9 +1118,11 @@
 	}
 }
 
-// -------------------------------------------------------------------------------
-// Добавляем результат сканирования в коллекцию результатов
-// -------------------------------------------------------------------------------
+/**
+ *  Adds last scan result to the log
+ *
+ *  @param logItem The item to add to log
+ */
 - (void)addScanResultItemToLog:(TCTLScanResultItem *)logItem
 {
 	if (!self.scanResultItems) {
@@ -1059,9 +1133,11 @@
 	[self.scanResultItems insertObject: logItem atIndex: 0];
 }
 
-// -------------------------------------------------------------------------------
-// Отображаем внизу экрана статус последнего сканирования
-// -------------------------------------------------------------------------------
+/**
+ *  Displays the last scan result at lower part of the screen with animation
+ *
+ *  @param logItem The item to display
+ */
 - (void)displayLogResultItem:(TCTLScanResultItem *)logItem
 {
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -1069,7 +1145,7 @@
 	[dateFormatter setDateStyle: NSDateFormatterNoStyle];
 	
 	NSString *title = [dateFormatter stringFromDate: logItem.locallyCheckedTime];
-	title = [title stringByAppendingFormat: @" Билет %@", logItem.barcode];
+	title = [title stringByAppendingFormat: NSLocalizedString(@" Билет %@", @"Строка лога"), logItem.barcode];
 	
 	// Анимируем смену строчек лога
 	[UIView animateWithDuration:0.2
@@ -1124,9 +1200,9 @@
 					 }];
 }
 
-// -------------------------------------------------------------------------------
-//	Анимируем появление нового статуса разрешения
-// -------------------------------------------------------------------------------
+/**
+ *  Animates the new allowed status
+ */
 -(void)doAllowedStatusAnimation
 {
 	// Playing the system Allowed sound
@@ -1151,9 +1227,9 @@
 					 }];
 }
 
-// -------------------------------------------------------------------------------
-//	Анимируем появление нового статуса запрещения
-// -------------------------------------------------------------------------------
+/**
+ *  Animates the new refuse status
+ */
 -(void)doDeniedStatusAnimation
 {
 	// Playing the system Denied sound
@@ -1190,12 +1266,11 @@
 
 #pragma mark - Preferences
 
-// -------------------------------------------------------------------------------
-//	onDefaultsChanged:
-//  Handler for the NSUserDefaultsDidChangeNotification.  Loads the preferences
-//  from the defaults database into the holding properies, then asks the
-//  tableView to reload itself.
-// -------------------------------------------------------------------------------
+/**
+ *  Handler for the NSUserDefaultsDidChangeNotification. Loads the preferences from the defaults database into the holding properies, then asks the tableView to reload itself.
+ *
+ *  @param aNotification The notification object that caused the mathod call
+ */
 - (void)onDefaultsChanged:(NSNotification*)aNotification
 {
 #ifdef DEBUG
@@ -1221,10 +1296,9 @@
 	}
 }
 
-
-// -------------------------------------------------------------------------------
-//	Устанавливаем хардварные настройки сканера
-// -------------------------------------------------------------------------------
+/**
+ *  Sets the hardware scanner settings
+ */
 - (void)setScannerPreferences
 {
 	// Устанавливаем настройки сканера из Settings Bundle
@@ -1237,9 +1311,9 @@
 
 #pragma mark - Server query methods
 
-// -------------------------------------------------------------------------------
-//	Проверяет отвечает ли сервер
-// -------------------------------------------------------------------------------
+/**
+ *  Checks if the ticket server responds
+ */
 - (void)invocateServerAliveCheck
 {
 	[[TCTLServerCommand sharedInstance] prepareWithServer:self.serverURL
@@ -1255,9 +1329,9 @@
 																 }];
 }
 
-// -------------------------------------------------------------------------------
-//	Инициирует запрос имени текущего устройства на сервере по GUID
-// -------------------------------------------------------------------------------
+/**
+ *  Initiates the name of the current entry point on the server by the GUID of the current device
+ */
 - (void)invocateGetUserName
 {
 	[[TCTLServerCommand sharedInstance] prepareWithServer:self.serverURL
@@ -1274,17 +1348,23 @@
 }
 
 #pragma mark - Other delegates
-// -------------------------------------------------------------------------------
-//	Sent to the delegate when the user clicks a button on an alert view
-// -------------------------------------------------------------------------------
+/**
+ *  Sent to the delegate when the user clicks a button on an alert view
+ *
+ *  @param alertView   The alert view that sent the message
+ *  @param buttonIndex The button that was used to close the alert box
+ */
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 
 }
 
-// -------------------------------------------------------------------------------
-//	Sent to the delegate after an alert view is dismissed from the screen
-// -------------------------------------------------------------------------------
+/**
+ *  Sent to the delegate after an alert view is dismissed from the screen
+ *
+ *  @param alertView   The alert view that sent the message
+ *  @param buttonIndex The button that was used to close the alert box
+ */
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
 #ifdef DEBUG

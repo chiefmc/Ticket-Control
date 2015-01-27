@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@interface TCTLViewController : UIViewController <ReceiveCommandHandler, NotificationHandler, UIAlertViewDelegate>
+@interface TCTLMainViewController : UIViewController <ReceiveCommandHandler, NotificationHandler, UIAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView		*mainView;
 @property (nonatomic, weak) IBOutlet UILabel    *userNameLabel;

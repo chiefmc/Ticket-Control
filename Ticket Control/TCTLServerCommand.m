@@ -12,9 +12,9 @@
 
 @interface TCTLServerCommand ()
 
-@property (nonatomic, copy) NSString	*guid;				// client's GUID (may be empty with some methods)
-@property (nonatomic, strong) NSURL		*serverURL;			// URL XML-RPC сервера
-@property (readonly, copy) NSString		*barcode;			// штрих-код проверяемого билета (может быть пустым)
+@property (nonatomic, copy  ) NSString *guid;// client's GUID (may be empty with some methods)
+@property (nonatomic, strong) NSURL    *serverURL;// URL XML-RPC сервера
+@property (readonly, copy   ) NSString *barcode;// штрих-код проверяемого билета (может быть пустым)
 
 @end
 
@@ -24,14 +24,31 @@
     static TCTLServerCommand *sharedServerCommand = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedServerCommand = [[self alloc] init];
+        sharedServerCommand = [[self alloc] privateInit];
     });
     return sharedServerCommand;
 }
 
--(instancetype)init
+/**
+ *  This is a private init method
+ *
+ *  @return Returns initialized instance
+ */
+-(instancetype)privateInit
 {
 	return [super init];
+}
+
+/**
+ *  This is a dummy method, overriding the inherited one. Throws an exception if called. This method shouldn't be called. User +sharedStorage instead.
+ *
+ *  @return This method is a dummy method. Will throw exception upon call
+ */
+-(instancetype)init
+{
+	@throw [NSException exceptionWithName:@"Singleton"
+								   reason:@"This classs is designed for singleton use. Use +shareInstance instead."
+								 userInfo:nil];
 }
 
 -(void)prepareWithServer: (NSURL *)serverURL
@@ -40,10 +57,10 @@
 			 withBarcode: (NSString *)barcode
 {
 	if (self) {
-		_serverURL			= serverURL;
-		_serverCommand		= serverCommand;
-		_guid				= guid;
-		_barcode			= barcode;
+        _serverURL     = serverURL;
+        _serverCommand = serverCommand;
+        _guid          = guid;
+        _barcode       = barcode;
 	}
 }
 
@@ -92,18 +109,18 @@
 		NSScanner *scanner			= [NSScanner scannerWithString:responseCodeStr];
 		unsigned int responseCodeInt;
 		if ([scanner scanHexInt:&responseCodeInt]) {
-			response.responseCode		= responseCodeInt;
-			response.barcode			= decodedResponse[BARCODE_KEY];
-			response.userName			= decodedResponse[USER_NAME_KEY];
-			response.eventName			= decodedResponse[EVENT_NAME_KEY];
-			response.eventStart			= [dateFormat dateFromString:decodedResponse[EVENT_START_KEY]];
-			response.controlStart		= [dateFormat dateFromString:decodedResponse[CONTROL_START_KEY]];
-			response.controlEnd			= [dateFormat dateFromString:decodedResponse[CONTROL_END_KEY]];
-			response.agentChecked		= decodedResponse[AGENT_CHECKED_KEY];
-			response.timeChecked		= [dateFormat dateFromString:decodedResponse[TIME_CHECKED_KEY]];
-			response.clientNeedsUpdate	= [decodedResponse[CLIENT_NEEDS_UPDATE_KEY] boolValue];
+            response.responseCode      = responseCodeInt;
+            response.barcode           = decodedResponse[BARCODE_KEY];
+            response.userName          = decodedResponse[USER_NAME_KEY];
+            response.eventName         = decodedResponse[EVENT_NAME_KEY];
+            response.eventStart        = [dateFormat dateFromString:decodedResponse[EVENT_START_KEY]];
+            response.controlStart      = [dateFormat dateFromString:decodedResponse[CONTROL_START_KEY]];
+            response.controlEnd        = [dateFormat dateFromString:decodedResponse[CONTROL_END_KEY]];
+            response.agentChecked      = decodedResponse[AGENT_CHECKED_KEY];
+            response.timeChecked       = [dateFormat dateFromString:decodedResponse[TIME_CHECKED_KEY]];
+            response.clientNeedsUpdate = [decodedResponse[CLIENT_NEEDS_UPDATE_KEY] boolValue];
 		} else {
-			response.responseCode		= errorServerResponseUnkown;
+			response.responseCode = errorServerResponseUnkown;
 		}
 		return response;
 	} else return nil;

@@ -7,7 +7,7 @@
 //
 
 #import "TCTLLogTableViewController.h"
-#import "TCTLViewController.h"
+#import "TCTLMainViewController.h"
 #import "TCTLScanResultItem.h"
 #import "TCTLLogDetailTableViewController.h"
 
@@ -64,7 +64,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"logTableItem" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
     
     // Configure the cell...
 	TCTLScanResultItem *logItem = [self.scanResultItems objectAtIndex: indexPath.row];
@@ -74,7 +74,7 @@
 	[dateFormatter setDateStyle: NSDateFormatterNoStyle];
 	
 	NSString *title = [dateFormatter stringFromDate: logItem.locallyCheckedTime];
-	title = [title stringByAppendingFormat: @" Билет %@", logItem.barcode];
+	title = [title stringByAppendingFormat: NSLocalizedString(@" Билет %@", @"Строка лога"), logItem.barcode];
     cell.textLabel.text = title;
 	cell.detailTextLabel.text = logItem.resultText;
 	

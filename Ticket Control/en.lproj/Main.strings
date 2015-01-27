@@ -1,0 +1,36 @@
+
+/* Class = "IBUITableViewController"; title = "Лог операций"; ObjectID = "1Te-0B-KdI"; */
+"1Te-0B-KdI.title" = "Лог операций";
+
+/* Class = "IBUINavigationItem"; title = "Журнал операций"; ObjectID = "4tV-Pj-3wF"; */
+"4tV-Pj-3wF.title" = "Operations log";
+
+/* Class = "IBUILabel"; text = "ВХОД ЧЕРЕЗ ДРУГУЮ ЗОНУ"; ObjectID = "5ZG-xO-IgK"; */
+"5ZG-xO-IgK.text" = "ACCESS THROUGH OTHER ENTRANCE";
+
+/* Class = "IBUILabel"; text = "11:50 Билет 1234567890123"; ObjectID = "8t6-vT-owh"; */
+"8t6-vT-owh.text" = "11:50 TICKET 1234567890123";
+
+/* Class = "IBUIButton"; normalTitle = "СКАНИРОВАТЬ"; ObjectID = "Oxj-5w-nu4"; */
+"Oxj-5w-nu4.normalTitle" = "SCAN";
+
+/* Class = "IBUILabel"; text = "Доступ Разрешён"; ObjectID = "POX-D9-BNj"; */
+"POX-D9-BNj.text" = "Access Allowed";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "aDe-Yd-AtB"; */
+"aDe-Yd-AtB.text" = "Title";
+
+/* Class = "IBUIBarButtonItem"; title = "Назад"; ObjectID = "krz-31-Tuv"; */
+"krz-31-Tuv.title" = "Back";
+
+/* Class = "IBUINavigationItem"; title = "Детали"; ObjectID = "u0q-wd-yiy"; */
+"u0q-wd-yiy.title" = "Details";
+
+/* Class = "IBUIViewController"; title = "Главный экран"; ObjectID = "vXZ-lx-hvc"; */
+"vXZ-lx-hvc.title" = "Главный экран";
+
+/* Class = "IBUILabel"; text = "ОЖИДАНИЕ ПРОВЕРКИ"; ObjectID = "vrS-D0-OfA"; */
+"vrS-D0-OfA.text" = "WAITING FOR SCAN";
+
+/* Class = "IBUILabel"; text = "Detail"; ObjectID = "ylR-vV-4A3"; */
+"ylR-vV-4A3.text" = "Detail";

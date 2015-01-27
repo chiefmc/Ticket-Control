@@ -21,8 +21,16 @@
 
 @end
 
+/**
+ *  An abstract foundation class that describes generic methods
+ */
 @interface VTKBarcodeScannerHAL : NSObject <ReceiveCommandHandler, NotificationHandler>
 
+/**
+ *  Class method that resturns a shared static instance for the below operations
+ *
+ *  @return	Returns a sharedInstance of the Barcode scanner HAL
+ */
 // Class method that resturns a shared static instance for the below operations
 +(instancetype)sharedInstance;
 

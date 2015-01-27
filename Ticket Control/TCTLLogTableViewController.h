@@ -8,11 +8,12 @@
 
 @import UIKit;
 
+
 @interface TCTLLogTableViewController : UITableViewController
 
-// Переменная с результатами сканирования
-@property (strong, nonatomic) NSMutableArray *scanResultItems;
-
-// -(IBAction)unwindToLogTable:(UIStoryboardSegue *)segue;
+/**
+ *  Array with the log of scan details
+ */
+@property (weak, nonatomic) NSMutableArray *scanResultItems;
 
 @end

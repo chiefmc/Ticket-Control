@@ -93,6 +93,10 @@
 			<string>serverURL</string>
 			<key>DefaultValue</key>
 			<string>https://your-ticket-server/check-api.php</string>
+			<key>KeyboardType</key>
+			<string>URL</string>
+			<key>IsSecure</key>
+			<false/>
 		</dict>
 	</array>
 	<key>StringsTable</key>

@@ -11,6 +11,9 @@
 
 @interface TCTLLogDetailTableViewController : UITableViewController
 
-@property (weak, nonatomic) TCTLScanResultItem *logItem;	// A log item to display details from
+/**
+ *  The item that was selected in tableView
+ */
+@property (weak, nonatomic) TCTLScanResultItem *logItem;
 
 @end

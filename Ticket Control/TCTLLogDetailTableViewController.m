@@ -27,6 +27,67 @@
     return self;
 }
 
+/**
+ *  Sets initial translation dictionary for keys we get from server API.
+ *
+ *  @return inialized NSDictionary
+ */
+- (NSDictionary *)logKeysTranslation
+{
+    static NSDictionary *logKeysTranslated;
+    if (!logKeysTranslated) {
+        logKeysTranslated = @{
+                              BARCODE_KEY				: NSLocalizedString(@"Штрих-код", @"элемент лога события"),
+                              GUID_KEY					: NSLocalizedString(@"GUID устройства", @"элемент лога события"),
+                              CLIENT_APP_VERSION_KEY	: NSLocalizedString(@"Версия приложения", @"элемент лога события"),
+                              SERVER_API_VERSION_KEY	: NSLocalizedString(@"Версия API", @"элемент лога события"),
+                              RESPONSE_CODE_KEY			: NSLocalizedString(@"Код ответа", @"элемент лога события"),
+                              USER_NAME_KEY				: NSLocalizedString(@"Точка контроля", @"элемент лога события"),
+                              EVENT_NAME_KEY			: NSLocalizedString(@"Мероприятие", @"элемент лога события"),
+                              EVENT_START_KEY			: NSLocalizedString(@"Дата/Время начала", @"элемент лога события"),
+                              CONTROL_START_KEY			: NSLocalizedString(@"Начало контроля", @"элемент лога события"),
+                              CONTROL_END_KEY			: NSLocalizedString(@"Окончание контроля", @"элемент лога события"),
+                              AGENT_CHECKED_KEY			: NSLocalizedString(@"Проходил через", @"элемент лога события"),
+                              TIME_CHECKED_KEY			: NSLocalizedString(@"Время прохода", @"элемент лога события"),
+                              CLIENT_NEEDS_UPDATE_KEY	: NSLocalizedString(@"Необходимо обновление", @"элемент лога события"),
+                              SECTOR_KEY				: NSLocalizedString(@"Сектор", @"элемент лога события"),
+                              ROW_KEY					: NSLocalizedString(@"Ряд", @"элемент лога события"),
+                              SEAT_KEY					: NSLocalizedString(@"Место", @"элемент лога события"),
+                              };
+    }
+    return logKeysTranslated;
+}
+
+/**
+ *  Sets initial translation dictionary for values we get from server API.
+ *
+ *  @return inialized NSDictionary
+ */
+- (NSDictionary *)logValuesTranslation
+{
+    static NSDictionary *logValuesTranslated;
+    if (!logValuesTranslated) {
+        logValuesTranslated = @{
+                                @"true" : NSLocalizedString(@"да", @"элемент лога события"),
+                                @"false": NSLocalizedString(@"нет", @"элемент лога события"),
+                                @"0x100": NSLocalizedString(@"Ok", @"элемент лога события"),
+                                @"0x111": NSLocalizedString(@"Имя точки контроля", @"элемент лога события"),
+                                @"0x112": NSLocalizedString(@"Неизвестный GUID", @"элемент лога события"),
+                                @"0x121": NSLocalizedString(@"Активное событие", @"элемент лога события"),
+                                @"0x122": NSLocalizedString(@"Нет активного события", @"элемент лога события"),
+                                @"0x210": NSLocalizedString(@"Доступ разрешён", @"элемент лога события"),
+                                @"0x211": NSLocalizedString(@"Билет не найден", @"элемент лога события"),
+                                @"0x212": NSLocalizedString(@"Билет уже проходил", @"элемент лога события"),
+                                @"0x213": NSLocalizedString(@"Неверный вход", @"элемент лога события"),
+                                @"0x214": NSLocalizedString(@"Нет активного события", @"элемент лога события"),
+                                @"0x220": NSLocalizedString(@"Неизвестная ошибка", @"элемент лога события"),
+                                @"0x301": NSLocalizedString(@"Ошибка сети", @"элемент лога события"),
+                                @"0x302": NSLocalizedString(@"Неизвестный ответ", @"элемент лога события"),
+                                };
+    }
+    return logValuesTranslated;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -36,46 +97,6 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-	
-	// Translating Date/Time to a readable format
-	
-	// Dictionaries to translate
-	NSDictionary* logKeysTranslation = @{
-										 BARCODE_KEY				: @"Штрих-код",
-										 GUID_KEY					: @"GUID устройства",
-										 CLIENT_APP_VERSION_KEY		: @"Версия приложения",
-										 SERVER_API_VERSION_KEY		: @"Версия API",
-										 RESPONSE_CODE_KEY			: @"Код ответа",
-										 USER_NAME_KEY				: @"Точка контроля",
-										 EVENT_NAME_KEY				: @"Мероприятие",
-										 EVENT_START_KEY			: @"Дата/Время начала",
-										 CONTROL_START_KEY			: @"Начало контроля",
-										 CONTROL_END_KEY			: @"Окончание контроля",
-										 AGENT_CHECKED_KEY			: @"Проходил через",
-										 TIME_CHECKED_KEY			: @"Время прохода",
-										 CLIENT_NEEDS_UPDATE_KEY	: @"Необходимо обновление",
-										 SECTOR_KEY					: @"Сектор",
-										 ROW_KEY					: @"Ряд",
-										 SEAT_KEY					: @"Место",
-										 };
-	
-	NSDictionary* logValuesTranslation = @{
-										   @"true" : @"да",
-										   @"false": @"нет",
-										   @"0x100": @"Ok",
-										   @"0x111": @"Имя точки контроля",
-										   @"0x112": @"Неизвестный GUID",
-										   @"0x121": @"Активное событие",
-										   @"0x122": @"Нет активного события",
-										   @"0x210": @"Доступ разрешён",
-										   @"0x211": @"Билет не найден",
-										   @"0x212": @"Билет уже проходил",
-										   @"0x213": @"Неверный вход",
-										   @"0x214": @"Нет активного события",
-										   @"0x220": @"Неизвестная ошибка",
-										   @"0x301": @"Ошибка сети",
-										   @"0x302": @"Неизвестный ответ",
-										   };
 	
 	// Cleaning the details from hidden data
 	NSDictionary *log = (NSDictionary *)self.logItem.serverParsedResponse;
@@ -89,17 +110,23 @@
 	NSString *key;
 	NSString *value;
 	
-	// This is date/time tamplates to operate the data in server's response
-	NSDateFormatter *dateFormatFromServer = [NSDateFormatter new];
-	[dateFormatFromServer setDateFormat:DATETIME_SERVER_FORMAT];
-	
-	NSDateFormatter *dateFormatToDisplay = [NSDateFormatter new];
-	[dateFormatToDisplay setDateFormat:DATETIME_TO_DISPLAY];
+	// This is date/time templates to operate the data in server's response
+    static NSDateFormatter *dateFormatFromServer;
+    if (!dateFormatFromServer) {
+        dateFormatFromServer = [NSDateFormatter new];
+        [dateFormatFromServer setDateFormat:DATETIME_SERVER_FORMAT];
+    }
+    static NSDateFormatter *dateFormatToDisplay;
+    if (!dateFormatToDisplay) {
+        dateFormatToDisplay = [NSDateFormatter new];
+        [dateFormatToDisplay setDateFormat:DATETIME_TO_DISPLAY];
+    }
 	
 	// Below are a temp vars for date from server and a converted localized string
 	NSDate   *dateTime;
 	NSString *dateTimeConverted;
 	
+    // Now we need to enumarate the dictionary, translating its data to a human readable form
 	for (NSString *logKey in log) {
 		if ([logKey isEqualToString:GUID_KEY])
 		{
@@ -119,12 +146,12 @@
 		}
 		
 		// We're  going through dictionary
-		key = logKeysTranslation[logKey];
+		key = self.logKeysTranslation[logKey];
 		if (key) {
 			[self.logKeys replaceObjectAtIndex:i
 									withObject:key];
 		}
-		value = logValuesTranslation[log[logKey]];
+		value = self.logValuesTranslation[log[logKey]];
 		if (value) {
 			[self.logValues replaceObjectAtIndex:i
 									  withObject:value];
@@ -155,7 +182,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"logDetailItemCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
     
     // Configure the cell...
 	

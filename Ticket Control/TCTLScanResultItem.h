@@ -7,8 +7,12 @@
 //
 
 @import Foundation;
+
 @class TCTLServerResponse;
 
+/**
+ *  This is a model class, that stores a single barcode scan result
+ */
 @interface TCTLScanResultItem : NSObject
 
 @property (nonatomic, copy, readonly) NSString	*barcode;				// Barcode of the ticket scanned
@@ -20,7 +24,15 @@
 @property (nonatomic, strong) NSDictionary		*serverParsedResponse;	// Parsed server response with all the extra data we get from the server
 
 -(instancetype)init;
-// Designated inizializtor
--(instancetype)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerResponse *)serverResponse;
+
+/**
+ *  The designated initializer for the class
+ *
+ *  @param barcode        An NSString containing the scanned barcode
+ *  @param serverResponse The server response object
+ *
+ *  @return the inialized object
+ */
+-(instancetype)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerResponse *)serverResponse NS_DESIGNATED_INITIALIZER;
 
 @end

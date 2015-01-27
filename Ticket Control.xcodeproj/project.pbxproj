@@ -15,16 +15,14 @@
 		BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431B819A608CC008BC19A /* Foundation.framework */; };
 		BD2431BB19A608CC008BC19A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BA19A608CC008BC19A /* CoreGraphics.framework */; };
 		BD2431BD19A608CC008BC19A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BC19A608CC008BC19A /* UIKit.framework */; };
-		BD2431C319A608CC008BC19A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BD2431C119A608CC008BC19A /* InfoPlist.strings */; };
 		BD2431C519A608CC008BC19A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431C419A608CC008BC19A /* main.m */; };
 		BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */; };
 		BD2431CC19A608CC008BC19A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD2431CA19A608CC008BC19A /* Main.storyboard */; };
-		BD2431CF19A608CC008BC19A /* TCTLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431CE19A608CC008BC19A /* TCTLViewController.m */; };
+		BD2431CF19A608CC008BC19A /* TCTLMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431CE19A608CC008BC19A /* TCTLMainViewController.m */; };
 		BD2431D119A608CC008BC19A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2431D019A608CC008BC19A /* Images.xcassets */; };
 		BD2431D819A608CC008BC19A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431D719A608CC008BC19A /* XCTest.framework */; };
 		BD2431D919A608CC008BC19A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431B819A608CC008BC19A /* Foundation.framework */; };
 		BD2431DA19A608CC008BC19A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BC19A608CC008BC19A /* UIKit.framework */; };
-		BD2431E219A608CC008BC19A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BD2431E019A608CC008BC19A /* InfoPlist.strings */; };
 		BD2431E419A608CC008BC19A /* Ticket_ControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431E319A608CC008BC19A /* Ticket_ControlTests.m */; };
 		BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */; };
 		BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431EF19A60957008BC19A /* Barcode.framework */; };
@@ -39,6 +37,7 @@
 		BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */; };
 		BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */; };
 		BD82990919BF672B008C54BD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD82990819BF672A008C54BD /* AudioToolbox.framework */; };
+		BDB9BDE81A742C1800865D2C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BDB9BDEA1A742C1800865D2C /* Localizable.strings */; };
 		CA4AA12C53A1468B96A9D489 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FEC220309E4A4EA091B59C /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +53,6 @@
 
 /* Begin PBXFileReference section */
 		07FEC220309E4A4EA091B59C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		3EA47A2BDEE84CDBB952F51E /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = "Ticket Control/Pods/Pods.xcconfig"; sourceTree = "<group>"; };
 		BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogDetailTableViewController.h; sourceTree = "<group>"; };
 		BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogDetailTableViewController.m; sourceTree = "<group>"; };
 		BD11A19319B9D38A00A94BBD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
@@ -68,19 +66,17 @@
 		BD2431BA19A608CC008BC19A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BD2431BC19A608CC008BC19A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BD2431C019A608CC008BC19A /* Ticket Control-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Ticket Control-Info.plist"; sourceTree = "<group>"; };
-		BD2431C219A608CC008BC19A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BD2431C419A608CC008BC19A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BD2431C619A608CC008BC19A /* Ticket Control-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ticket Control-Prefix.pch"; sourceTree = "<group>"; };
 		BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCTLAppDelegate.h; sourceTree = "<group>"; };
 		BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCTLAppDelegate.m; sourceTree = "<group>"; };
 		BD2431CB19A608CC008BC19A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		BD2431CD19A608CC008BC19A /* TCTLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCTLViewController.h; sourceTree = "<group>"; };
-		BD2431CE19A608CC008BC19A /* TCTLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCTLViewController.m; sourceTree = "<group>"; };
+		BD2431CD19A608CC008BC19A /* TCTLMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCTLMainViewController.h; sourceTree = "<group>"; };
+		BD2431CE19A608CC008BC19A /* TCTLMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCTLMainViewController.m; sourceTree = "<group>"; };
 		BD2431D019A608CC008BC19A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BD2431D619A608CC008BC19A /* Ticket ControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ticket ControlTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2431D719A608CC008BC19A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		BD2431DF19A608CC008BC19A /* Ticket ControlTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Ticket ControlTests-Info.plist"; sourceTree = "<group>"; };
-		BD2431E119A608CC008BC19A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BD2431E319A608CC008BC19A /* Ticket_ControlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Ticket_ControlTests.m; sourceTree = "<group>"; };
 		BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BD2431EF19A60957008BC19A /* Barcode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Barcode.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/Barcode.framework; sourceTree = "<group>"; };
@@ -99,7 +95,14 @@
 		BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLScanResultItem.h; sourceTree = "<group>"; };
 		BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLScanResultItem.m; sourceTree = "<group>"; };
 		BD82990819BF672A008C54BD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		BDA6863A1A732A8A002FE408 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
+		BDA7E0C91A7452090041A8BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BDA7E0CA1A7803370041A8BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		BDB9BDE91A742C1800865D2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BDB9BDED1A742C2000865D2C /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BDC6B48519C0F474004E2BB1 /* Ticket Control.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Ticket Control.entitlements"; sourceTree = "<group>"; };
+		D3A8B23031F23FDD54A3E232 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Ticket Control/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DC2C2B9057CA7FD3BDE4B201 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Ticket Control/Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B90DACA3F86636C04DFC27D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D3A8B23031F23FDD54A3E232 /* Pods.debug.xcconfig */,
+				DC2C2B9057CA7FD3BDE4B201 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		BD2431AC19A608CC008BC19A = {
 			isa = PBXGroup;
 			children = (
@@ -139,7 +151,7 @@
 				BD2431DD19A608CC008BC19A /* Ticket ControlTests */,
 				BD2431B719A608CC008BC19A /* Frameworks */,
 				BD2431B619A608CC008BC19A /* Products */,
-				3EA47A2BDEE84CDBB952F51E /* Pods.xcconfig */,
+				9B90DACA3F86636C04DFC27D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,7 +188,7 @@
 				BD48910119AA312500A2EB62 /* Settings.bundle */,
 				BD48910019AA2CDB00A2EB62 /* Sources */,
 				BD2431D019A608CC008BC19A /* Images.xcassets */,
-				BD82990519BF63FA008C54BD /* Assets */,
+				BD82990519BF63FA008C54BD /* Sounds */,
 				BD2431BF19A608CC008BC19A /* Supporting Files */,
 			);
 			path = "Ticket Control";
@@ -185,8 +197,8 @@
 		BD2431BF19A608CC008BC19A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BDB9BDEA1A742C1800865D2C /* Localizable.strings */,
 				BD2431C019A608CC008BC19A /* Ticket Control-Info.plist */,
-				BD2431C119A608CC008BC19A /* InfoPlist.strings */,
 				BD2431C419A608CC008BC19A /* main.m */,
 				BD2431C619A608CC008BC19A /* Ticket Control-Prefix.pch */,
 				BD11A19319B9D38A00A94BBD /* Podfile */,
@@ -207,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				BD2431DF19A608CC008BC19A /* Ticket ControlTests-Info.plist */,
-				BD2431E019A608CC008BC19A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -218,27 +229,42 @@
 				BD2431CA19A608CC008BC19A /* Main.storyboard */,
 				BD4057DA19AA70B100B3658F /* TCTLConstants.h */,
 				BD14FA8519AD51E20013B226 /* TCTLConstants.m */,
+				BD535D8819FD1B3D004940A6 /* ViewControllers */,
+				BD535D8919FD1B7A004940A6 /* Models */,
+				BDAD2ED819FD187300F38B08 /* BarcodeScannerHAL */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		BD535D8819FD1B3D004940A6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				BD2431CD19A608CC008BC19A /* TCTLMainViewController.h */,
+				BD2431CE19A608CC008BC19A /* TCTLMainViewController.m */,
+				BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */,
+				BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */,
 				BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */,
 				BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */,
 				BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */,
 				BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */,
 				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
 				BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */,
-				BD2431CD19A608CC008BC19A /* TCTLViewController.h */,
-				BD2431CE19A608CC008BC19A /* TCTLViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		BD535D8919FD1B7A004940A6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
 				BD7B89C119A91CF400FBAC76 /* TCTLScanResultItem.h */,
 				BD7B89C219A91CF400FBAC76 /* TCTLScanResultItem.m */,
 				BD4890FD19AA1A3500A2EB62 /* TCTLServerResponse.h */,
 				BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */,
-				BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */,
-				BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */,
-				BD11A19519B9D76500A94BBD /* VTKBarcodeScannerHAL.h */,
-				BD11A19619B9D76500A94BBD /* VTKBarcodeScannerHAL.m */,
 			);
-			name = Sources;
+			name = Models;
 			sourceTree = "<group>";
 		};
-		BD82990519BF63FA008C54BD /* Assets */ = {
+		BD82990519BF63FA008C54BD /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
 				BD4CB46219C6FD7900C5E15C /* allowed2.wav */,
@@ -246,7 +272,16 @@
 				BD4CB46619C6FD7900C5E15C /* denied.wav */,
 				BD4CB46819C6FD7900C5E15C /* denied2.wav */,
 			);
-			name = Assets;
+			name = Sounds;
+			sourceTree = "<group>";
+		};
+		BDAD2ED819FD187300F38B08 /* BarcodeScannerHAL */ = {
+			isa = PBXGroup;
+			children = (
+				BD11A19519B9D76500A94BBD /* VTKBarcodeScannerHAL.h */,
+				BD11A19619B9D76500A94BBD /* VTKBarcodeScannerHAL.m */,
+			);
+			name = BarcodeScannerHAL;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,12 +353,14 @@
 			};
 			buildConfigurationList = BD2431B019A608CC008BC19A /* Build configuration list for PBXProject "Ticket Control" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = Russian;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				English,
+				ru,
+				uk,
+				en,
 			);
 			mainGroup = BD2431AC19A608CC008BC19A;
 			productRefGroup = BD2431B619A608CC008BC19A /* Products */;
@@ -345,7 +382,7 @@
 				BD48910219AA312500A2EB62 /* Settings.bundle in Resources */,
 				BD2431D119A608CC008BC19A /* Images.xcassets in Resources */,
 				BD4CB46919C6FD7900C5E15C /* allowed2.wav in Resources */,
-				BD2431C319A608CC008BC19A /* InfoPlist.strings in Resources */,
+				BDB9BDE81A742C1800865D2C /* Localizable.strings in Resources */,
 				BD2431CC19A608CC008BC19A /* Main.storyboard in Resources */,
 				BD4CB46A19C6FD7900C5E15C /* allowed.wav in Resources */,
 				BD4CB46F19C6FD7900C5E15C /* denied2.wav in Resources */,
@@ -357,7 +394,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD2431E219A608CC008BC19A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +427,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BD11A18F19B7952800A94BBD /* ShellScript */ = {
@@ -416,7 +452,7 @@
 			files = (
 				BD2431C519A608CC008BC19A /* main.m in Sources */,
 				BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */,
-				BD2431CF19A608CC008BC19A /* TCTLViewController.m in Sources */,
+				BD2431CF19A608CC008BC19A /* TCTLMainViewController.m in Sources */,
 				BD7B89C319A91CF400FBAC76 /* TCTLScanResultItem.m in Sources */,
 				BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */,
 				BD11A19719B9D76500A94BBD /* VTKBarcodeScannerHAL.m in Sources */,
@@ -446,28 +482,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		BD2431C119A608CC008BC19A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BD2431C219A608CC008BC19A /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		BD2431CA19A608CC008BC19A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				BD2431CB19A608CC008BC19A /* Base */,
+				BDA6863A1A732A8A002FE408 /* uk */,
+				BDA7E0CA1A7803370041A8BF /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		BD2431E019A608CC008BC19A /* InfoPlist.strings */ = {
+		BDB9BDEA1A742C1800865D2C /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				BD2431E119A608CC008BC19A /* en */,
+				BDB9BDE91A742C1800865D2C /* Base */,
+				BDB9BDED1A742C2000865D2C /* uk */,
+				BDA7E0C91A7452090041A8BF /* en */,
 			);
-			name = InfoPlist.strings;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -569,7 +601,7 @@
 		};
 		BD2431E819A608CC008BC19A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EA47A2BDEE84CDBB952F51E /* Pods.xcconfig */;
+			baseConfigurationReference = D3A8B23031F23FDD54A3E232 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -598,7 +630,7 @@
 		};
 		BD2431E919A608CC008BC19A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EA47A2BDEE84CDBB952F51E /* Pods.xcconfig */;
+			baseConfigurationReference = DC2C2B9057CA7FD3BDE4B201 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
