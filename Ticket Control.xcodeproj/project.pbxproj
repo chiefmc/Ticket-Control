@@ -83,6 +83,8 @@
 		BD2431F019A60957008BC19A /* MobilogicsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobilogicsCore.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/MobilogicsCore.framework; sourceTree = "<group>"; };
 		BD2431F319A60982008BC19A /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		BD4057DA19AA70B100B3658F /* TCTLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLConstants.h; sourceTree = "<group>"; };
+		BD46A82F1A7AC55200D8B29D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BD46A8311A7ACBEF00D8B29D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		BD4890FD19AA1A3500A2EB62 /* TCTLServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerResponse.h; sourceTree = "<group>"; };
 		BD4890FE19AA1A3500A2EB62 /* TCTLServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerResponse.m; sourceTree = "<group>"; };
 		BD48910119AA312500A2EB62 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				BD2431CB19A608CC008BC19A /* Base */,
 				BDA6863A1A732A8A002FE408 /* uk */,
 				BDA7E0CA1A7803370041A8BF /* en */,
+				BD46A8311A7ACBEF00D8B29D /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				BDB9BDE91A742C1800865D2C /* Base */,
 				BDB9BDED1A742C2000865D2C /* uk */,
 				BDA7E0C91A7452090041A8BF /* en */,
+				BD46A82F1A7AC55200D8B29D /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -606,8 +610,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Ticket Control/Ticket Control.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "";
 				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -635,8 +639,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Ticket Control/Ticket Control.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: VIRUS Music, LLC (2PA7N3Y7EY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: VIRUS Music, LLC (2PA7N3Y7EY)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: VIRUS Music, LLC";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: VIRUS Music, LLC";
 				CURRENT_PROJECT_VERSION = "";
 				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
