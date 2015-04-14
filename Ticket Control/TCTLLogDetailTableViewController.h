@@ -7,13 +7,13 @@
 //
 
 @import UIKit;
-#import "TCTLScanResultItem.h"
+#import "VTKScanResultItem.h"
 
 @interface TCTLLogDetailTableViewController : UITableViewController
 
 /**
  *  The item that was selected in tableView
  */
-@property (weak, nonatomic) TCTLScanResultItem *logItem;
+@property (weak, nonatomic) VTKScanResultItem *logItem;
 
 @end

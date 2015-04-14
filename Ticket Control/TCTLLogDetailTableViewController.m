@@ -115,14 +115,16 @@
     if (!dateFormatFromServer) {
         dateFormatFromServer = [NSDateFormatter new];
         [dateFormatFromServer setDateFormat:DATETIME_SERVER_FORMAT];
+        [dateFormatFromServer setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]]; // assuming the server time is in UTC
     }
     static NSDateFormatter *dateFormatToDisplay;
     if (!dateFormatToDisplay) {
         dateFormatToDisplay = [NSDateFormatter new];
         [dateFormatToDisplay setDateFormat:DATETIME_TO_DISPLAY];
+        [dateFormatToDisplay setTimeZone:[NSTimeZone localTimeZone]]; // converting the time to local time
     }
 	
-	// Below are a temp vars for date from server and a converted localized string
+	// Below are temp vars for date from server and a converted localized string
 	NSDate   *dateTime;
 	NSString *dateTimeConverted;
 	

@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "TCTLScanResultItem.h"
+#import "VTKScanResultItem.h"
 #import "TCTLConstants.h"
-#import "TCTLServerResponse.h"
+#import "VTKValidatorResponse.h"
 
-@implementation TCTLScanResultItem
+@implementation VTKScanResultItem
 
 // -------------------------------------------------------------
 // Заполняем данные объекта
@@ -18,40 +18,41 @@
 
 -(instancetype)init
 {
-	return [self initItemWithBarcode: @"" FillTextWith: nil];
+	return [self initItemWithValidatorResponse:nil];
 }
 
-- (instancetype)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerResponse *)serverResponse
+- (instancetype)initItemWithValidatorResponse:(VTKValidatorResponse *)validatorResponse
 {
 	self = [super init];
-	if (!serverResponse) return nil;
+	if (!validatorResponse) return self;
 	
-	_barcode = barcode;
+	_barcode = validatorResponse.barcode;
 
-	switch (serverResponse.responseCode) {
-		case accessAllowed:
+    //TODO: Нужно энкапсулировать этот код в отдельный объект
+	switch (validatorResponse.responseCode) {
+		case VTKValidatorResponseAccessAllowed:
 			_resultText = NSLocalizedString(@"ДОСТУП РАЗРЕШЁН", @"Статус в логе");
 			_allowedAccess = YES;
 			break;
-		case accessDeniedTicketNotFound:
+		case VTKValidatorResponseAccessDeniedTicketNotFound:
 			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
                             stringByAppendingString: @": "]
                            stringByAppendingString:NSLocalizedString(@"БИЛЕТА НЕТ В БАЗЕ", @"Статус в логе")];
 			_allowedAccess = NO;
 			break;
-		case accessDeniedAlreadyPassed:
+		case VTKValidatorResponseAccessDeniedAlreadyPassed:
 			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
                             stringByAppendingString: @": "]
                            stringByAppendingString:NSLocalizedString(@"БИЛЕТ УЖЕ ПРОХОДИЛ", @"Статус в логе")];
 			_allowedAccess = NO;
 			break;
-		case accessDeniedWrongEntrance:
+		case VTKValidatorResponseAccessDeniedWrongEntrance:
 			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
                             stringByAppendingString: @": "]
                            stringByAppendingString:NSLocalizedString(@"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД", @"Статус в логе")];
 			_allowedAccess = NO;
 			break;
-		case accessDeniedNoActiveEvent:
+		case VTKValidatorResponseAccessDeniedNoActiveEvent:
 			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
                             stringByAppendingString: @": "]
                            stringByAppendingString:NSLocalizedString(@"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ", @"Статус в логе")];
@@ -65,8 +66,8 @@
 			break;
 	}
 	_locallyCheckedTime = [NSDate date];
-	_hasBeenCheckedBy = serverResponse.agentChecked;
-	_hasBeenCheckedAt = serverResponse.timeChecked;
+	_hasBeenCheckedBy = validatorResponse.agentChecked;
+	_hasBeenCheckedAt = validatorResponse.timeChecked;
 	
 	return self;
 }

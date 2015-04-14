@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "TCTLServerResponse.h"
+#import "VTKValidatorResponse.h"
 
-@implementation TCTLServerResponse
+@implementation VTKValidatorResponse
 
 @end

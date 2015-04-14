@@ -47,7 +47,7 @@
 -(instancetype)init
 {
 	@throw [NSException exceptionWithName:@"Singleton"
-								   reason:@"This classs is designed for singleton use. Use +shareInstance instead."
+								   reason:@"This classs is designed for singleton use. Use +sharedInstance instead."
 								 userInfo:nil];
 }
 
@@ -87,13 +87,13 @@
 // -------------------------------------------------------------------------
 // Unpacking data from JSON-RPC response and returning the result
 // -------------------------------------------------------------------------
--(TCTLServerResponse *)unpackResponse:(id)responseObject
+-(VTKValidatorResponse *)unpackResponse:(id)responseObject
 {
 	if ([responseObject isKindOfClass:[NSDictionary class]]) {
 		// Getting inner [params] dictionary
 		NSDictionary *decodedResponse	= [(NSDictionary *)responseObject objectForKey:@"params"];
 
-		TCTLServerResponse *response = [TCTLServerResponse alloc];
+		VTKValidatorResponse *response = [VTKValidatorResponse alloc];
 		
 		// Preparing formatter with pre-set date/time format
 		NSDateFormatter *dateFormat = [NSDateFormatter new];
@@ -120,7 +120,7 @@
             response.timeChecked       = [dateFormat dateFromString:decodedResponse[TIME_CHECKED_KEY]];
             response.clientNeedsUpdate = [decodedResponse[CLIENT_NEEDS_UPDATE_KEY] boolValue];
 		} else {
-			response.responseCode = errorServerResponseUnkown;
+			response.responseCode = VTKValidatorResponseErrorServerResponseUnkown;
 		}
 		return response;
 	} else return nil;

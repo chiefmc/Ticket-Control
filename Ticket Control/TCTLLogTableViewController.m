@@ -7,13 +7,13 @@
 //
 
 #import "TCTLLogTableViewController.h"
-#import "TCTLMainViewController.h"
-#import "TCTLScanResultItem.h"
+#import "VTKScanViewController.h"
+#import "VTKScanResultItem.h"
 #import "TCTLLogDetailTableViewController.h"
 
 @interface TCTLLogTableViewController ()
 
-@property (weak, nonatomic) TCTLScanResultItem *logItem;
+@property (weak, nonatomic) VTKScanResultItem *logItem;
 
 @end
 
@@ -67,7 +67,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
     
     // Configure the cell...
-	TCTLScanResultItem *logItem = [self.scanResultItems objectAtIndex: indexPath.row];
+	VTKScanResultItem *logItem = [self.scanResultItems objectAtIndex: indexPath.row];
 
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setTimeStyle: NSDateFormatterShortStyle];

@@ -7,7 +7,7 @@
 //
 
 @import Foundation;
-#import "TCTLServerResponse.h"
+#import "VTKValidatorResponse.h"
 
 // --------------------------------------------------------------
 // This class implements a Ticket server exchange API
@@ -82,6 +82,6 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
  *
  *  @return Returns a response unpacked into a TCTLServerResponse
  */
-- (TCTLServerResponse *)unpackResponse:(id)responseObject;
+- (VTKValidatorResponse *)unpackResponse:(id)responseObject;
 
 @end

@@ -8,12 +8,12 @@
 
 @import Foundation;
 
-@class TCTLServerResponse;
+@class VTKValidatorResponse;
 
 /**
  *  This is a model class, that stores a single barcode scan result
  */
-@interface TCTLScanResultItem : NSObject
+@interface VTKScanResultItem : NSObject
 
 @property (nonatomic, copy, readonly) NSString	*barcode;				// Barcode of the ticket scanned
 @property (nonatomic, readonly) BOOL			allowedAccess;			// Did we allowed the entrance
@@ -33,6 +33,6 @@
  *
  *  @return the inialized object
  */
--(instancetype)initItemWithBarcode: (NSString *)barcode FillTextWith: (TCTLServerResponse *)serverResponse NS_DESIGNATED_INITIALIZER;
+-(instancetype)initItemWithValidatorResponse: (VTKValidatorResponse *)validatorResponse NS_DESIGNATED_INITIALIZER;
 
 @end
