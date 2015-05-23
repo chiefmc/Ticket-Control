@@ -11,6 +11,7 @@
 #pragma mark - Константы версионоости приложения
 #define APP_VERSION				@"1.0"
 #define API_VERSION				@"1.0"
+#define API_MIN_VERSION         @"1.0"
 
 #pragma mark - Константы названий параметров переменных, передаваемых через API
 #define BARCODE_KEY				@"Barcode"

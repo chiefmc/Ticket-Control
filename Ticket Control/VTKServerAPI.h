@@ -9,7 +9,19 @@
 #import "VTKBarcodeValidatorProtocol.h"
 @import Foundation;
 
-// Возможные коды ответа от билетного сервера
+/**
+ *  Methods sent to a Ticketing server
+ */
+typedef NS_ENUM(unsigned int, VTKAPI10Method) {
+    VTKAPI10MethodNoOp               = 0x100,// отсутствие действий
+    VTKAPI10MethodGetCurrentUserName = 0x110,// запрашивает текстовое имя текущего контролёра
+    VTKAPI10MethodGetNearestEvent    = 0x120,// запрашивает активное событие, на которое можно осуществлять контроль
+    VTKAPI10MethodValidateBarcode    = 0x200,// отсылает серверу на проверку штрих-код
+};
+
+/**
+ *  Возможные коды ответа от билетного сервера
+ */
 typedef NS_ENUM(unsigned int, VTKAPI10ResponseCode) {
     VTKAPI10ResponseResultOk                   = 0x100,// ответ от сервера, что он команду получил
     VTKAPI10ResponseSetActiveUser              = 0x111,// возвращает параметр userName с именем контролёра в базе сервера
@@ -33,6 +45,11 @@ typedef NS_ENUM(unsigned int, VTKAPI10ResponseCode) {
 @interface VTKServerAPI : NSObject
 
 /**
+ *  Controls which API version will be used to communicate with the server
+ */
+@property (nonatomic, copy) NSString *APIVersionInUse;
+
+/**
  *  Returns singleton instance to operate on
  *
  *  @return Returns singleton instance
@@ -45,9 +62,43 @@ typedef NS_ENUM(unsigned int, VTKAPI10ResponseCode) {
 //
 //-------------------------------------------------------------------------------------
 
-- (void)noOp;// отсутствие действий
-- (NSString *)getUserName;// запрашивает текстовое имя текущего контролёра
-- (void)getActiveEvent;// запрашивает активное событие, на которое можно осуществлять контроль
-- (VTKAPI10ResponseCode)getCodeResult;// отсылает серверу на проверку штрих-код
+/**
+ *  "No Operation", aka ping. Just a check if the server responses.
+ *  Also returns server API version.
+ *
+ *  @param success Success block executed upon success.
+ *  @param failure Failure block, executed upon any unexpected error (errors returned by server will be handed over to success block).
+ */
+- (void)noOpWithSuccess:(void(^)(id responseObject))success
+                failure:(void(^)(NSError *error))failure;
+
+/**
+ *  Fetches from server the name of the current user of the device (by its GUID)
+ *
+ *  @param success Success block executed upon success.
+ *  @param failure Failure block, executed upon any unexpected error (errors returned by server will be handed over to success block). 
+ */
+- (void)getCurrentUserNameWithSuccess:(void(^)(id responseObject))success
+                              failure:(void(^)(NSError *error))failure;
+
+/**
+ *  Fetches the name and params of the nearest event for ticket check
+ *
+ *  @param success Success block executed upon success.
+ *  @param failure Failure block, executed upon any unexpected error (errors returned by server will be handed over to success block). 
+ */
+- (void)getNearestEventWithSuccess:(void(^)(id responseObject))success
+                           failure:(void(^)(NSError *error))failure;
+
+/**
+ *  Validates the barcode with the server
+ *
+ *  @param barcode The string, representing the barcode.
+ *  @param success Success block executed upon success.
+ *  @param failure Failure block, executed upon any unexpected error (errors returned by server will be handed over to success block). 
+ */
+- (void)validateBarcode:(NSString *)barcode
+            WithSuccess:(void(^)(id responseObject))success
+                failure:(void(^)(NSError *error))failure;
 
 @end

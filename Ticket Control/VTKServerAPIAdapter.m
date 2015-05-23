@@ -13,6 +13,13 @@
 
 - (void)validateBarcode:(NSString *)barcode success:(void (^)(VTKValidatorResponse *))success failure:(void (^)(NSError *))failure
 {
+    [[VTKServerAPI manager] validateBarcode:barcode
+                                WithSuccess:^(id responseObject) {
+                                    
+                                }
+                                    failure:^(NSError *error) {
+                                    
+                                }];
     VTKValidatorResponse *response = [VTKValidatorResponse new];
     response.barcode = @"1234567890123";
     response.responseCode = VTKValidatorResponseAccessAllowed;
