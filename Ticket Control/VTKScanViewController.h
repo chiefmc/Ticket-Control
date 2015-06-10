@@ -1,5 +1,5 @@
 //
-//  TCTLViewController.h
+//  VTKScanViewController.h
 //  Ticket Control
 //
 //  Created by Евгений Лысенко on 21.08.14.

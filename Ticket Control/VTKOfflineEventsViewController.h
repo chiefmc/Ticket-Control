@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 v-Ticket system. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-@interface VTKEventListViewController : UITableViewController
+@interface VTKOfflineEventsViewController : UITableViewController
 
 @end

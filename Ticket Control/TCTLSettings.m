@@ -23,7 +23,7 @@
 }
 
 /**
- *  This method must not be called as this is a Singleton-type object
+ *  This method must not be called as this is a Singleton-type object.
  *  Will throw exception on compile.
  *
  *  @return None

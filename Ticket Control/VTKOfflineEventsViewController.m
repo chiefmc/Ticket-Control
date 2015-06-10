@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 v-Ticket system. All rights reserved.
 //
 
-#import "VTKEventListViewController.h"
+#import "VTKOfflineEventsViewController.h"
 #import <FAKIonIcons.h>
 
-@interface VTKEventListViewController ()
+@interface VTKOfflineEventsViewController ()
 
 @end
 
-@implementation VTKEventListViewController
+@implementation VTKOfflineEventsViewController
 
 /**
  *  @inheritdoc

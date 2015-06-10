@@ -296,6 +296,9 @@
 #endif
 }
 
+/**
+ *  Being called upon the 'Close' button press
+ */
 - (void)doneAction
 {
     [self.presentingViewController dismissViewControllerAnimated:YES
