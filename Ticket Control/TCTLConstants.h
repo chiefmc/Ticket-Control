@@ -8,12 +8,12 @@
 
 @import Foundation;
 
-#pragma mark - Константы версионоости приложения
-#define APP_VERSION				@"1.0"
+#pragma mark Константы версионности приложения
+#define APP_VERSION				@"1.2"
 #define API_VERSION				@"1.0"
 #define API_MIN_VERSION         @"1.0"
 
-#pragma mark - Константы названий параметров переменных, передаваемых через API
+#pragma mark Константы названий параметров переменных, передаваемых через API
 #define BARCODE_KEY				@"Barcode"
 #define GUID_KEY				@"GUID"
 #define CLIENT_APP_VERSION_KEY	@"ClientAppVersion"
@@ -32,7 +32,7 @@
 #define ROW_KEY					@"Row"
 #define SEAT_KEY				@"Seat"
 
-#pragma mark - Константы различных настроек
+#pragma mark Константы различных настроек
 #define NUMBER_OF_HISTORY_ITEMS	20
 #define DATETIME_SERVER_FORMAT	@"yyyyMMdd'T'HH':'mm':'ss"
 #define DATETIME_TO_DISPLAY		@"dd' 'MMM' 'HH':'mm':'ss"

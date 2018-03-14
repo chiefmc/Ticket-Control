@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -27,7 +27,7 @@
 		BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */; };
 		BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431EF19A60957008BC19A /* Barcode.framework */; };
 		BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F019A60957008BC19A /* MobilogicsCore.framework */; };
-		BD2431F419A60982008BC19A /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F319A60982008BC19A /* ExternalAccessory.framework */; };
+		BD347E091C1E1A7800EBDBFD /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = BD347E081C1E1A7800EBDBFD /* README.md */; };
 		BD4890FF19AA1A3500A2EB62 /* VTKValidatorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4890FE19AA1A3500A2EB62 /* VTKValidatorResponse.m */; };
 		BD48910219AA312500A2EB62 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD48910119AA312500A2EB62 /* Settings.bundle */; };
 		BD4CB46919C6FD7900C5E15C /* allowed2.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46219C6FD7900C5E15C /* allowed2.wav */; };
@@ -36,6 +36,7 @@
 		BD4CB46F19C6FD7900C5E15C /* denied2.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46819C6FD7900C5E15C /* denied2.wav */; };
 		BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */; };
 		BD7B89C319A91CF400FBAC76 /* VTKScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* VTKScanResultItem.m */; };
+		BD81CFBB2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD81CFBA2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift */; };
 		BD8262651AD9D8D20050F100 /* VTKServerAPIAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8262641AD9D8D20050F100 /* VTKServerAPIAdapter.m */; };
 		BD82990919BF672B008C54BD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD82990819BF672A008C54BD /* AudioToolbox.framework */; };
 		BDB9BDE81A742C1800865D2C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BDB9BDEA1A742C1800865D2C /* Localizable.strings */; };
@@ -65,7 +66,7 @@
 		07FEC220309E4A4EA091B59C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogDetailTableViewController.h; sourceTree = "<group>"; };
 		BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogDetailTableViewController.m; sourceTree = "<group>"; };
-		BD11A19319B9D38A00A94BBD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		BD11A19319B9D38A00A94BBD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		BD11A19519B9D76500A94BBD /* VTKBarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKBarcodeScanner.h; sourceTree = "<group>"; };
 		BD11A19619B9D76500A94BBD /* VTKBarcodeScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKBarcodeScanner.m; sourceTree = "<group>"; };
 		BD14FA8519AD51E20013B226 /* TCTLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLConstants.m; sourceTree = "<group>"; };
@@ -91,7 +92,7 @@
 		BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BD2431EF19A60957008BC19A /* Barcode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Barcode.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/Barcode.framework; sourceTree = "<group>"; };
 		BD2431F019A60957008BC19A /* MobilogicsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobilogicsCore.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/MobilogicsCore.framework; sourceTree = "<group>"; };
-		BD2431F319A60982008BC19A /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		BD347E081C1E1A7800EBDBFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD4057DA19AA70B100B3658F /* TCTLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLConstants.h; sourceTree = "<group>"; };
 		BD46A82F1A7AC55200D8B29D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BD46A8311A7ACBEF00D8B29D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
@@ -107,6 +108,8 @@
 		BD60DD631AD09A8E00DD6647 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		BD7B89C119A91CF400FBAC76 /* VTKScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKScanResultItem.h; sourceTree = "<group>"; };
 		BD7B89C219A91CF400FBAC76 /* VTKScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKScanResultItem.m; sourceTree = "<group>"; };
+		BD81CFB92056F67000F3CB47 /* Ticket Control-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ticket Control-Bridging-Header.h"; sourceTree = "<group>"; };
+		BD81CFBA2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraBarcodeReaderViewController.swift; sourceTree = "<group>"; };
 		BD8262621AD9D2C50050F100 /* VTKBarcodeValidatorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKBarcodeValidatorProtocol.h; sourceTree = "<group>"; };
 		BD8262631AD9D8D20050F100 /* VTKServerAPIAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKServerAPIAdapter.h; sourceTree = "<group>"; };
 		BD8262641AD9D8D20050F100 /* VTKServerAPIAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKServerAPIAdapter.m; sourceTree = "<group>"; };
@@ -146,7 +149,6 @@
 				BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */,
 				BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */,
 				BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */,
-				BD2431F419A60982008BC19A /* ExternalAccessory.framework in Frameworks */,
 				BD2431BB19A608CC008BC19A /* CoreGraphics.framework in Frameworks */,
 				BD2431BD19A608CC008BC19A /* UIKit.framework in Frameworks */,
 				BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */,
@@ -200,7 +202,6 @@
 			isa = PBXGroup;
 			children = (
 				BD82990819BF672A008C54BD /* AudioToolbox.framework */,
-				BD2431F319A60982008BC19A /* ExternalAccessory.framework */,
 				BD2431EF19A60957008BC19A /* Barcode.framework */,
 				BD2431F019A60957008BC19A /* MobilogicsCore.framework */,
 				BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */,
@@ -223,6 +224,7 @@
 				BD2431D019A608CC008BC19A /* Images.xcassets */,
 				BD82990519BF63FA008C54BD /* Sounds */,
 				BD2431BF19A608CC008BC19A /* Supporting Files */,
+				BD347E081C1E1A7800EBDBFD /* README.md */,
 			);
 			path = "Ticket Control";
 			sourceTree = "<group>";
@@ -264,14 +266,14 @@
 				BD14FA8519AD51E20013B226 /* TCTLConstants.m */,
 				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
 				BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */,
-				BD535D8819FD1B3D004940A6 /* ViewControllers */,
+				BD535D8819FD1B3D004940A6 /* Controller */,
 				BD535D8919FD1B7A004940A6 /* Models */,
 				BDAD2ED819FD187300F38B08 /* BarcodeScannerManager */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
 		};
-		BD535D8819FD1B3D004940A6 /* ViewControllers */ = {
+		BD535D8819FD1B3D004940A6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				BDBE0DF81AD5C0BA00D7A288 /* VTKOnlineConnectViewController.h */,
@@ -284,8 +286,10 @@
 				BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */,
 				BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */,
 				BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */,
+				BD81CFBA2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift */,
+				BD81CFB92056F67000F3CB47 /* Ticket Control-Bridging-Header.h */,
 			);
-			name = ViewControllers;
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		BD535D8919FD1B7A004940A6 /* Models */ = {
@@ -350,6 +354,7 @@
 				BD2431B319A608CC008BC19A /* Resources */,
 				BD11A18F19B7952800A94BBD /* ShellScript */,
 				8A299D60E2F54866AE2DDB44 /* Copy Pods Resources */,
+				F469EBA09B666E14DCCE3535 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -385,16 +390,20 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = VTK;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "v-Ticket system";
 				TargetAttributes = {
 					BD2431B419A608CC008BC19A = {
 						DevelopmentTeam = 2PA7N3Y7EY;
+						LastSwiftMigration = 0900;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
 							};
 							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.WAC = {
 								enabled = 0;
 							};
 						};
@@ -405,7 +414,7 @@
 				};
 			};
 			buildConfigurationList = BD2431B019A608CC008BC19A /* Build configuration list for PBXProject "Ticket Control" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = Russian;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -496,6 +505,21 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
 		};
+		F469EBA09B666E14DCCE3535 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -506,6 +530,7 @@
 				BDED27DA1A86D74100C106EA /* VTKInfinitePeripheralsScanner.m in Sources */,
 				BDED27D71A86D71E00C106EA /* VTKMobilogicsScanner.m in Sources */,
 				BDED27D41A86CF1B00C106EA /* VTKScannerManager.m in Sources */,
+				BD347E091C1E1A7800EBDBFD /* README.md in Sources */,
 				BD2431C519A608CC008BC19A /* main.m in Sources */,
 				BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */,
 				BDBE0DFA1AD5C0BA00D7A288 /* VTKOnlineConnectViewController.m in Sources */,
@@ -513,6 +538,7 @@
 				BD8262651AD9D8D20050F100 /* VTKServerAPIAdapter.m in Sources */,
 				BDF9F49E1AD888EF0090DDA7 /* VTKServerAPI.m in Sources */,
 				BDF9F49B1AD870D90090DDA7 /* TCTLSettings.m in Sources */,
+				BD81CFBB2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift in Sources */,
 				BDED27DD1A86D75800C106EA /* VTKHoneywellScanner.m in Sources */,
 				BD7B89C319A91CF400FBAC76 /* VTKScanResultItem.m in Sources */,
 				BDED27E01A86DBDB00C106EA /* VTKAppleCameraScanner.m in Sources */,
@@ -588,6 +614,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -607,7 +634,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -651,7 +678,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -669,10 +696,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = "Ticket Control/Ticket Control.entitlements";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "";
+				DEVELOPMENT_TEAM = 2PA7N3Y7EY;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
@@ -681,10 +710,17 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Ticket Control";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "92fa9fc0-b289-4702-a069-bc866c3cf3da";
+				PROVISIONING_PROFILE_SPECIFIER = "Chief's iPhone 7 Plus devel profile";
+				SWIFT_OBJC_BRIDGING_HEADER = "Ticket Control/Ticket Control-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_FILE = "$(PRODUCT_NAME)_vers.c";
@@ -698,10 +734,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = "Ticket Control/Ticket Control.entitlements";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: VIRUS Music, LLC";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: VIRUS Music, LLC";
 				CURRENT_PROJECT_VERSION = "";
+				DEVELOPMENT_TEAM = 2PA7N3Y7EY;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
@@ -710,10 +748,16 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Ticket Control";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "5079af86-60a7-4657-bbfc-d30a60068f92";
+				PROVISIONING_PROFILE_SPECIFIER = "Ticket Control distribution";
+				SWIFT_OBJC_BRIDGING_HEADER = "Ticket Control/Ticket Control-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_FILE = "$(PRODUCT_NAME)_vers.c";
@@ -724,6 +768,7 @@
 		BD2431EB19A608CC008BC19A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Ticket Control.app/Ticket Control";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -738,6 +783,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Ticket ControlTests/Ticket ControlTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -747,6 +793,7 @@
 		BD2431EC19A608CC008BC19A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Ticket Control.app/Ticket Control";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -757,6 +804,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
 				INFOPLIST_FILE = "Ticket ControlTests/Ticket ControlTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

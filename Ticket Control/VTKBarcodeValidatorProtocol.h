@@ -10,7 +10,7 @@
 @import Foundation;
 
 /**
- *  Protocol that describes barcode validating methods
+ *  Protocol describes barcode validating methods
  */
 @protocol VTKBarcodeValidatorProtocol
 

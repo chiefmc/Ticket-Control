@@ -18,6 +18,9 @@
 
 @implementation TCTLLogDetailTableViewController
 
+/**
+ *  @inheritdoc
+ */
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -88,6 +91,9 @@
     return logValuesTranslated;
 }
 
+/**
+ *  @inheritdoc
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -98,7 +104,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	// Cleaning the details from hidden data
+	// Let's clean the details from hidden data and translate them
 	NSDictionary *log = (NSDictionary *)self.logItem.serverParsedResponse;
 		
 	// Extracting keys and values from the logItem
@@ -111,17 +117,17 @@
 	NSString *value;
 	
 	// This is date/time templates to operate the data in server's response
-    static NSDateFormatter *dateFormatFromServer;
-    if (!dateFormatFromServer) {
-        dateFormatFromServer = [NSDateFormatter new];
-        [dateFormatFromServer setDateFormat:DATETIME_SERVER_FORMAT];
-        [dateFormatFromServer setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]]; // assuming the server time is in UTC
+    static NSDateFormatter *dateFormatterFromServer;
+    if (!dateFormatterFromServer) {
+        dateFormatterFromServer = [NSDateFormatter new];
+        [dateFormatterFromServer setDateFormat:DATETIME_SERVER_FORMAT];
+        [dateFormatterFromServer setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]]; // change in 1.2 - assuming the server time is in UTC
     }
-    static NSDateFormatter *dateFormatToDisplay;
-    if (!dateFormatToDisplay) {
-        dateFormatToDisplay = [NSDateFormatter new];
-        [dateFormatToDisplay setDateFormat:DATETIME_TO_DISPLAY];
-        [dateFormatToDisplay setTimeZone:[NSTimeZone localTimeZone]]; // converting the time to local time
+    static NSDateFormatter *dateFormatterToDisplay;
+    if (!dateFormatterToDisplay) {
+        dateFormatterToDisplay = [NSDateFormatter new];
+        [dateFormatterToDisplay setDateFormat:DATETIME_TO_DISPLAY];
+        [dateFormatterToDisplay setTimeZone:[NSTimeZone localTimeZone]]; // formatter of the time to local time
     }
 	
 	// Below are temp vars for date from server and a converted localized string
@@ -129,31 +135,31 @@
 	NSString *dateTimeConverted;
 	
     // Now we need to enumarate the dictionary, translating its data to a human readable form
-	for (NSString *logKey in log) {
-		if ([logKey isEqualToString:GUID_KEY])
-		{
-			// If the item is the GUID - we're hiding it's value
+	for (NSString *currentLogKey in log) {
+		if ([currentLogKey isEqualToString:GUID_KEY]) {
+            // If the item is the GUID - we're hiding it's value
 			[self.logValues replaceObjectAtIndex:i
 									  withObject:@"******"];
-		} else if (([logKey isEqualToString:EVENT_START_KEY]) ||
-				   ([logKey isEqualToString:CONTROL_START_KEY]) ||
-				   ([logKey isEqualToString:CONTROL_END_KEY]) ||
-				   ([logKey isEqualToString:TIME_CHECKED_KEY]))
-		{
-			// If the parameter is date/time, we're changing it to a viewable format
-			dateTime = [dateFormatFromServer dateFromString:self.logValues[i]];
-			dateTimeConverted = [dateFormatToDisplay stringFromDate:dateTime];
-			[self.logValues replaceObjectAtIndex:i
-									  withObject:dateTimeConverted];
+		} else if (([currentLogKey isEqualToString:EVENT_START_KEY]) ||
+				   ([currentLogKey isEqualToString:CONTROL_START_KEY]) ||
+				   ([currentLogKey isEqualToString:CONTROL_END_KEY]) ||
+                   ([currentLogKey isEqualToString:TIME_CHECKED_KEY])) {
+            // If the parameter is date/time, we're changing it to a viewable format
+			dateTime = [dateFormatterFromServer dateFromString:self.logValues[i]];
+			dateTimeConverted = [dateFormatterToDisplay stringFromDate:dateTime];
+            if (dateTimeConverted) { // check if the formatter returned a valid response
+                [self.logValues replaceObjectAtIndex:i
+                                          withObject:dateTimeConverted];
+            }
 		}
 		
-		// We're  going through dictionary
-		key = self.logKeysTranslation[logKey];
+		// We're going through dictionary
+		key = self.logKeysTranslation[currentLogKey];
 		if (key) {
 			[self.logKeys replaceObjectAtIndex:i
 									withObject:key];
 		}
-		value = self.logValuesTranslation[log[logKey]];
+		value = self.logValuesTranslation[log[currentLogKey]];
 		if (value) {
 			[self.logValues replaceObjectAtIndex:i
 									  withObject:value];
@@ -162,6 +168,9 @@
 	}
 }
 
+/**
+ *  @inheritdoc
+ */
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -170,6 +179,9 @@
 
 #pragma mark - Table view data source
 
+/**
+ *  @inheritdoc
+ */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.

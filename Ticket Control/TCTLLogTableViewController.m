@@ -79,13 +79,8 @@
 	cell.detailTextLabel.text = logItem.resultText;
 	
 	// Setting text colors and accessiories
-	if (logItem.allowedAccess) {
-		[cell.detailTextLabel setTextColor: [UIColor greenColor]];
-		[cell setAccessoryType: UITableViewCellAccessoryNone];
-	} else {
-		[cell.detailTextLabel setTextColor: [UIColor redColor]];
-		[cell setAccessoryType: UITableViewCellAccessoryDisclosureIndicator];
-	}
+    [cell.detailTextLabel setTextColor: [UIColor redColor]];
+    [cell setAccessoryType: UITableViewCellAccessoryDisclosureIndicator];
 	
     return cell;
 }
@@ -97,10 +92,8 @@
 	// Selecting object to tranfer with the segue
 	self.logItem = self.scanResultItems[indexPath.row];
 	
-	// If the item is a NOT an Allowed-access one, we going into detailed view
-	if (!self.logItem.allowedAccess) {
-		[self performSegueWithIdentifier:@"logItemDetails" sender:self];
-	}
+	// We're going into detailed view
+    [self performSegueWithIdentifier:@"logItemDetails" sender:self];
 }
 
 /*
