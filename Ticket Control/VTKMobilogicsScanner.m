@@ -80,7 +80,7 @@
     return [[MLScanner sharedInstance] isConnected];
 }
 
-- (NSNumber *)batteryRemain
+- (NSNumber *)getBatteryRemain
 {
     MLScanner *scanner;
     scanner = [MLScanner sharedInstance];
@@ -123,6 +123,16 @@
     [self performSelector:@selector(reInitTheScannerDevice)
                withObject:nil
                afterDelay:5.0f];
+}
+
+- (void)updateAccessoryInfo
+{
+    [[MLScanner sharedInstance] updateAccessoryInfo];
+}
+
+- (BOOL)isBatteryOnCharge
+{
+    return [[MLScanner sharedInstance] batteryOnCharge];
 }
 
 -(void)reInitTheScannerDevice

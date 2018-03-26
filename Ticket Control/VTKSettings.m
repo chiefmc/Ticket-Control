@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 v-Ticket system. All rights reserved.
 //
 
-#import "TCTLSettings.h"
-#import "TCTLConstants.h"
+#import "VTKSettings.h"
 #import "VTKScannerManager.h"
+#import "VTKConstants.h"
 
-@implementation TCTLSettings
+@implementation VTKSettings
 
 +(instancetype)storage
 {
-    static TCTLSettings *storage = nil;
+    static VTKSettings *storage = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         storage = [[self alloc] privateInit];
@@ -40,7 +40,6 @@
     return [super init];
 }
 
-#pragma mark
 
 - (void)load
 {

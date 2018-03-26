@@ -7,8 +7,8 @@
 //
 
 #import "VTKServerAPI.h"
-#import "TCTLSettings.h"
-#import "TCTLConstants.h"
+#import "VTKSettings.h"
+#import "VTKConstants.h"
 #import <AFJSONRPCClient.h>
 
 @implementation VTKServerAPI
@@ -52,7 +52,7 @@
  */
 - (void)setAPIVersionInUse:(NSString *)APIVersionInUse
 {
-    if (APIVersionInUse == API_MIN_VERSION || APIVersionInUse == API_VERSION) {
+    if ([APIVersionInUse isEqualToString: API_MIN_VERSION] || [APIVersionInUse isEqualToString: API_VERSION]) {
         _APIVersionInUse = API_VERSION;
     } else {
         @throw [NSException exceptionWithName:@"Wrong API version supplied!"
@@ -72,7 +72,7 @@
  */
 - (NSDictionary *)prepareRequestWithBarcode: (NSString *)barcode
 {
-    NSString *guid = [TCTLSettings storage].userGUID;
+    NSString *guid = [VTKSettings storage].userGUID;
     // Проверяем данные
     if (!guid) {
         guid = @"";
@@ -95,7 +95,7 @@
  */
 - (NSDictionary *)prepareEmptyRequest
 {
-    NSString *guid = [TCTLSettings storage].userGUID;
+    NSString *guid = [VTKSettings storage].userGUID;
     // Проверяем данные
     if (!guid) {
         guid = @"";
@@ -120,7 +120,7 @@
              success:(void(^)(id responseObject))success
              failure:(void(^)(NSError *error))failure;
 {
-    AFJSONRPCClient *jsonClient = [AFJSONRPCClient clientWithEndpointURL:[TCTLSettings storage].serverURL];
+    AFJSONRPCClient *jsonClient = [AFJSONRPCClient clientWithEndpointURL:[VTKSettings storage].serverURL];
     
 //    NSString *method = [[NSString new] stringByAppendingFormat: @"0x%x", self.serverCommand];
     [jsonClient invokeMethod:method

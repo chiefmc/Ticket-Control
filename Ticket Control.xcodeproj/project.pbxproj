@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BD11A19219B83BEE00A94BBD /* TCTLLogDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */; };
+		BD11A19219B83BEE00A94BBD /* VTKLogDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19119B83BEE00A94BBD /* VTKLogDetailTableViewController.m */; };
 		BD11A19419B9D38A00A94BBD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = BD11A19319B9D38A00A94BBD /* Podfile */; };
-		BD11A19719B9D76500A94BBD /* VTKBarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19619B9D76500A94BBD /* VTKBarcodeScanner.m */; };
-		BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8519AD51E20013B226 /* TCTLConstants.m */; };
-		BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */; };
+		BD14FA8619AD51E20013B226 /* VTKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8519AD51E20013B226 /* VTKConstants.m */; };
+		BD14FA8919ADF65E0013B226 /* VTKServerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8819ADF65E0013B226 /* VTKServerCommand.m */; };
 		BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431B819A608CC008BC19A /* Foundation.framework */; };
 		BD2431BB19A608CC008BC19A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BA19A608CC008BC19A /* CoreGraphics.framework */; };
 		BD2431BD19A608CC008BC19A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BC19A608CC008BC19A /* UIKit.framework */; };
 		BD2431C519A608CC008BC19A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431C419A608CC008BC19A /* main.m */; };
-		BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */; };
+		BD2431C919A608CC008BC19A /* VTKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431C819A608CC008BC19A /* VTKAppDelegate.m */; };
 		BD2431CC19A608CC008BC19A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD2431CA19A608CC008BC19A /* Main.storyboard */; };
 		BD2431CF19A608CC008BC19A /* VTKScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431CE19A608CC008BC19A /* VTKScanViewController.m */; };
 		BD2431D119A608CC008BC19A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2431D019A608CC008BC19A /* Images.xcassets */; };
@@ -34,7 +33,7 @@
 		BD4CB46A19C6FD7900C5E15C /* allowed.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46319C6FD7900C5E15C /* allowed.wav */; };
 		BD4CB46D19C6FD7900C5E15C /* denied.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46619C6FD7900C5E15C /* denied.wav */; };
 		BD4CB46F19C6FD7900C5E15C /* denied2.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46819C6FD7900C5E15C /* denied2.wav */; };
-		BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */; };
+		BD5CFC6619ACAB1D009851C3 /* VTKLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* VTKLogTableViewController.m */; };
 		BD7B89C319A91CF400FBAC76 /* VTKScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* VTKScanResultItem.m */; };
 		BD81CFBB2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD81CFBA2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift */; };
 		BD8262651AD9D8D20050F100 /* VTKServerAPIAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8262641AD9D8D20050F100 /* VTKServerAPIAdapter.m */; };
@@ -46,8 +45,7 @@
 		BDED27D71A86D71E00C106EA /* VTKMobilogicsScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BDED27D61A86D71E00C106EA /* VTKMobilogicsScanner.m */; };
 		BDED27DA1A86D74100C106EA /* VTKInfinitePeripheralsScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BDED27D91A86D74100C106EA /* VTKInfinitePeripheralsScanner.m */; };
 		BDED27DD1A86D75800C106EA /* VTKHoneywellScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BDED27DC1A86D75800C106EA /* VTKHoneywellScanner.m */; };
-		BDED27E01A86DBDB00C106EA /* VTKAppleCameraScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BDED27DF1A86DBDB00C106EA /* VTKAppleCameraScanner.m */; };
-		BDF9F49B1AD870D90090DDA7 /* TCTLSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF9F49A1AD870D90090DDA7 /* TCTLSettings.m */; };
+		BDF9F49B1AD870D90090DDA7 /* VTKSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF9F49A1AD870D90090DDA7 /* VTKSettings.m */; };
 		BDF9F49E1AD888EF0090DDA7 /* VTKServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF9F49D1AD888EF0090DDA7 /* VTKServerAPI.m */; };
 		CA4AA12C53A1468B96A9D489 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FEC220309E4A4EA091B59C /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -64,23 +62,22 @@
 
 /* Begin PBXFileReference section */
 		07FEC220309E4A4EA091B59C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogDetailTableViewController.h; sourceTree = "<group>"; };
-		BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogDetailTableViewController.m; sourceTree = "<group>"; };
+		BD11A19019B83BEE00A94BBD /* VTKLogDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKLogDetailTableViewController.h; sourceTree = "<group>"; };
+		BD11A19119B83BEE00A94BBD /* VTKLogDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKLogDetailTableViewController.m; sourceTree = "<group>"; };
 		BD11A19319B9D38A00A94BBD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BD11A19519B9D76500A94BBD /* VTKBarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKBarcodeScanner.h; sourceTree = "<group>"; };
-		BD11A19619B9D76500A94BBD /* VTKBarcodeScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKBarcodeScanner.m; sourceTree = "<group>"; };
-		BD14FA8519AD51E20013B226 /* TCTLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLConstants.m; sourceTree = "<group>"; };
-		BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLServerCommand.h; sourceTree = "<group>"; };
-		BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLServerCommand.m; sourceTree = "<group>"; };
-		BD2431B519A608CC008BC19A /* Ticket Control.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ticket Control.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD11A19519B9D76500A94BBD /* VTKBarcodeScannerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKBarcodeScannerProtocol.h; sourceTree = "<group>"; };
+		BD14FA8519AD51E20013B226 /* VTKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKConstants.m; sourceTree = "<group>"; };
+		BD14FA8719ADF65E0013B226 /* VTKServerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKServerCommand.h; sourceTree = "<group>"; };
+		BD14FA8819ADF65E0013B226 /* VTKServerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKServerCommand.m; sourceTree = "<group>"; };
+		BD2431B519A608CC008BC19A /* Ticket Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ticket Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2431B819A608CC008BC19A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BD2431BA19A608CC008BC19A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BD2431BC19A608CC008BC19A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BD2431C019A608CC008BC19A /* Ticket Control-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Ticket Control-Info.plist"; sourceTree = "<group>"; };
 		BD2431C419A608CC008BC19A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BD2431C619A608CC008BC19A /* Ticket Control-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ticket Control-Prefix.pch"; sourceTree = "<group>"; };
-		BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCTLAppDelegate.h; sourceTree = "<group>"; };
-		BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCTLAppDelegate.m; sourceTree = "<group>"; };
+		BD2431C719A608CC008BC19A /* VTKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKAppDelegate.h; sourceTree = "<group>"; };
+		BD2431C819A608CC008BC19A /* VTKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTKAppDelegate.m; sourceTree = "<group>"; };
 		BD2431CB19A608CC008BC19A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BD2431CD19A608CC008BC19A /* VTKScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKScanViewController.h; sourceTree = "<group>"; };
 		BD2431CE19A608CC008BC19A /* VTKScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTKScanViewController.m; sourceTree = "<group>"; };
@@ -93,7 +90,7 @@
 		BD2431EF19A60957008BC19A /* Barcode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Barcode.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/Barcode.framework; sourceTree = "<group>"; };
 		BD2431F019A60957008BC19A /* MobilogicsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobilogicsCore.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/MobilogicsCore.framework; sourceTree = "<group>"; };
 		BD347E081C1E1A7800EBDBFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		BD4057DA19AA70B100B3658F /* TCTLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLConstants.h; sourceTree = "<group>"; };
+		BD4057DA19AA70B100B3658F /* VTKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKConstants.h; sourceTree = "<group>"; };
 		BD46A82F1A7AC55200D8B29D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BD46A8311A7ACBEF00D8B29D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		BD4890FD19AA1A3500A2EB62 /* VTKValidatorResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKValidatorResponse.h; sourceTree = "<group>"; };
@@ -103,8 +100,10 @@
 		BD4CB46319C6FD7900C5E15C /* allowed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = allowed.wav; sourceTree = "<group>"; };
 		BD4CB46619C6FD7900C5E15C /* denied.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = denied.wav; sourceTree = "<group>"; };
 		BD4CB46819C6FD7900C5E15C /* denied2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = denied2.wav; sourceTree = "<group>"; };
-		BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLLogTableViewController.h; sourceTree = "<group>"; };
-		BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLLogTableViewController.m; sourceTree = "<group>"; };
+		BD59E6F12068BE090049B322 /* VTKScannerDelegateProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKScannerDelegateProtocol.h; sourceTree = "<group>"; };
+		BD59E6F2206914110049B322 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BD5CFC6419ACAB1D009851C3 /* VTKLogTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKLogTableViewController.h; sourceTree = "<group>"; };
+		BD5CFC6519ACAB1D009851C3 /* VTKLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKLogTableViewController.m; sourceTree = "<group>"; };
 		BD60DD631AD09A8E00DD6647 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		BD7B89C119A91CF400FBAC76 /* VTKScanResultItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKScanResultItem.h; sourceTree = "<group>"; };
 		BD7B89C219A91CF400FBAC76 /* VTKScanResultItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKScanResultItem.m; sourceTree = "<group>"; };
@@ -130,10 +129,8 @@
 		BDED27D91A86D74100C106EA /* VTKInfinitePeripheralsScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKInfinitePeripheralsScanner.m; sourceTree = "<group>"; };
 		BDED27DB1A86D75800C106EA /* VTKHoneywellScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKHoneywellScanner.h; sourceTree = "<group>"; };
 		BDED27DC1A86D75800C106EA /* VTKHoneywellScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKHoneywellScanner.m; sourceTree = "<group>"; };
-		BDED27DE1A86DBDB00C106EA /* VTKAppleCameraScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKAppleCameraScanner.h; sourceTree = "<group>"; };
-		BDED27DF1A86DBDB00C106EA /* VTKAppleCameraScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKAppleCameraScanner.m; sourceTree = "<group>"; };
-		BDF9F4991AD870D90090DDA7 /* TCTLSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTLSettings.h; sourceTree = "<group>"; };
-		BDF9F49A1AD870D90090DDA7 /* TCTLSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTLSettings.m; sourceTree = "<group>"; };
+		BDF9F4991AD870D90090DDA7 /* VTKSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKSettings.h; sourceTree = "<group>"; };
+		BDF9F49A1AD870D90090DDA7 /* VTKSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKSettings.m; sourceTree = "<group>"; };
 		BDF9F49C1AD888EF0090DDA7 /* VTKServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKServerAPI.h; sourceTree = "<group>"; };
 		BDF9F49D1AD888EF0090DDA7 /* VTKServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKServerAPI.m; sourceTree = "<group>"; };
 		D3A8B23031F23FDD54A3E232 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Ticket Control/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -192,7 +189,7 @@
 		BD2431B619A608CC008BC19A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BD2431B519A608CC008BC19A /* Ticket Control.app */,
+				BD2431B519A608CC008BC19A /* Ticket Scanner.app */,
 				BD2431D619A608CC008BC19A /* Ticket ControlTests.xctest */,
 			);
 			name = Products;
@@ -261,11 +258,12 @@
 		BD48910019AA2CDB00A2EB62 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				BD59E6F3206916030049B322 /* Unused */,
 				BD8262621AD9D2C50050F100 /* VTKBarcodeValidatorProtocol.h */,
-				BD4057DA19AA70B100B3658F /* TCTLConstants.h */,
-				BD14FA8519AD51E20013B226 /* TCTLConstants.m */,
-				BD2431C719A608CC008BC19A /* TCTLAppDelegate.h */,
-				BD2431C819A608CC008BC19A /* TCTLAppDelegate.m */,
+				BD4057DA19AA70B100B3658F /* VTKConstants.h */,
+				BD14FA8519AD51E20013B226 /* VTKConstants.m */,
+				BD2431C719A608CC008BC19A /* VTKAppDelegate.h */,
+				BD2431C819A608CC008BC19A /* VTKAppDelegate.m */,
 				BD535D8819FD1B3D004940A6 /* Controller */,
 				BD535D8919FD1B7A004940A6 /* Models */,
 				BDAD2ED819FD187300F38B08 /* BarcodeScannerManager */,
@@ -276,16 +274,12 @@
 		BD535D8819FD1B3D004940A6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				BDBE0DF81AD5C0BA00D7A288 /* VTKOnlineConnectViewController.h */,
-				BDBE0DF91AD5C0BA00D7A288 /* VTKOnlineConnectViewController.m */,
-				BDBE0DF51AD5B98300D7A288 /* VTKOfflineEventsViewController.h */,
-				BDBE0DF61AD5B98300D7A288 /* VTKOfflineEventsViewController.m */,
 				BD2431CD19A608CC008BC19A /* VTKScanViewController.h */,
 				BD2431CE19A608CC008BC19A /* VTKScanViewController.m */,
-				BD5CFC6419ACAB1D009851C3 /* TCTLLogTableViewController.h */,
-				BD5CFC6519ACAB1D009851C3 /* TCTLLogTableViewController.m */,
-				BD11A19019B83BEE00A94BBD /* TCTLLogDetailTableViewController.h */,
-				BD11A19119B83BEE00A94BBD /* TCTLLogDetailTableViewController.m */,
+				BD5CFC6419ACAB1D009851C3 /* VTKLogTableViewController.h */,
+				BD5CFC6519ACAB1D009851C3 /* VTKLogTableViewController.m */,
+				BD11A19019B83BEE00A94BBD /* VTKLogDetailTableViewController.h */,
+				BD11A19119B83BEE00A94BBD /* VTKLogDetailTableViewController.m */,
 				BD81CFBA2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift */,
 				BD81CFB92056F67000F3CB47 /* Ticket Control-Bridging-Header.h */,
 			);
@@ -299,16 +293,27 @@
 				BD8262641AD9D8D20050F100 /* VTKServerAPIAdapter.m */,
 				BDF9F49C1AD888EF0090DDA7 /* VTKServerAPI.h */,
 				BDF9F49D1AD888EF0090DDA7 /* VTKServerAPI.m */,
-				BDF9F4991AD870D90090DDA7 /* TCTLSettings.h */,
-				BDF9F49A1AD870D90090DDA7 /* TCTLSettings.m */,
+				BDF9F4991AD870D90090DDA7 /* VTKSettings.h */,
+				BDF9F49A1AD870D90090DDA7 /* VTKSettings.m */,
 				BD7B89C119A91CF400FBAC76 /* VTKScanResultItem.h */,
 				BD7B89C219A91CF400FBAC76 /* VTKScanResultItem.m */,
-				BD14FA8719ADF65E0013B226 /* TCTLServerCommand.h */,
-				BD14FA8819ADF65E0013B226 /* TCTLServerCommand.m */,
+				BD14FA8719ADF65E0013B226 /* VTKServerCommand.h */,
+				BD14FA8819ADF65E0013B226 /* VTKServerCommand.m */,
 				BD4890FD19AA1A3500A2EB62 /* VTKValidatorResponse.h */,
 				BD4890FE19AA1A3500A2EB62 /* VTKValidatorResponse.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		BD59E6F3206916030049B322 /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				BDBE0DF81AD5C0BA00D7A288 /* VTKOnlineConnectViewController.h */,
+				BDBE0DF91AD5C0BA00D7A288 /* VTKOnlineConnectViewController.m */,
+				BDBE0DF51AD5B98300D7A288 /* VTKOfflineEventsViewController.h */,
+				BDBE0DF61AD5B98300D7A288 /* VTKOfflineEventsViewController.m */,
+			);
+			name = Unused;
 			sourceTree = "<group>";
 		};
 		BD82990519BF63FA008C54BD /* Sounds */ = {
@@ -327,16 +332,14 @@
 			children = (
 				BDED27D21A86CF1B00C106EA /* VTKScannerManager.h */,
 				BDED27D31A86CF1B00C106EA /* VTKScannerManager.m */,
-				BD11A19519B9D76500A94BBD /* VTKBarcodeScanner.h */,
-				BD11A19619B9D76500A94BBD /* VTKBarcodeScanner.m */,
-				BDED27DE1A86DBDB00C106EA /* VTKAppleCameraScanner.h */,
-				BDED27DF1A86DBDB00C106EA /* VTKAppleCameraScanner.m */,
+				BD11A19519B9D76500A94BBD /* VTKBarcodeScannerProtocol.h */,
 				BDED27D51A86D71E00C106EA /* VTKMobilogicsScanner.h */,
 				BDED27D61A86D71E00C106EA /* VTKMobilogicsScanner.m */,
 				BDED27D81A86D74100C106EA /* VTKInfinitePeripheralsScanner.h */,
 				BDED27D91A86D74100C106EA /* VTKInfinitePeripheralsScanner.m */,
 				BDED27DB1A86D75800C106EA /* VTKHoneywellScanner.h */,
 				BDED27DC1A86D75800C106EA /* VTKHoneywellScanner.m */,
+				BD59E6F12068BE090049B322 /* VTKScannerDelegateProtocol.h */,
 			);
 			name = BarcodeScannerManager;
 			sourceTree = "<group>";
@@ -362,7 +365,7 @@
 			);
 			name = "Ticket Control";
 			productName = "Ticket Control";
-			productReference = BD2431B519A608CC008BC19A /* Ticket Control.app */;
+			productReference = BD2431B519A608CC008BC19A /* Ticket Scanner.app */;
 			productType = "com.apple.product-type.application";
 		};
 		BD2431D519A608CC008BC19A /* Ticket ControlTests */ = {
@@ -532,22 +535,20 @@
 				BDED27D41A86CF1B00C106EA /* VTKScannerManager.m in Sources */,
 				BD347E091C1E1A7800EBDBFD /* README.md in Sources */,
 				BD2431C519A608CC008BC19A /* main.m in Sources */,
-				BD5CFC6619ACAB1D009851C3 /* TCTLLogTableViewController.m in Sources */,
+				BD5CFC6619ACAB1D009851C3 /* VTKLogTableViewController.m in Sources */,
 				BDBE0DFA1AD5C0BA00D7A288 /* VTKOnlineConnectViewController.m in Sources */,
 				BD2431CF19A608CC008BC19A /* VTKScanViewController.m in Sources */,
 				BD8262651AD9D8D20050F100 /* VTKServerAPIAdapter.m in Sources */,
 				BDF9F49E1AD888EF0090DDA7 /* VTKServerAPI.m in Sources */,
-				BDF9F49B1AD870D90090DDA7 /* TCTLSettings.m in Sources */,
+				BDF9F49B1AD870D90090DDA7 /* VTKSettings.m in Sources */,
 				BD81CFBB2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift in Sources */,
 				BDED27DD1A86D75800C106EA /* VTKHoneywellScanner.m in Sources */,
 				BD7B89C319A91CF400FBAC76 /* VTKScanResultItem.m in Sources */,
-				BDED27E01A86DBDB00C106EA /* VTKAppleCameraScanner.m in Sources */,
 				BDBE0DF71AD5B98300D7A288 /* VTKOfflineEventsViewController.m in Sources */,
-				BD2431C919A608CC008BC19A /* TCTLAppDelegate.m in Sources */,
-				BD11A19719B9D76500A94BBD /* VTKBarcodeScanner.m in Sources */,
-				BD14FA8619AD51E20013B226 /* TCTLConstants.m in Sources */,
-				BD11A19219B83BEE00A94BBD /* TCTLLogDetailTableViewController.m in Sources */,
-				BD14FA8919ADF65E0013B226 /* TCTLServerCommand.m in Sources */,
+				BD2431C919A608CC008BC19A /* VTKAppDelegate.m in Sources */,
+				BD14FA8619AD51E20013B226 /* VTKConstants.m in Sources */,
+				BD11A19219B83BEE00A94BBD /* VTKLogDetailTableViewController.m in Sources */,
+				BD14FA8919ADF65E0013B226 /* VTKServerCommand.m in Sources */,
 				BD4890FF19AA1A3500A2EB62 /* VTKValidatorResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -588,6 +589,7 @@
 				BDB9BDE91A742C1800865D2C /* Base */,
 				BDB9BDED1A742C2000865D2C /* uk */,
 				BD46A82F1A7AC55200D8B29D /* ru */,
+				BD59E6F2206914110049B322 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -634,7 +636,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -678,7 +680,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -713,8 +715,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "Ticket Control";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.Ticket-Control";
+				PRODUCT_NAME = "Ticket Scanner";
 				PROVISIONING_PROFILE = "92fa9fc0-b289-4702-a069-bc866c3cf3da";
 				PROVISIONING_PROFILE_SPECIFIER = "Chief's iPhone 7 Plus devel profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ticket Control/Ticket Control-Bridging-Header.h";
@@ -751,8 +753,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "Ticket Control";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.Ticket-Control";
+				PRODUCT_NAME = "Ticket Scanner";
 				PROVISIONING_PROFILE = "5079af86-60a7-4657-bbfc-d30a60068f92";
 				PROVISIONING_PROFILE_SPECIFIER = "Ticket Control distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ticket Control/Ticket Control-Bridging-Header.h";

@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "TCTLServerCommand.h"
-#import "TCTLConstants.h"
+#import "VTKServerCommand.h"
+#import "VTKConstants.h"
 #import <AFJSONRPCClient/AFJSONRPCClient.h>
 
-@interface TCTLServerCommand ()
+@interface VTKServerCommand ()
 
 @property (nonatomic, copy  ) NSString *guid;// client's GUID (may be empty with some methods)
 @property (nonatomic, strong) NSURL    *serverURL;// URL XML-RPC сервера
@@ -18,10 +18,10 @@
 
 @end
 
-@implementation TCTLServerCommand
+@implementation VTKServerCommand
 
 +(instancetype)sharedInstance {
-    static TCTLServerCommand *sharedServerCommand = nil;
+    static VTKServerCommand *sharedServerCommand = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedServerCommand = [[self alloc] privateInit];

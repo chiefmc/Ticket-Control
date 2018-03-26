@@ -6,13 +6,14 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "TCTLConstants.h"
-#import "TCTLSettings.h"
+#import "VTKConstants.h"
+#import "VTKScannerManager.h"
+#import "VTKSettings.h"
 #import "VTKScanViewController.h"
 #import "VTKScanResultItem.h"
 #import "VTKValidatorResponse.h"
-#import "TCTLServerCommand.h"
-#import "TCTLLogTableViewController.h"
+#import "VTKServerCommand.h"
+#import "VTKLogTableViewController.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 @import AudioToolbox;
 
@@ -21,7 +22,7 @@
 /**
  *  Признак того, что система не готова сканировать следующий код. Если YES, то система будет игнорировать все сканирования
  */
-@property (nonatomic) BOOL				isAppBusy;
+@property (nonatomic) BOOL				notReadyToScan;
 
 /**
  *  Признак того, что сервер подключён
@@ -65,9 +66,8 @@
 - (IBAction)tappedScan:(id)sender
 {
     // Если система не занята, то запускаем сканирование
-	if (!self.isAppBusy) {
-//		[[MLScanner sharedInstance] scan];
-        [[VTKScannerManager sharedInstance] scan];
+	if (!self.notReadyToScan) {
+        [[VTKScannerManager sharedInstance].scanner invocateBarcodeScan];
 
 #if TARGET_IPHONE_SIMULATOR
 		[self doScannedBarcodeCheck: @"1234567890123"];
@@ -84,8 +84,8 @@
  */
 - (IBAction)numKeypadTapped:(id)sender
 {
-	if (!self.isAppBusy) {
-		self.isAppBusy = YES;
+	if (!self.notReadyToScan) {
+		self.notReadyToScan = YES;
 
 		self.manualBarcodeAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Введите штрих-код", @"Текст в диалоговом окне ввода штрихкода вручную")
 															 message:@""
@@ -108,30 +108,26 @@
  */
 - (IBAction)showScannerBatDetails:(id)sender
 {
+    id <VTKBarcodeScannerProtocol> scanner = [VTKScannerManager sharedInstance].scanner;
 #ifdef DEBUG
 	NSLog(@"showScannerBatDetails received");
 #endif
 	
 	// Updating accessory info as per Mobilogics framework manual
-	[[MLScanner sharedInstance] updateAccessoryInfo];
+	[scanner updateAccessoryInfo];
 	NSString *message;
 	if ([self isScannerConnected]) {
 		if ([self isScannerOnCharge]) {
 			message = NSLocalizedString(@"Батарея сканера заряжается", @"Сообщение в алерте");
 		} else {
 #ifdef DEBUG
-			message = [NSLocalizedString(@"Заряд батареи сканнера: ", @"Сообщение в алерте") stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)",
-                       [self getScannerBatRemain], //TODO: Подменить адаптером
-                       [[MLScanner sharedInstance] powerRemainInmV],
-                       [[MLScanner sharedInstance] powerRemainInMin],
-                       [[MLScanner sharedInstance] powerRemainPercent]];
+			message = [NSLocalizedString(@"Заряд батареи сканнера: ", @"Сообщение в алерте") stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)", [self getScannerBatRemain]];
 #else
 			message = [NSLocalizedString(@"Заряд батареи сканнера: ", @"Сообщение в алерте") stringByAppendingFormat: @"%@%%", [self getScannerBatRemain]];
 #endif
 		}
 	} else {
 		message = NSLocalizedString(@"Сканнер не подключен", @"Сообщение в алерте");
-
 	}
 	self.warningAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Информация", @"Заголовок алерта")
 												   message:message
@@ -162,34 +158,13 @@
 	[self.warningAlert show];
 }
 
-/**
- *  Поворачивает отображение приложения на 180 градусов - пока не работает в версии iOS 6.1+
- *
- *  @param sender the object that trigerred the action
- */
-- (IBAction)rotateViewOrientation:(id)sender
-{
-	if (self.isUpsideDown) {
-		self.isUpsideDown = NO;
-		UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-		UIView *view = [window.subviews objectAtIndex:0];
-		[view removeFromSuperview];
-		[window addSubview:view];
-	} else {
-		self.isUpsideDown = YES;
-		UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-		UIView *view = [window.subviews objectAtIndex:0];
-		[view removeFromSuperview];
-		[window addSubview:view];
-	}
-}
 
 /**
  *  @inheritdoc
  */
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-	if (([identifier isEqual: @"logTableSegue"]) && (!self.isAppBusy)) {
+	if (([identifier isEqual: @"logTableSegue"]) && (!self.notReadyToScan)) {
 		return YES;
 	} else {
 		return NO;
@@ -206,11 +181,11 @@
 #endif
 	if ([segue.identifier isEqualToString: @"logTableSegue"]) {
 		// Setting AppBusy status, before going into Log Table
-		self.isAppBusy = YES;
+		self.notReadyToScan = YES;
 		
 		// Sending data to Log Table
-		if ([[segue.destinationViewController topViewController] isKindOfClass:[TCTLLogTableViewController class]]) {
-			TCTLLogTableViewController *tableView = (TCTLLogTableViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
+		if ([[segue.destinationViewController topViewController] isKindOfClass:[VTKLogTableViewController class]]) {
+			VTKLogTableViewController *tableView = (VTKLogTableViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
 			tableView.scanResultItems = self.scanResultItems;
 		}
 	} 
@@ -227,7 +202,7 @@
 	NSLog(@"unwindToMainScreen received.");
 #endif
 	// Set AppBusy status to available upon return to main app screen
-	self.isAppBusy = NO;
+	self.notReadyToScan = NO;
 }
 
 #pragma mark - UIViewController methods
@@ -239,7 +214,7 @@
 	[super viewDidLoad];
 	
     // Setup the pre-selected scanner framework and prepare to use
-    [[VTKScannerManager sharedInstance] setupScannerFramework:VTKBarcodeFrameworkMobilogics
+    [[VTKScannerManager sharedInstance] setupScannerWithFramework:VTKBarcodeFrameworkMobilogics
                                                  withDelegate:self];
 
     // Do any additional setup after loading the view, typically from a nib.
@@ -268,10 +243,10 @@
 		
 	// Проверка подключения сканера и отображение статуса
 	if ([self isScannerConnected]) {
-		self.isAppBusy = NO;
+		self.notReadyToScan = NO;
 		[self displayReadyToScan];
 	} else {
-		self.isAppBusy = YES;
+		self.notReadyToScan = YES;
 		[self displayNotReady];
 	}
 	
@@ -331,15 +306,6 @@
 #endif
 }
 
-/**
- *  @inheritdoc
- */
-- (void)dealloc
-{
-//	[[MLScanner sharedInstance] removeAccessoryDidConnectNotification:self];
-//	[[MLScanner sharedInstance] removeAccessoryDidDisconnectNotification:self];
-//	[[MLScanner sharedInstance] removeReceiveCommandHandler:self];
-}
 
 /**
  *  @inheritdoc
@@ -370,13 +336,8 @@
  *
  *  @return returns a bit mask of allowed orientations
  */
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
-	/*if (_isUpsideDown) {
-		return (enum UIInterfaceOrientation) UIInterfaceOrientationMaskPortraitUpsideDown;
-	} else {
-		return (enum UIInterfaceOrientation) UIInterfaceOrientationMaskPortrait;
-	}*/
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait; // | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 #pragma mark - VTKScannerDelegate
@@ -387,7 +348,7 @@
 - (void)scannerConnectedNotification
 {
 	// Показываем статус готовности к сканированию
-	self.isAppBusy = NO;
+	self.notReadyToScan = NO;
 	[self displayReadyToScan];
 	
 	// Инициируем опрос заряда батареи
@@ -413,7 +374,7 @@
 - (void)scannerDisconnectedNotification
 {
 	// Показываем статус неготовности к сканированию
-	self.isAppBusy = YES;
+	self.notReadyToScan = YES;
 	[self displayNotReady];
 	
 	// Отображаем статус отключённого девайса
@@ -428,7 +389,7 @@
 - (void)scannerBarcodeScannedNotification:(NSString *)barcode
 {
 	// Если система занята, то игнорируем результаты сканирования
-	if (!self.isAppBusy) {
+	if (!self.notReadyToScan) {
 		[self doScannedBarcodeCheck: barcode];
 	}
 }
@@ -447,7 +408,7 @@
  */
 - (void)scannerLowPowerNotification
 {
-	self.isAppBusy = YES;
+	self.notReadyToScan = YES;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Информация", @"Заголовок алерта")
 													message:NSLocalizedString(@"Низкий заряд батареи сканера. Пожалуйста, подключите сканер к зарядному устройству", @"Cообщение алерта")
 												   delegate:self
@@ -527,7 +488,7 @@
 					
 					// Displaying the logItem in the lower part of the screen
 					[self displayLogResultItem:logItem];
-					self.isAppBusy = NO;
+					self.notReadyToScan = NO;
 				} else {
 					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
 					self.warningAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
@@ -629,7 +590,7 @@
 										 otherButtonTitles:nil];
 	[self.warningAlert show];
 	
-	self.isAppBusy = NO;
+	self.notReadyToScan = NO;
 	[self displayReadyToScan];
 	
 	// Displaying the server connection fail
@@ -652,7 +613,7 @@
 	self.lastScannedBarcode = barcode;
 	
 	// Устанавливаем статус приложения
-	self.isAppBusy = YES;
+	self.notReadyToScan = YES;
 	[self displayProgress];
 	
 /*#if TEST_IPOD_WITHOUT_SCANNER == 1
@@ -710,11 +671,11 @@
 #elif TEST_IPOD_WITHOUT_SCANNER == 1
 	connected = YES;
 #else
-	connected = [[MLScanner sharedInstance] isConnected];
+	connected = [[VTKScannerManager sharedInstance].scanner isConnected];
 #endif
 	
 #ifdef DEBUG
-	NSLog(@"isScannerConnected received: %hhd", connected);
+	NSLog(@"isScannerConnected received: %hhd", (char)connected);
 #endif
 	return connected;
 }
@@ -731,7 +692,7 @@
 	remain = @101;
 #else
 	// get battery info
-	remain = [[MLScanner sharedInstance] batteryCapacity];
+	remain = [[VTKScannerManager sharedInstance].scanner getBatteryRemain];
 #endif
 
 #ifdef DEBUG
@@ -754,7 +715,7 @@
 #if TARGET_IPHONE_SIMULATOR
 	return  YES;
 #endif
-	return [[MLScanner sharedInstance] batteryOnCharge];
+	return [[VTKScannerManager sharedInstance].scanner isBatteryOnCharge];
 }
 
 /**
@@ -764,7 +725,7 @@
 #ifdef DEBUG
 	NSLog(@"chargeiDeviceBattery received");
 #endif
-  [[MLScanner sharedInstance] chargeiDeviceBattery];
+  [[VTKScannerManager sharedInstance].scanner chargeBatteryFromScanner];
 }
 
 #pragma mark - Utility methods
@@ -787,12 +748,12 @@
  */
 - (void)runStatusRevertTimer
 {
-	static  NSTimer	*timer;
+	static NSTimer	*timer;
 	
 	if (timer) {
 		[timer invalidate];
 	}
-	timer = [NSTimer scheduledTimerWithTimeInterval:[TCTLSettings storage].resultDisplayTime
+	timer = [NSTimer scheduledTimerWithTimeInterval:[VTKSettings storage].resultDisplayTime
 											 target:self
 										   selector:@selector(displayReadyToScan)
 										   userInfo:nil
@@ -807,8 +768,7 @@
 #ifdef DEBUG
 	NSLog(@"postponeBatteryRemain received");
 #endif
-	// get battery info
-	[[MLScanner sharedInstance] batteryRemain];
+    [[VTKScannerManager sharedInstance].scanner getBatteryRemain]; // FIXME: тут должен быть postponeBatteryRemain
 }
 
 /**
@@ -820,7 +780,7 @@
 	NSLog(@"setBatteryRemainIcon received");
 #endif
 	UIImage *batIcon;
-	if ([self isScannerConnected]) { // проверяем поделючен ли сканер
+	if ([self isScannerConnected]) { // проверяем подключен ли сканер
 		NSInteger batRemain = [[self getScannerBatRemain] integerValue];
 		
 		if ((batRemain > 100) || [self isScannerOnCharge]) {
@@ -849,7 +809,7 @@
  *
  *  @param yes YES if need to set app busy status
  */
--(void)setIsAppBusy: (BOOL)yes
+-(void)setNotReadyToScan: (BOOL)yes
 {
 	static  NSTimer	*timer;
 	if (timer) {
@@ -857,7 +817,7 @@
 	}
 	
 	if (yes) {
-		_isAppBusy = YES;
+		_notReadyToScan = YES;
 		self.scanButton.enabled = NO;
 		/* Not needed so far...
 		// Запускаем таймер на 15 сек, по истечении отменяем статус занятости
@@ -867,7 +827,7 @@
 											   userInfo:nil
 												repeats:NO]; */
 	} else {
-		_isAppBusy = NO;
+		_notReadyToScan = NO;
 		self.scanButton.enabled = YES;
 	}
 
@@ -884,7 +844,7 @@
 #ifdef DEBUG
 	NSLog(@"cancelAppBusyStatus received");
 #endif
-	self.isAppBusy = NO;
+	self.notReadyToScan = NO;
 	[self displayReadyToScan];
 }
 
@@ -1004,24 +964,6 @@
 	}
 }
 
-/**
- *  Displays the server connection icon, corresponding to connection status
- *
- *  @param сonnected YES if the server is connected
- */
-- (void)serverConnectionStatus: (BOOL)сonnected
-{
-//	if (сonnected) {
-//		UIImage *serverIcon = [UIImage imageNamed: @"serverActive"];
-//		[self.serverConnectionStatus setImage: serverIcon
-//									 forState: UIControlStateNormal];
-//	} else {
-//		UIImage *serverIcon = [UIImage imageNamed: @"serverInactive"];
-//		[self.serverConnectionStatus setImage: serverIcon
-//									 forState: UIControlStateNormal];
-//	}
-}
-
 #pragma mark - Result log methods
 
 /**
@@ -1032,7 +974,7 @@
 - (void)addScanResultItemToLog:(VTKScanResultItem *)logItem
 {
 	if (!self.scanResultItems) {
-		self.scanResultItems = [NSMutableArray new];
+		self.scanResultItems = [[NSMutableArray alloc] init];
 	} else if ([self.scanResultItems count] == NUMBER_OF_HISTORY_ITEMS) {
 		[self.scanResultItems removeLastObject];
 	}
@@ -1179,12 +1121,12 @@
  */
 - (void)invocateServerAliveCheck
 {
-	[[TCTLServerCommand sharedInstance] prepareWithServer:[TCTLSettings storage].serverURL
+	[[VTKServerCommand sharedInstance] prepareWithServer:[VTKSettings storage].serverURL
 											  withCommand:noOp
-												 withGUID:[TCTLSettings storage].userGUID
+												 withGUID:[VTKSettings storage].userGUID
 											  withBarcode:@""];
 	
-	[[TCTLServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
+	[[VTKServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
 																	[self handleSuccessResponse:responseObject];
 																}
 																 failure:^(NSError *error) {
@@ -1197,12 +1139,12 @@
  */
 - (void)invocateGetUserName
 {
-	[[TCTLServerCommand sharedInstance] prepareWithServer:[TCTLSettings storage].serverURL
+	[[VTKServerCommand sharedInstance] prepareWithServer:[VTKSettings storage].serverURL
 											  withCommand:getUserName
-												 withGUID:[TCTLSettings storage].userGUID
+												 withGUID:[VTKSettings storage].userGUID
 											  withBarcode:@""];
 
-	[[TCTLServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
+	[[VTKServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
 																	[self handleSuccessResponse:responseObject];
 																}
 																 failure:^(NSError *error) {
@@ -1230,7 +1172,7 @@
  */
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	self.isAppBusy = NO;
+	self.notReadyToScan = NO;
 	
 	if ((alertView == self.manualBarcodeAlert) && ([[alertView textFieldAtIndex:0].text length] > 0)) {
 		[self doScannedBarcodeCheck:[alertView textFieldAtIndex:0].text];

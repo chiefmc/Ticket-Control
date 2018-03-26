@@ -9,7 +9,7 @@
 @import UIKit;
 #import "VTKScanResultItem.h"
 
-@interface TCTLLogDetailTableViewController : UITableViewController
+@interface VTKLogDetailTableViewController : UITableViewController
 
 /**
  *  The item that was selected in tableView

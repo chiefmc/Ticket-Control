@@ -9,7 +9,7 @@
 @import UIKit;
 
 
-@interface TCTLLogTableViewController : UITableViewController
+@interface VTKLogTableViewController : UITableViewController
 
 /**
  *  Array with the log of scan details

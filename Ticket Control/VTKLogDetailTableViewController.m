@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "TCTLLogDetailTableViewController.h"
-#import "TCTLConstants.h"
+#import "VTKLogDetailTableViewController.h"
+#import "VTKConstants.h"
 
-@interface TCTLLogDetailTableViewController ()
+@interface VTKLogDetailTableViewController ()
 
 @property (strong, nonatomic) NSMutableArray *logKeys;		// Names of the keys we get from the logItem's NSDictionary
 @property (strong, nonatomic) NSMutableArray *logValues;	// Values of the above keys
 
 @end
 
-@implementation TCTLLogDetailTableViewController
+@implementation VTKLogDetailTableViewController
 
 /**
  *  @inheritdoc
@@ -204,6 +204,15 @@
 	cell.detailTextLabel.text	= self.logValues[indexPath.row];
 
     return cell;
+}
+
+/**
+ *  returns supported by this view controller interface orientations
+ *
+ *  @return returns a bit mask of allowed orientations
+ */
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 /*

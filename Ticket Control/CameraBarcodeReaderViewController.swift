@@ -11,11 +11,16 @@ import AVFoundation
 
 
 /// Displays the camera view for barcode scanning
-class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, VTKBarcodeScannerProtocol {
+    @IBOutlet var videoPreviewView: UIView!
+    @IBOutlet var flashSwitch: UISwitch!
+    @IBOutlet var flashIcon: UIImageView!
 
-    var session: AVCaptureSession!
-    var previewLayer: AVCaptureVideoPreviewLayer!
-    var initSuccess: Bool = false
+    var delegate: VTKScannerDelegateProtocol!
+
+    private var session: AVCaptureSession!
+    private var previewLayer: AVCaptureVideoPreviewLayer!
+    private var initSuccess: Bool = false
 
     /// @inheritDoc
     override func viewDidLoad() {
@@ -25,8 +30,85 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     }
 
 
+    /// @inheritDoc
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if initSuccess {
+            previewLayer = AVCaptureVideoPreviewLayer(session: session)
+            previewLayer.frame = videoPreviewView.layer.bounds
+            previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+            videoPreviewView.layer.addSublayer(previewLayer)
+
+            session.startRunning()
+        } else {
+            alertScanningNotPossible()
+        }
+    }
+
+
+    /// @inheritDoc
+    func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+        if let barcodeData = metadataObjects.first {
+            let barcodeReadable = barcodeData as? AVMetadataMachineReadableCodeObject
+            if let readableCode = barcodeReadable {
+                barcodeDetected(readableCode.stringValue)
+            }
+
+            // Vibrate the device for a tactile feedback
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+            // To avoid a double scan
+            session.stopRunning()
+        }
+    }
+
+
+    @IBAction func flashSwitched(_ sender: UISwitch) {
+        let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        if let device = device, device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                if sender.isOn {
+                    do {
+                        try device.setTorchModeOnWithLevel(0.25)
+                    } catch {
+                        print(error)
+                    }
+                } else {
+                    device.torchMode = AVCaptureTorchMode.off
+                }
+                device.unlockForConfiguration()
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+
+    /// Returns true if the camera is present and has been initialized correctly
+    ///
+    /// - Returns: true if connected
+    func isConnected() -> Bool {
+        return initSuccess
+    }
+
+    /// Always returns -1 as the hardware sanner is not present
+    ///
+    /// - Returns: -1
+    func getBatteryRemain() -> NSNumber! {
+        return -1
+    }
+
+
+    /// This is for the protocol conformance
+    func invocateBarcodeScan() {
+        // do nothing
+    }
+
+
     /// Initializes the camera for further barcode scan
-    func initCamera() {
+    private func initCamera() {
         session = AVCaptureSession()
 
         let videoCaptureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
@@ -36,6 +118,11 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
         } catch {
             return
+        }
+
+        if let captureDevice = videoCaptureDevice, !captureDevice.hasTorch {
+            flashSwitch.isHidden = true
+            flashIcon.isHidden = true
         }
 
         if session.canAddInput(videoInput) {
@@ -59,53 +146,26 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             return
         }
 
-        previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        previewLayer.frame = view.layer.bounds
-        previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        view.layer.addSublayer(previewLayer)
-
-        session.startRunning()
         // Flag that we've successfully initialized the camera for further barcode scan
         initSuccess = true
     }
 
+
+    private func barcodeDetected(_ barcode: String) {
+        print("Detected barcode: \(barcode)")
+        // TODO: реализовать
+    }
+
+
     /// Shows an alert with an "unable to scan" message
-    func alertScanningNotPossible() {
-        let alert = UIAlertController(title: "Ошибка ", message: "Невозможно инициализировать камеру для сканирования!", preferredStyle: .alert)
+    private func alertScanningNotPossible() {
+        let alert = UIAlertController(
+            title: NSLocalizedString("Ошибка", comment: "Заголовок алерта с ошибкой"),
+            message: NSLocalizedString("Невозможно инициализировать камеру для сканирования!", comment: "Сообщение об ошибке в алерте"),
+            preferredStyle: .alert
+        )
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil) // TODO: действие по завершению
         session = nil
-    }
-
-
-    /// @inheritDoc
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if !initSuccess {
-            alertScanningNotPossible()
-        }
-    }
-
-
-    /// @inheritDoc
-    func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-        if let barcodeData = metadataObjects.first {
-            let barcodeReadable = barcodeData as? AVMetadataMachineReadableCodeObject
-            if let readableCode = barcodeReadable {
-                barcodeDetected(readableCode.stringValue)
-            }
-
-            // Vibrate the device for a tactile feedback
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-
-            // To avoid a double scan
-            session.stopRunning()
-        }
-    }
-
-    func barcodeDetected(_ barcode: String) {
-        print("Detected barcode: \(barcode)")
-        // TODO: реализовать
     }
 }

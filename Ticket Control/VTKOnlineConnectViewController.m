@@ -9,7 +9,7 @@
 #import "VTKOnlineConnectViewController.h"
 #import "VTKScanViewController.h"
 #import "VTKServerAPIAdapter.h"
-#import "TCTLSettings.h"
+#import "VTKSettings.h"
 #import <FAKIonIcons.h>
 
 @interface VTKOnlineConnectViewController ()
@@ -61,7 +61,7 @@
     VTKScanViewController *svc = (VTKScanViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ScanViewController"];
     //TODO: добавить установку текста заголовка контроллера
     svc.barcodeValidator       = [[VTKServerAPIAdapter alloc] init];
-    svc.scanResultItems        = [TCTLSettings storage].scanResultItems;
+    svc.scanResultItems        = [VTKSettings storage].scanResultItems;
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:svc];
     navController.restorationIdentifier   = NSStringFromClass([navController class]);

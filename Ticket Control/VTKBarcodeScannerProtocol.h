@@ -8,16 +8,18 @@
 //
 
 @import Foundation;
+#import "VTKScannerDelegateProtocol.h"
 
 /**
- *  An abstract foundation class that describes generic methods. Not intended for direct usage.
+ *  A protocol that describes generic methods. Not intended for direct usage.
  */
-@interface VTKBarcodeScanner : NSObject
+@protocol VTKBarcodeScannerProtocol <NSObject>
 
+@required
 /**
- *  The delegate object that will receive all callbacks
+ *  A delegate object that will receive all callbacks
  */
-@property (nonatomic, weak) id delegate;
+@property (nonatomic, weak) id <VTKScannerDelegateProtocol> delegate;
 
 /**
  *  Checks if the scanner is connected
@@ -31,13 +33,14 @@
  *
  *  @return Returns battery remain in percents. Returns negative value (<0) if no scanner connected or >100 if the scanner is being charged.
  */
-- (NSNumber *)batteryRemain;
+- (NSNumber *)getBatteryRemain;
 
 /**
  *  Invocates the scanner hardware to read the barcode. The decoded string will be sent by <code>-barcodeScannedNotification:</code> callback method to the delegate upon successful reading.
  */
 - (void)invocateBarcodeScan;
 
+@optional
 /**
  *  Signals the hardware scanner to start charging the iDevice from the scanner's own battery. If no scanner connected - ignores the message.
  */
@@ -61,5 +64,17 @@
  *  This method is used to wakeup the framework after an inactivity period
  */
 - (void)wakeup;
+
+/**
+ Inocates the hardware's state update (needed at least for Mobilogics devices prior to battery level check)
+ */
+- (void)updateAccessoryInfo;
+
+/**
+ Returns YES is the scanner's battery is currently being charged
+
+ @return YES if charged
+ */
+- (BOOL)isBatteryOnCharge;
 
 @end

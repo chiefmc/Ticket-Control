@@ -7,8 +7,9 @@
 //
 
 @import Foundation;
+#import "VTKScannerManager.h"
 
-@interface TCTLSettings : NSObject
+@interface VTKSettings : NSObject
 
 /**
  *  Returns the Singleton settings object
@@ -28,12 +29,13 @@
 - (void)close;
 
 // Переменные в которые читаются настройки приложения из Settings Bundle
-@property (nonatomic) NSInteger         vibroStrength;
-@property (nonatomic) BOOL				disableAutolock;
-@property (nonatomic, copy) NSString	*userGUID;
-@property (nonatomic) NSTimeInterval	resultDisplayTime;
-@property (nonatomic, strong) NSURL		*serverURL;
-@property (nonatomic) BOOL				scannerBeep;
+@property (nonatomic) NSInteger             vibroStrength;
+@property (nonatomic) BOOL				    disableAutolock;
+@property (nonatomic, copy) NSString	    *userGUID;
+@property (nonatomic) NSTimeInterval	    resultDisplayTime;
+@property (nonatomic, strong) NSURL		    *serverURL;
+@property (nonatomic) BOOL				    scannerBeep;
+@property (nonatomic) VTKScannerFramework   scannerDeviceType;
 
 // Массив-история сосканированных кодов, который использует VTKScanViewController
 @property (nonatomic, strong) NSMutableArray	*scanResultItems;

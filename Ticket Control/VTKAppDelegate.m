@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "TCTLSettings.h"
-#import "TCTLAppDelegate.h"
+#import "VTKSettings.h"
+#import "VTKAppDelegate.h"
 #import "VTKScannerManager.h"
 #import "VTKScanResultItem.h"
 
-@implementation TCTLAppDelegate
+@implementation VTKAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Initialize and load the app's settings
-    [[TCTLSettings storage] load];
+    [[VTKSettings storage] load];
     
     // Готовим лог ответов от сервера
     [self prepareScanResultItems];
@@ -30,7 +30,7 @@
 - (void)prepareScanResultItems
 {
     // фильтрация истории сканирования
-    NSMutableArray *scanResultItems = [TCTLSettings storage].scanResultItems;
+    NSMutableArray *scanResultItems = [VTKSettings storage].scanResultItems;
     if (scanResultItems) {
         for (VTKScanResultItem *logItem in scanResultItems) {
             // если записи в логе больше 24 часов удаляем её
@@ -40,7 +40,7 @@
         }
     } else {
         // если лога нет, то создаём пустой
-        [TCTLSettings storage].scanResultItems = [NSMutableArray new];
+        [VTKSettings storage].scanResultItems = [NSMutableArray new];
     }
 }
 
@@ -73,7 +73,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Tear down the settings storage
-    [[TCTLSettings storage] close];
+    [[VTKSettings storage] close];
 }
 
 @end

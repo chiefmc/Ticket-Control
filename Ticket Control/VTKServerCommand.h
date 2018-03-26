@@ -29,7 +29,7 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
  *	This class is a singleton. Call the +(instancetype)sharedInstance to
  *	operate the class.
  */
-@interface TCTLServerCommand : NSObject
+@interface VTKServerCommand : NSObject
 
 /**
  *  The command the object was initialized with, that is sent to a Ticketing server
@@ -61,7 +61,7 @@ typedef NS_ENUM(unsigned int, ServerCommand) {
  */
 - (void)prepareWithServer: (NSURL *)serverURL
 			  withCommand: (ServerCommand)
-	serverCommand withGUID: (NSString *) guid
+    serverCommand withGUID: (NSString *) guid
 			  withBarcode: (NSString *) barcode;
 
 /**

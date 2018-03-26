@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@interface TCTLAppDelegate : UIResponder <UIApplicationDelegate>
+@interface VTKAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

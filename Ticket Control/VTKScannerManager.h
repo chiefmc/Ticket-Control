@@ -7,63 +7,31 @@
 //
 
 @import Foundation;
+#import "VTKScannerDelegateProtocol.h"
+#import "VTKBarcodeScannerProtocol.h"
 
 @class VTKBarcodeScanner;
 
 /**
- *  The protocol, that is used to handle the communication between the app and the scanner
- */
-@protocol VTKScannerDelegate
-
-@required
-/**
- *  Callback method to handle the scanned barcode
- */
-- (void)scannerBarcodeScannedNotification: (NSString *)barcode;
-
-/**
- *  Callback method to handle the scanner connection
- */
-- (void)scannerConnectedNotification;
-
-/**
- *  Callback method to handle the scanner disconnection
- */
-- (void)scannerDisconnectedNotification;
-
-/**
- *  Callback method to handle the scanner battery level update and other possible non-critical messages
- */
-- (void)scannerInformationUpdateNotification;
-
-/**
- *  Callback method to handle the scanner's low battery notification
- */
-- (void)scannerLowPowerNotification;
-
-@end
-
-
-/**
  *  Enumerates supported barcode scanner frameworks
  */
-typedef NS_ENUM(unsigned int, VTKScannerFramework){
+typedef NS_ENUM(unsigned int, VTKScannerFramework) {
     /**
      *  The iOS built-in framework that uses the device's camera to read barcodes
      */
-    VTKBarcodeFrameworkAppleCamera,
+    VTKBarcodeFrameworkAppleCamera = 0,
     /**
      *  The Mobilogics framework, that support their devices: aScan, iScan, iPDT380 abd iPDT5
      */
-    VTKBarcodeFrameworkMobilogics,
+    VTKBarcodeFrameworkMobilogics = 1,
     /**
      *  The Infinite Peripherals framework, that supports their devices.
      */
-    VTKBarcodeFrameworkInfinitePeripherals,
+    VTKBarcodeFrameworkInfinitePeripherals = 2,
     /**
      *  The Honeywell framework, that supports their devices.
      */
-    VTKBarcodeFrameworkHoneywell
+    VTKBarcodeFrameworkHoneywell = 3
 };
 
 
@@ -75,7 +43,7 @@ typedef NS_ENUM(unsigned int, VTKScannerFramework){
 /**
  *  The pointer to a delegate object. You must set it up right after the <code>+setup</code> been called.
  */
-@property (nonatomic, weak) id <VTKScannerDelegate> delegate;
+@property (nonatomic, weak, readonly) id <VTKScannerDelegateProtocol> delegate;
 
 /**
  *  Contains the currently connected barcode scanner type
@@ -85,7 +53,7 @@ typedef NS_ENUM(unsigned int, VTKScannerFramework){
 /**
  *  Has the currenly connected scanner handler or nil if no scanner connected
  */
-@property (nonatomic, strong, readonly) VTKBarcodeScanner *connectedScanner;
+@property (nonatomic, strong, readonly) id <VTKBarcodeScannerProtocol> scanner;
 
 /**
  *  This class method returns the singleton object
@@ -100,23 +68,17 @@ typedef NS_ENUM(unsigned int, VTKScannerFramework){
  *  @param framework The type of framework with <code>VTKScannerFramework</code> to try to initialize
  *  @param delegate  The delegate object that will receive all the callbacks. Must conform to VTKScannerDelegate protocol
  */
-- (void)setupScannerFramework: (VTKScannerFramework)framework withDelegate: (id <VTKScannerDelegate>)delegate;
+- (void)setupScannerWithFramework: (VTKScannerFramework)framework
+                     withDelegate: (id <VTKScannerDelegateProtocol>)delegate;
 
 /**
- *  Invocates the barcode scan with scanning hardware. The scanned result will be sent upon succefull reading with callback method <code>-barcodeScannedNotification:</code>
- */
-- (void)scan;
+ Sets up the scanner with given scanner object that must conform to the VTKBarcodeScannerProtocol protocol
 
-/**
- *  Initiates the barcode scan from the iOS device's built-in camera.
- *
- *  @return Returns the scanned string or nil if scan was unsuccessful for any reason.
+ @param scanner An initialized scanner object
+ @param delegate A delegate object
  */
-- (NSString *)scanWithCamera;
-
-/**
- *  This method is used to try and wake the scanner framework from sleep mode
- */
-- (void)wakeup;
+- (void)setupScanner: (id<VTKBarcodeScannerProtocol>)scanner
+   withFrameworkType: (VTKScannerFramework) framework
+        withDelegate: (id<VTKScannerDelegateProtocol>)delegate;
 
 @end

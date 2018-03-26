@@ -7,7 +7,7 @@
 //
 
 #import "VTKScanResultItem.h"
-#import "TCTLConstants.h"
+#import "VTKConstants.h"
 #import "VTKValidatorResponse.h"
 
 @implementation VTKScanResultItem

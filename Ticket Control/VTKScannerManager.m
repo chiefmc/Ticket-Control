@@ -7,8 +7,7 @@
 //
 
 #import "VTKScannerManager.h"
-#import "VTKBarcodeScanner.h"
-#import "VTKAppleCameraScanner.h"
+#import "VTKBarcodeScannerProtocol.h"
 #import "VTKMobilogicsScanner.h"
 #import "VTKInfinitePeripheralsScanner.h"
 #import "VTKHoneywellScanner.h"
@@ -37,54 +36,45 @@
     return [super init];
 }
 
-- (void)setupScannerFramework: (VTKScannerFramework)framework withDelegate:(id <VTKScannerDelegate>)delegate
+- (void)setupScannerWithFramework: (VTKScannerFramework)framework withDelegate:(id <VTKScannerDelegateProtocol>)delegate
 {
-    _delegate = delegate;
-    
     switch (framework) {
-        case VTKBarcodeFrameworkAppleCamera:
-            _connectedScanner = [[VTKAppleCameraScanner alloc] init];
-            break;
-            
         case VTKBarcodeFrameworkMobilogics:
-            _connectedScanner = [[VTKMobilogicsScanner alloc] init];
+            [self setupScanner:[[VTKMobilogicsScanner alloc] init]
+             withFrameworkType:framework
+                  withDelegate:delegate];
             break;
             
         case VTKBarcodeFrameworkHoneywell:
-            _connectedScanner = [[VTKHoneywellScanner alloc] init];
+            [self setupScanner:[[VTKHoneywellScanner alloc] init]
+             withFrameworkType:framework
+                  withDelegate:delegate];
             break;
             
         case VTKBarcodeFrameworkInfinitePeripherals:
-            _connectedScanner = [[VTKInfinitePeripheralsScanner alloc] init];
+            [self setupScanner:[[VTKInfinitePeripheralsScanner alloc] init]
+             withFrameworkType:framework
+                  withDelegate:delegate];
             break;
             
         default:
+            NSLog(@"Unrecognized ScannerFramework! Ignoring...");
             break;
     }
     
     _activeScannerType = framework;
-    
-    // Forwarding the delegate directly to the scanner handler
-    self.connectedScanner.delegate = self.delegate;
 }
 
-- (void)scan
+- (void)setupScanner: (id<VTKBarcodeScannerProtocol>)scanner
+   withFrameworkType: (VTKScannerFramework) framework
+        withDelegate:(id<VTKScannerDelegateProtocol>)delegate
 {
-    if (self.connectedScanner) {
-        [self.connectedScanner invocateBarcodeScan];
-    }
-}
-
-- (NSString *)scanWithCamera
-{
-    //TODO: Not implemented yet
-    return @"1234567890123";
-}
-
-- (void)wakeup
-{
-    if (self.connectedScanner) {
-        [self.connectedScanner wakeup];
+    if (scanner) {
+        _scanner = scanner;
+        _scanner.delegate = delegate;
+        _activeScannerType = framework;
+    } else {
+        NSLog(@"Tried to call setupScanner: withDelegate: with nil scanner! ");
     }
 }
 

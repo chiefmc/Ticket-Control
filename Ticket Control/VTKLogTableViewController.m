@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "TCTLLogTableViewController.h"
+#import "VTKLogTableViewController.h"
 #import "VTKScanViewController.h"
 #import "VTKScanResultItem.h"
-#import "TCTLLogDetailTableViewController.h"
+#import "VTKLogDetailTableViewController.h"
 
-@interface TCTLLogTableViewController ()
+@interface VTKLogTableViewController ()
 
 @property (weak, nonatomic) VTKScanResultItem *logItem;
 
 @end
 
-@implementation TCTLLogTableViewController
+@implementation VTKLogTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -96,6 +96,15 @@
     [self performSegueWithIdentifier:@"logItemDetails" sender:self];
 }
 
+/**
+ *  returns supported by this view controller interface orientations
+ *
+ *  @return returns a bit mask of allowed orientations
+ */
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait; // | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -141,8 +150,8 @@
 {
 	// Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-	if ([segue.destinationViewController isKindOfClass:[TCTLLogDetailTableViewController class]]) {
-		TCTLLogDetailTableViewController *destination = segue.destinationViewController;
+	if ([segue.destinationViewController isKindOfClass:[VTKLogDetailTableViewController class]]) {
+		VTKLogDetailTableViewController *destination = segue.destinationViewController;
 		destination.logItem = self.logItem;
 	}
 }
