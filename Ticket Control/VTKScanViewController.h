@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
-#import "VTKBarcodeValidatorProtocol.h"
+#import "VTKScannerDelegateProtocol.h"
 @import UIKit;
 
 /**
  *  This is the ViewController of the main screen of the app, where all the scanning work takes place
  */
-@interface VTKScanViewController : UIViewController <VTKScannerDelegateProtocol, UIAlertViewDelegate> // <ReceiveCommandHandler, NotificationHandler>
+@interface VTKScanViewController : UIViewController <VTKScannerDelegateProtocol, UIAlertViewDelegate>
 
 /**
  *  Pointer to a barcode validator object, that will handle all scan requests. The instantiator must explicitly set this.
  */
-@property (nonatomic, strong) id <VTKBarcodeValidatorProtocol> barcodeValidator;
+//@property (nonatomic, strong) id <VTKBarcodeValidatorProtocol> barcodeValidator;
 
 /**
  *  Array of scan result items (weak pointer to one from TCTCLSettings)

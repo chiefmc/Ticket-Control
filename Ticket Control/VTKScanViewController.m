@@ -158,7 +158,6 @@
 	[self.warningAlert show];
 }
 
-
 /**
  *  @inheritdoc
  */
@@ -212,10 +211,14 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
-    // Setup the pre-selected scanner framework and prepare to use
-    [[VTKScannerManager sharedInstance] setupScannerWithFramework:VTKBarcodeFrameworkMobilogics
-                                                 withDelegate:self];
+
+    // Setup the pre-selected scanner framework and prepare to use if the scanner is not Apple Camera
+    // As in that case it will be setup upper in SplitCamViewController
+    VTKScannerFramework scannerType = [VTKSettings storage].scannerDeviceType;
+    if (scannerType != VTKBarcodeFrameworkAppleCamera) {
+        [[VTKScannerManager sharedInstance] setupScannerWithFramework:scannerType
+                                                         withDelegate:self];
+    }
 
     // Do any additional setup after loading the view, typically from a nib.
 	self.isUpsideDown = NO;
@@ -230,8 +233,8 @@
 	AudioServicesCreateSystemSoundID((__bridge CFURLRef)allowedURL, &_allowedSound);
 	
 	// по умолчанию считаем, что связи нет
-	[self serverConnectionStatus: NO];
-    
+//    [self serverConnectionStatus: NO];
+
     // Add back button to Navigation bar
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
                                                                                           target:self
@@ -526,7 +529,7 @@
 		[self.warningAlert show];
 		[self displayReadyToScan];
 	}
-	[self serverConnectionStatus:YES];
+//    [self serverConnectionStatus:YES];
 }
 
 /**
@@ -594,7 +597,7 @@
 	[self displayReadyToScan];
 	
 	// Displaying the server connection fail
-	[self serverConnectionStatus:NO];
+//    [self serverConnectionStatus:NO];
 }
 
 #pragma mark - Scanner methods
@@ -616,13 +619,13 @@
 	self.notReadyToScan = YES;
 	[self displayProgress];
 	
-/*#if TEST_IPOD_WITHOUT_SCANNER == 1
-	TCTLServerResponse *item = [TCTLServerResponse new];
+#if TEST_IPOD_WITHOUT_SCANNER == 1
+	VTKServerResponse *item = [VTKServerResponse new];
 	item.barcode = self.lastScannedBarcode;
 	item.responseCode = accessAllowed;
 
-	TCTLScanResultItem *logItem = [[TCTLScanResultItem alloc] initItemWithBarcode:self.lastScannedBarcode
-																	 FillTextWith:item];
+	TCTLScanResultItem *logItem = [[VTKScanResultItem alloc] initItemWithBarcode:self.lastScannedBarcode
+                                                                    FillTextWith:item];
 	logItem.serverParsedResponse = @{@"GUID": @"123",
 									 @"ResponseCode": @"0x210",
 									 @"TimeChecked": @"20140809T14:00:00",
@@ -632,30 +635,30 @@
 	[self displayScanResult: item];
 	self.isAppBusy = NO;
 	[self runStatusRevertTimer];
-#else */
+#else
 	
     //TODO: тут нужно почистить
-    [self.barcodeValidator validateBarcode:barcode
-                                   success:^(VTKValidatorResponse *result) {
-                                       [self handleSuccessResponse:result];
-                                   }
-                                   failure:^(NSError *error) {
-                                       [self handleFailureResponse:error];
-                                   }];
-/*	// Опрашиваем сервер и ждём ответ
-	[[TCTLServerCommand sharedInstance] prepareWithServer: [TCTLSettings storage].serverURL
-										   withCommand: getCodeResult
-											  withGUID: [TCTLSettings storage].userGUID
-										   withBarcode: barcode];
+//    [self.barcodeValidator validateBarcode:barcode
+//                                   success:^(VTKValidatorResponse *result) {
+//                                       [self handleSuccessResponse:result];
+//                                   }
+//                                   failure:^(NSError *error) {
+//                                       [self handleFailureResponse:error];
+//                                   }];
+	// Опрашиваем сервер и ждём ответ
+	[[VTKServerCommand sharedInstance] prepareWithServer: [VTKSettings storage].serverURL
+                                             withCommand: getCodeResult
+                                                withGUID: [VTKSettings storage].userGUID
+                                             withBarcode: barcode];
 	// we're working JSON-RPC all the work should be done here inside the blocks
-	[[TCTLServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
-																	[self handleSuccessResponse:responseObject];
-																}
-																 failure:^(NSError *error) {
-																	 [self handleFailureResponse:error];
-																 }];
-*/
-//#endif
+	[[VTKServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
+                                                                    [self handleSuccessResponse:responseObject];
+                                                                }
+                                                                failure:^(NSError *error) {
+                                                                    [self handleFailureResponse:error];
+                                                                }];
+
+#endif
 }
 
  /**

@@ -95,18 +95,17 @@
     self.userGUID			= [standardDefaults objectForKey: USER_GUID_S];
     self.resultDisplayTime	= (NSTimeInterval)[standardDefaults integerForKey:RESULT_DISPLAY_TIME_S];
     self.serverURL			= [NSURL URLWithString:[standardDefaults objectForKey: SERVER_URL_S]];
+    self.scannerDeviceType  = (VTKScannerFramework) [standardDefaults integerForKey: SCANNER_DEVICE_TYPE_S];
 
-//TODO:Нужно отрефакторить этот кусок
-    
-//    if ([self isScannerConnected]) {
-//        [self setScannerPreferences];
-//    }
-//    
-//    if (self.disableAutolock) {
-//        [UIApplication sharedApplication].idleTimerDisabled = YES;
-//    } else {
-//        [UIApplication sharedApplication].idleTimerDisabled = NO;
-//    }
+    if ([VTKScannerManager sharedInstance].scanner) {
+        [self setScannerPreferences];
+    }
+
+    if (self.disableAutolock) {
+        [UIApplication sharedApplication].idleTimerDisabled = YES;
+    } else {
+        [UIApplication sharedApplication].idleTimerDisabled = NO;
+    }
 }
 
 // -------------------------------------------------------------------------------
@@ -115,7 +114,6 @@
 //  invokes loadDefaults:fromSettingsPage:inSettingsBundleAtURL: on it,
 //  and registers the loaded values as the app's defaults.
 // -------------------------------------------------------------------------------
-
 - (void)populateRegistrationDomain
 {
     NSURL *settingsBundleURL = [[NSBundle mainBundle] URLForResource:@"Settings" withExtension:@"bundle"];
@@ -135,7 +133,6 @@
     // appDefaults is now populated with the preferences and their default values.
     // Add these to the registration domain.
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 
@@ -197,7 +194,6 @@
 - (void)setScannerPreferences
 {
     //TODO: Незакончено
-    // Устанавливаем настройки сканера из Settings Bundle
 //    [[VTKScannerManager sharedInstance] beepSwitch: self.scannerBeep];
 //    [[VTKScannerManager sharedInstance] vibraMotorStrength: (enum vibraMotorStrengthDef)self.vibroStrength];
 }

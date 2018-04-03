@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC2809873B6D19CFEB432A04 /* Pods_Ticket_Control.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87E81DE4C6ECD98440E96FFC /* Pods_Ticket_Control.framework */; };
 		BD11A19219B83BEE00A94BBD /* VTKLogDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19119B83BEE00A94BBD /* VTKLogDetailTableViewController.m */; };
 		BD11A19419B9D38A00A94BBD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = BD11A19319B9D38A00A94BBD /* Podfile */; };
 		BD14FA8619AD51E20013B226 /* VTKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8519AD51E20013B226 /* VTKConstants.m */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		07FEC220309E4A4EA091B59C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		87E81DE4C6ECD98440E96FFC /* Pods_Ticket_Control.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ticket_Control.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD11A19019B83BEE00A94BBD /* VTKLogDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKLogDetailTableViewController.h; sourceTree = "<group>"; };
 		BD11A19119B83BEE00A94BBD /* VTKLogDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKLogDetailTableViewController.m; sourceTree = "<group>"; };
 		BD11A19319B9D38A00A94BBD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -133,7 +135,9 @@
 		BDF9F49A1AD870D90090DDA7 /* VTKSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKSettings.m; sourceTree = "<group>"; };
 		BDF9F49C1AD888EF0090DDA7 /* VTKServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKServerAPI.h; sourceTree = "<group>"; };
 		BDF9F49D1AD888EF0090DDA7 /* VTKServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKServerAPI.m; sourceTree = "<group>"; };
+		C4FC624B07DA8C45615AAFEE /* Pods-Ticket Control.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ticket Control.release.xcconfig"; path = "Ticket Control/Pods/Target Support Files/Pods-Ticket Control/Pods-Ticket Control.release.xcconfig"; sourceTree = "<group>"; };
 		D3A8B23031F23FDD54A3E232 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Ticket Control/Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		D64FDC276D6CF0EB6874F309 /* Pods-Ticket Control.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ticket Control.debug.xcconfig"; path = "Ticket Control/Pods/Target Support Files/Pods-Ticket Control/Pods-Ticket Control.debug.xcconfig"; sourceTree = "<group>"; };
 		DC2C2B9057CA7FD3BDE4B201 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Ticket Control/Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -150,6 +154,7 @@
 				BD2431BD19A608CC008BC19A /* UIKit.framework in Frameworks */,
 				BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */,
 				CA4AA12C53A1468B96A9D489 /* libPods.a in Frameworks */,
+				AC2809873B6D19CFEB432A04 /* Pods_Ticket_Control.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +176,8 @@
 			children = (
 				D3A8B23031F23FDD54A3E232 /* Pods.debug.xcconfig */,
 				DC2C2B9057CA7FD3BDE4B201 /* Pods.release.xcconfig */,
+				D64FDC276D6CF0EB6874F309 /* Pods-Ticket Control.debug.xcconfig */,
+				C4FC624B07DA8C45615AAFEE /* Pods-Ticket Control.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -207,6 +214,7 @@
 				BD2431BC19A608CC008BC19A /* UIKit.framework */,
 				BD2431D719A608CC008BC19A /* XCTest.framework */,
 				07FEC220309E4A4EA091B59C /* libPods.a */,
+				87E81DE4C6ECD98440E96FFC /* Pods_Ticket_Control.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -351,13 +359,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BD2431E719A608CC008BC19A /* Build configuration list for PBXNativeTarget "Ticket Control" */;
 			buildPhases = (
+				CA131F3ACD9D0502DB5741B1 /* [CP] Check Pods Manifest.lock */,
 				230B6059DD5D427C970E5036 /* Check Pods Manifest.lock */,
 				BD2431B119A608CC008BC19A /* Sources */,
 				BD2431B219A608CC008BC19A /* Frameworks */,
 				BD2431B319A608CC008BC19A /* Resources */,
 				BD11A18F19B7952800A94BBD /* ShellScript */,
-				8A299D60E2F54866AE2DDB44 /* Copy Pods Resources */,
 				F469EBA09B666E14DCCE3535 /* Embed Pods Frameworks */,
+				FC83B7B94C22AE5BBD3112A6 /* [CP] Embed Pods Frameworks */,
+				90904F888ED373D125F44EDF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -480,19 +490,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		8A299D60E2F54866AE2DDB44 /* Copy Pods Resources */ = {
+		90904F888ED373D125F44EDF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods-Ticket Control/Pods-Ticket Control-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BD11A18F19B7952800A94BBD /* ShellScript */ = {
@@ -508,6 +518,24 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
 		};
+		CA131F3ACD9D0502DB5741B1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Ticket Control-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F469EBA09B666E14DCCE3535 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -521,6 +549,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC83B7B94C22AE5BBD3112A6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods-Ticket Control/Pods-Ticket Control-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFJSONRPCClient/AFJSONRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFJSONRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods-Ticket Control/Pods-Ticket Control-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -694,7 +742,7 @@
 		};
 		BD2431E819A608CC008BC19A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3A8B23031F23FDD54A3E232 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = D64FDC276D6CF0EB6874F309 /* Pods-Ticket Control.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -704,7 +752,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				DEVELOPMENT_TEAM = 2PA7N3Y7EY;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = $inherited;
+				FRAMEWORK_SEARCH_PATHS = "$inherited";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -732,7 +780,7 @@
 		};
 		BD2431E919A608CC008BC19A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC2C2B9057CA7FD3BDE4B201 /* Pods.release.xcconfig */;
+			baseConfigurationReference = C4FC624B07DA8C45615AAFEE /* Pods-Ticket Control.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -742,7 +790,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				DEVELOPMENT_TEAM = 2PA7N3Y7EY;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = $inherited;
+				FRAMEWORK_SEARCH_PATHS = "$inherited";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

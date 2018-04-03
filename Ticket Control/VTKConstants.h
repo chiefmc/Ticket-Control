@@ -52,5 +52,5 @@
 #define RESULT_DISPLAY_TIME_S	@"resultDisplayTime"
 #define SERVER_URL_S			@"serverURL"
 #define SCANNER_BEEP_S			@"scannerBeep"
-
+#define SCANNER_DEVICE_TYPE_S   @"scannerDevice"
 

@@ -10,7 +10,6 @@
 #import "VTKScanViewController.h"
 #import "VTKServerAPIAdapter.h"
 #import "VTKSettings.h"
-#import <FAKIonIcons.h>
 
 @interface VTKOnlineConnectViewController ()
 
@@ -26,8 +25,6 @@
     
     if (self) {
         // Setting up tab bar item
-        self.tabBarItem.image         = [[FAKIonIcons ios7CloudOutlineIconWithSize:30] imageWithSize:CGSizeMake(30, 30)];
-        self.tabBarItem.selectedImage = [[FAKIonIcons ios7CloudIconWithSize:30] imageWithSize:CGSizeMake(30, 30)];
         self.tabBarItem.title         = NSLocalizedString(@"Онлайн", @"Название закладки");
     }
     
@@ -60,7 +57,7 @@
     UIStoryboard *storyboard   = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     VTKScanViewController *svc = (VTKScanViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ScanViewController"];
     //TODO: добавить установку текста заголовка контроллера
-    svc.barcodeValidator       = [[VTKServerAPIAdapter alloc] init];
+//    svc.barcodeValidator       = [[VTKServerAPIAdapter alloc] init];
     svc.scanResultItems        = [VTKSettings storage].scanResultItems;
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:svc];
