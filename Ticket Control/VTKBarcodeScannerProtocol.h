@@ -77,4 +77,12 @@
  */
 - (BOOL)isBatteryOnCharge;
 
+
+/**
+ Send message to the scanner that it needs to hold all scans until next call wit yes param set to `NO`
+
+ @param yes YES to stop all scans
+ */
+- (void)avoidScans: (BOOL)yes;
+
 @end

@@ -17,10 +17,10 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     @IBOutlet var flashIcon: UIImageView!
 
     var delegate: VTKScannerDelegateProtocol!
+    var initSuccess: Bool = false
 
     private var session: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
-    private var initSuccess: Bool = false
 
     /// @inheritDoc
     override func viewDidLoad() {
@@ -35,8 +35,8 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         super.viewDidAppear(animated)
 
         if initSuccess {
-            previewLayer = AVCaptureVideoPreviewLayer(session: session)
-            previewLayer.frame = videoPreviewView.layer.bounds
+            previewLayer              = AVCaptureVideoPreviewLayer(session: session)
+            previewLayer.frame        = videoPreviewView.layer.bounds
             previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
             videoPreviewView.layer.addSublayer(previewLayer)
 
@@ -51,40 +51,29 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         if let barcodeData = metadataObjects.first {
             let barcodeReadable = barcodeData as? AVMetadataMachineReadableCodeObject
-            if let readableCode = barcodeReadable {
-                barcodeDetected(readableCode.stringValue)
-            }
 
             // Vibrate the device for a tactile feedback
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
 
-            // To avoid a double scan
-            session.stopRunning()
-        }
-    }
-
-
-    @IBAction func flashSwitched(_ sender: UISwitch) {
-        let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-        if let device = device, device.hasTorch {
-            do {
-                try device.lockForConfiguration()
-                if sender.isOn {
-                    do {
-                        try device.setTorchModeOnWithLevel(0.25)
-                    } catch {
-                        print(error)
-                    }
-                } else {
-                    device.torchMode = AVCaptureTorchMode.off
-                }
-                device.unlockForConfiguration()
-            } catch {
-                print(error)
+            if let readableCode = barcodeReadable {
+                barcodeDetected(readableCode.stringValue)
             }
         }
     }
 
+
+    /// Action that toggle devices' built-in flash
+    ///
+    /// - Parameter sender: the UIView that was toggled
+    @IBAction func flashSwitched(_ sender: UISwitch) {
+        if sender.isOn {
+            switchFlash(true)
+        } else {
+            switchFlash(false)
+        }
+    }
+
+    // MARK: - Protocol methods
 
     /// Returns true if the camera is present and has been initialized correctly
     ///
@@ -106,7 +95,49 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         // do nothing
     }
 
+    /// Stop camera session if true given or resumes it otherwise
+    ///
+    /// - Parameter yes: stops camera session if true given
+    func avoidScans(_ yes: Bool) {
+        if yes {
+            switchFlash(false)
+            session.stopRunning()
+        } else {
+            session.startRunning()
+            if (flashSwitch.isOn) {
+                switchFlash(true)
+            }
+        }
+    }
 
+    // MARK: - Private
+
+
+    /// Turns device's torch on or off if present
+    ///
+    /// - Parameter on: true to turn on torch
+    private func switchFlash(_ on: Bool) {
+        let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        if let device = device, device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                if on {
+                    do {
+                        try device.setTorchModeOnWithLevel(0.25)
+                    } catch {
+                        print(error)
+                    }
+                } else {
+                    device.torchMode = AVCaptureTorchMode.off
+                }
+                device.unlockForConfiguration()
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+    
     /// Initializes the camera for further barcode scan
     private func initCamera() {
         session = AVCaptureSession()
@@ -151,9 +182,11 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     }
 
 
+    /// Calls delegate to handle the barcode scan event
+    ///
+    /// - Parameter barcode: A String containing barcode
     private func barcodeDetected(_ barcode: String) {
-        print("Detected barcode: \(barcode)")
-        // TODO: реализовать
+        delegate.scannerBarcodeScannedNotification(barcode)
     }
 
 

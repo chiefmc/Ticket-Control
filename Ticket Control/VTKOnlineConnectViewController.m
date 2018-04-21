@@ -58,8 +58,8 @@
     VTKScanViewController *svc = (VTKScanViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ScanViewController"];
     //TODO: добавить установку текста заголовка контроллера
 //    svc.barcodeValidator       = [[VTKServerAPIAdapter alloc] init];
-    svc.scanResultItems        = [VTKSettings storage].scanResultItems;
-    
+//    svc.scanResultItems        = [VTKSettings storage].scanResultItems;
+
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:svc];
     navController.restorationIdentifier   = NSStringFromClass([navController class]);
     navController.modalPresentationStyle  = UIModalPresentationFormSheet;

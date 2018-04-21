@@ -7,7 +7,6 @@
 //
 
 #import "VTKOfflineEventsViewController.h"
-#import <FAKIonIcons.h>
 
 @interface VTKOfflineEventsViewController ()
 
@@ -23,8 +22,6 @@
     
     if (self) {
         // Adding Tab Bar menu item icon
-        self.parentViewController.tabBarItem.image         = [[FAKIonIcons ios7CloseOutlineIconWithSize:30] imageWithSize:CGSizeMake(30, 30)];
-        self.parentViewController.tabBarItem.selectedImage = [[FAKIonIcons ios7CloseIconWithSize:30] imageWithSize:CGSizeMake(30, 30)];
         self.parentViewController.tabBarItem.title         = NSLocalizedString(@"Оффлайн", @"Название закладки");
     }
     

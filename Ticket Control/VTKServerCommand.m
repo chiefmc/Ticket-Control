@@ -69,7 +69,6 @@
 // -------------------------------------------------------------------------
 - (NSDictionary *)packParameters
 {
-	// Проверяем данные на nil
 	if (!self.guid) {
 		_guid = @"";
 	}
@@ -101,8 +100,7 @@
 
 		// Getting server response code from [params]
 		NSString *responseCodeStr	= decodedResponse[RESPONSE_CODE_KEY];
-		
-		// Checking the response code string for nil
+
 		if (!responseCodeStr) return nil;
 		
 		// Getting the hex value from the resonseCode string

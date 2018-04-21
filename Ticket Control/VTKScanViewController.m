@@ -14,7 +14,8 @@
 #import "VTKValidatorResponse.h"
 #import "VTKServerCommand.h"
 #import "VTKLogTableViewController.h"
-#import <FontAwesomeKit/FontAwesomeKit.h>
+#import "VTKBarcodeScannerProtocol.h"
+#import "VTKServerAPI.h"
 @import AudioToolbox;
 
 @interface VTKScanViewController ()
@@ -35,8 +36,6 @@
 @property (nonatomic, weak) IBOutlet UILabel    *scannedSubStatus;
 @property (nonatomic, weak) IBOutlet UILabel	*lastTicketNumberLabel;
 @property (nonatomic, weak) IBOutlet UILabel	*lastTicketStatusLabel;
-@property (nonatomic, weak) IBOutlet UIButton	*scannerBatStatusIcon;
-@property (nonatomic, weak) IBOutlet UIButton	*scanButton;
 @property (nonatomic, weak) IBOutlet UIButton	*numKeypad;
 @property (nonatomic, weak) IBOutlet UIView		*background;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView	*waitSign;
@@ -222,6 +221,8 @@
 
     // Do any additional setup after loading the view, typically from a nib.
 	self.isUpsideDown = NO;
+
+    self.scanResultItems = [VTKSettings storage].scanResultItems;
 	
 	// Preparing sound resources
 	NSURL *deniedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"denied"
@@ -427,62 +428,61 @@
  *
  *  @param responseObject the NSDictionary that contains the parsed JSON response
  */
-- (void)handleSuccessResponse:(VTKValidatorResponse *)validatorResponse
+- (void)handleSuccessResponse:(id)validatorResponse
 {
-	// If the server response is ok, than...
-	if (validatorResponse) {
-	// Handling possible server responses
-		switch (validatorResponse.responseCode) {
-//			case resultOk:
-//				[self displayReadyToScan];
-//				self.isAppBusy = NO;
-//				break;
-//				
-//			case setActiveUser:
-//				self.navigationItem.title = serverResponse.userName;
-//				self.isUserNameSet = YES;
-//				self.isAppBusy = NO;
-//				break;
-//				
-//			case setActiveUserNotFound:
-//				self.isUserNameSet = NO;
-//				
-//				// Setting the user name on the main view to a current device's name
-//				self.navigationItem.title = [UIDevice currentDevice].name;
-//				
-//				// Showing alert
-//				self.warningAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
-//															  message:NSLocalizedString(@"Неверный GUID! Обратитесь к администратору системы", @"Сообщение алерта")
-//															 delegate:self
-//													cancelButtonTitle:NSLocalizedString(@"Отмена", @"Кнопка Отмена")
-//													otherButtonTitles:nil];
-//				[self.warningAlert show];
-//				[self displayReadyToScan];
-//				break;
-//				
-//			case setActiveEvent:
-//	//TODO: Пока не реализовано
-//				self.isAppBusy = NO;
-//				break;
-//				
-//			case setActiveEventNotFound:
-//	//TODO: Пока не реализовано
-//				self.isAppBusy = NO;
-//				break;
-				
+    VTKValidatorResponse *parsedResponse = [[VTKServerCommand sharedInstance] unpackResponse:validatorResponse];
+	if (parsedResponse) {
+		switch (parsedResponse.responseCode) {
+            case VTKAPI10ResponseResultOk:
+                [self displayReadyToScan];
+                self.notReadyToScan = NO;
+                break;
+
+            case VTKAPI10ResponseSetActiveUser:
+                self.navigationItem.title = parsedResponse.userName;
+                self.isUserNameSet = YES;
+                self.notReadyToScan = NO;
+                break;
+
+            case VTKAPI10ResponseSetActiveUserNotFound:
+                self.isUserNameSet = NO;
+
+                // Setting the user name on the main view to a current device's name
+                self.navigationItem.title = [UIDevice currentDevice].name;
+
+                // Showing alert
+                self.warningAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
+                                                              message:NSLocalizedString(@"Неверный GUID! Обратитесь к администратору системы", @"Сообщение алерта")
+                                                             delegate:self
+                                                    cancelButtonTitle:NSLocalizedString(@"Отмена", @"Кнопка Отмена")
+                                                    otherButtonTitles:nil];
+                [self.warningAlert show];
+                [self displayReadyToScan];
+                break;
+
+            case VTKAPI10ResponseSetActiveEvent:
+    //TODO: Пока не реализовано
+                self.notReadyToScan = NO;
+                break;
+
+            case VTKAPI10ResponseSetActiveEventNotFound:
+    //TODO: Пока не реализовано
+                self.notReadyToScan = NO;
+                break;
+
 			case VTKValidatorResponseAccessAllowed ... VTKValidatorResponseAccessDeniedUnknownError:
 			{
 				// Checking if the barcode matches to what we've sent
-				if ([validatorResponse.barcode isEqualToString: self.lastScannedBarcode]) {
+				if ([parsedResponse.barcode isEqualToString: self.lastScannedBarcode]) {
 					
 					// Showing the result
-					[self displayScanResult: validatorResponse];
+					[self displayScanResult: parsedResponse];
 					
 					// Запускаем таймер, по окончании которого снова отображается "Ожидание Проверки"
 					[self runStatusRevertTimer];
 					
 					// Упаковываем результат сканирования в формат лога
-					VTKScanResultItem *logItem = [[VTKScanResultItem alloc] initItemWithValidatorResponse: validatorResponse];
+					VTKScanResultItem *logItem = [[VTKScanResultItem alloc] initItemWithValidatorResponse: parsedResponse];
 					// Adding NSDictionary parsed from JSON response to logItem
 //					logItem.serverParsedResponse = [(NSDictionary *)responseObject objectForKey:@"params"];
 					
@@ -737,13 +737,28 @@
  *
  *  @param show specifies if the wait sign should be shown
  */
-- (void)showWaitingSign:(bool)show
+- (void)showWaitingSign:(BOOL)show
 {
 	if (show) {
 		[self.waitSign startAnimating];
+        [self avoidScans:YES];
 	} else {
 		[self.waitSign stopAnimating];
+        [self avoidScans:NO];
 	}
+}
+
+/**
+ Checks if the Barcode Scanner supports method avoidScans: and calls it
+
+ @param yes BOOL to be sent to Scanner
+ */
+- (void)avoidScans:(BOOL)yes
+{
+    id<VTKBarcodeScannerProtocol> scanner = [VTKScannerManager sharedInstance].scanner;
+    if ([scanner respondsToSelector:@selector(avoidScans:)]) {
+        [scanner avoidScans: yes];
+    }
 }
 
 /**

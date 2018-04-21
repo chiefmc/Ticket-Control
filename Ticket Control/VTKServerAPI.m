@@ -9,7 +9,7 @@
 #import "VTKServerAPI.h"
 #import "VTKSettings.h"
 #import "VTKConstants.h"
-#import <AFJSONRPCClient.h>
+#import "AFJSONRPCClient.h"
 
 @implementation VTKServerAPI
 
@@ -181,7 +181,8 @@
     [self executeMethod:method
          withParameters:params
                 success:success
-                failure:failure];}
+                failure:failure];
+}
 
 - (void)validateBarcode:(NSString *)barcode WithSuccess:(void (^)(id))success failure:(void (^)(NSError *))failure
 {

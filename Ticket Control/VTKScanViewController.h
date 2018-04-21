@@ -23,6 +23,8 @@
  *  Array of scan result items (weak pointer to one from TCTCLSettings)
  */
 @property (nonatomic, weak) NSMutableArray	*scanResultItems;
+@property (nonatomic, weak) IBOutlet UIButton    *scanButton;
+@property (nonatomic, weak) IBOutlet UIButton    *scannerBatStatusIcon;
 
 //- (IBAction)tappedScan:(id)sender;              // Сканирует штрихкод
 //- (IBAction)showScannerBatDetails:(id)sender;	// Показывает tip с детальным статусом батареи саней

@@ -39,6 +39,10 @@
 - (void)setupScannerWithFramework: (VTKScannerFramework)framework withDelegate:(id <VTKScannerDelegateProtocol>)delegate
 {
     switch (framework) {
+        case VTKBarcodeFrameworkAppleCamera:
+            NSLog(@"Apple Camera must be initialized using setupScanner:withFrameworkType:withDelegate: method!");
+            break;
+
         case VTKBarcodeFrameworkMobilogics:
             [self setupScanner:[[VTKMobilogicsScanner alloc] init]
              withFrameworkType:framework

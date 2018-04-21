@@ -39,6 +39,7 @@
 		BD81CFBB2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD81CFBA2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift */; };
 		BD8262651AD9D8D20050F100 /* VTKServerAPIAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8262641AD9D8D20050F100 /* VTKServerAPIAdapter.m */; };
 		BD82990919BF672B008C54BD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD82990819BF672A008C54BD /* AudioToolbox.framework */; };
+		BD920C0C207FED5F00CF8406 /* OnlineSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD920C0B207FED5F00CF8406 /* OnlineSummaryViewController.swift */; };
 		BDB9BDE81A742C1800865D2C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BDB9BDEA1A742C1800865D2C /* Localizable.strings */; };
 		BDBE0DF71AD5B98300D7A288 /* VTKOfflineEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBE0DF61AD5B98300D7A288 /* VTKOfflineEventsViewController.m */; };
 		BDBE0DFA1AD5C0BA00D7A288 /* VTKOnlineConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBE0DF91AD5C0BA00D7A288 /* VTKOnlineConnectViewController.m */; };
@@ -46,6 +47,7 @@
 		BDED27D71A86D71E00C106EA /* VTKMobilogicsScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BDED27D61A86D71E00C106EA /* VTKMobilogicsScanner.m */; };
 		BDED27DA1A86D74100C106EA /* VTKInfinitePeripheralsScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BDED27D91A86D74100C106EA /* VTKInfinitePeripheralsScanner.m */; };
 		BDED27DD1A86D75800C106EA /* VTKHoneywellScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BDED27DC1A86D75800C106EA /* VTKHoneywellScanner.m */; };
+		BDEDE5C4207EAEDB005B06D2 /* SplitScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEDE5C3207EAEDB005B06D2 /* SplitScanViewController.swift */; };
 		BDF9F49B1AD870D90090DDA7 /* VTKSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF9F49A1AD870D90090DDA7 /* VTKSettings.m */; };
 		BDF9F49E1AD888EF0090DDA7 /* VTKServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF9F49D1AD888EF0090DDA7 /* VTKServerAPI.m */; };
 		CA4AA12C53A1468B96A9D489 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FEC220309E4A4EA091B59C /* libPods.a */; };
@@ -115,6 +117,7 @@
 		BD8262631AD9D8D20050F100 /* VTKServerAPIAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKServerAPIAdapter.h; sourceTree = "<group>"; };
 		BD8262641AD9D8D20050F100 /* VTKServerAPIAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKServerAPIAdapter.m; sourceTree = "<group>"; };
 		BD82990819BF672A008C54BD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		BD920C0B207FED5F00CF8406 /* OnlineSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineSummaryViewController.swift; sourceTree = "<group>"; };
 		BDA6863A1A732A8A002FE408 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		BDB9BDE91A742C1800865D2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BDB9BDED1A742C2000865D2C /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		BDED27D91A86D74100C106EA /* VTKInfinitePeripheralsScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKInfinitePeripheralsScanner.m; sourceTree = "<group>"; };
 		BDED27DB1A86D75800C106EA /* VTKHoneywellScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKHoneywellScanner.h; sourceTree = "<group>"; };
 		BDED27DC1A86D75800C106EA /* VTKHoneywellScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKHoneywellScanner.m; sourceTree = "<group>"; };
+		BDEDE5C3207EAEDB005B06D2 /* SplitScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitScanViewController.swift; sourceTree = "<group>"; };
 		BDF9F4991AD870D90090DDA7 /* VTKSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKSettings.h; sourceTree = "<group>"; };
 		BDF9F49A1AD870D90090DDA7 /* VTKSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKSettings.m; sourceTree = "<group>"; };
 		BDF9F49C1AD888EF0090DDA7 /* VTKServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKServerAPI.h; sourceTree = "<group>"; };
@@ -267,7 +271,6 @@
 			isa = PBXGroup;
 			children = (
 				BD59E6F3206916030049B322 /* Unused */,
-				BD8262621AD9D2C50050F100 /* VTKBarcodeValidatorProtocol.h */,
 				BD4057DA19AA70B100B3658F /* VTKConstants.h */,
 				BD14FA8519AD51E20013B226 /* VTKConstants.m */,
 				BD2431C719A608CC008BC19A /* VTKAppDelegate.h */,
@@ -288,7 +291,9 @@
 				BD5CFC6519ACAB1D009851C3 /* VTKLogTableViewController.m */,
 				BD11A19019B83BEE00A94BBD /* VTKLogDetailTableViewController.h */,
 				BD11A19119B83BEE00A94BBD /* VTKLogDetailTableViewController.m */,
+				BD920C0B207FED5F00CF8406 /* OnlineSummaryViewController.swift */,
 				BD81CFBA2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift */,
+				BDEDE5C3207EAEDB005B06D2 /* SplitScanViewController.swift */,
 				BD81CFB92056F67000F3CB47 /* Ticket Control-Bridging-Header.h */,
 			);
 			name = Controller;
@@ -316,6 +321,7 @@
 		BD59E6F3206916030049B322 /* Unused */ = {
 			isa = PBXGroup;
 			children = (
+				BD8262621AD9D2C50050F100 /* VTKBarcodeValidatorProtocol.h */,
 				BDBE0DF81AD5C0BA00D7A288 /* VTKOnlineConnectViewController.h */,
 				BDBE0DF91AD5C0BA00D7A288 /* VTKOnlineConnectViewController.m */,
 				BDBE0DF51AD5B98300D7A288 /* VTKOfflineEventsViewController.h */,
@@ -367,7 +373,6 @@
 				BD11A18F19B7952800A94BBD /* ShellScript */,
 				F469EBA09B666E14DCCE3535 /* Embed Pods Frameworks */,
 				FC83B7B94C22AE5BBD3112A6 /* [CP] Embed Pods Frameworks */,
-				90904F888ED373D125F44EDF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -403,7 +408,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = VTK;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "v-Ticket system";
 				TargetAttributes = {
 					BD2431B419A608CC008BC19A = {
@@ -490,21 +495,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		90904F888ED373D125F44EDF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods-Ticket Control/Pods-Ticket Control-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		BD11A18F19B7952800A94BBD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -548,7 +538,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Ticket Control/Pods/Target Support Files/Pods-Ticket Control/Pods-Ticket Control-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FC83B7B94C22AE5BBD3112A6 /* [CP] Embed Pods Frameworks */ = {
@@ -578,6 +568,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD920C0C207FED5F00CF8406 /* OnlineSummaryViewController.swift in Sources */,
 				BDED27DA1A86D74100C106EA /* VTKInfinitePeripheralsScanner.m in Sources */,
 				BDED27D71A86D71E00C106EA /* VTKMobilogicsScanner.m in Sources */,
 				BDED27D41A86CF1B00C106EA /* VTKScannerManager.m in Sources */,
@@ -592,6 +583,7 @@
 				BD81CFBB2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift in Sources */,
 				BDED27DD1A86D75800C106EA /* VTKHoneywellScanner.m in Sources */,
 				BD7B89C319A91CF400FBAC76 /* VTKScanResultItem.m in Sources */,
+				BDEDE5C4207EAEDB005B06D2 /* SplitScanViewController.swift in Sources */,
 				BDBE0DF71AD5B98300D7A288 /* VTKOfflineEventsViewController.m in Sources */,
 				BD2431C919A608CC008BC19A /* VTKAppDelegate.m in Sources */,
 				BD14FA8619AD51E20013B226 /* VTKConstants.m in Sources */,
@@ -649,25 +641,39 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yevgen Lysenko (74QXWWT48T)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -700,24 +706,38 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: VIRUS Music, LLC (2PA7N3Y7EY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: VIRUS Music, LLC (2PA7N3Y7EY)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(LOCAL_LIBRARY_DIR)/Frameworks/Mobilogics.framework";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -735,6 +755,7 @@
 				);
 				PROVISIONING_PROFILE = "56a313d3-3e51-4873-9c9d-b160ecf936ab";
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -746,13 +767,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "";
 				DEVELOPMENT_TEAM = 2PA7N3Y7EY;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$inherited";
+				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -784,13 +806,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: VIRUS Music, LLC";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: VIRUS Music, LLC";
 				CURRENT_PROJECT_VERSION = "";
 				DEVELOPMENT_TEAM = 2PA7N3Y7EY;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$inherited";
+				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

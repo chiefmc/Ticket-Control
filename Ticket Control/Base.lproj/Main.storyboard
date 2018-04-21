@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="sZG-Ns-HNj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="zUQ-m0-gaa">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
-        <array key="HelveticaNeueLights.ttc">
-            <string>HelveticaNeue-Thin</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Сканирование-->
         <scene sceneID="5mo-2z-7wH">
             <objects>
-                <viewController id="zUQ-m0-gaa" customClass="VTKOnlineConnectViewController" sceneMemberID="viewController">
+                <viewController id="zUQ-m0-gaa" customClass="OnlineSummaryViewController" customModule="Ticket_Scanner" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SRN-53-5u3"/>
                         <viewControllerLayoutGuide type="bottom" id="Soc-rT-keK"/>
@@ -81,7 +73,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="НАЧАТЬ СКАНИРОВАНИЕ"/>
                                 <connections>
-                                    <action selector="startScanAction:" destination="zUQ-m0-gaa" eventType="touchUpInside" id="Qi6-vS-Rgs"/>
+                                    <action selector="startScanAction" destination="zUQ-m0-gaa" eventType="touchUpInside" id="q58-6L-nWK"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -597,7 +589,7 @@
         <!--Детали-->
         <scene sceneID="c0A-HU-ptg">
             <objects>
-                <tableViewController id="ZXE-b7-0oJ" customClass="TCTLLogDetailTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="detailsVC" id="ZXE-b7-0oJ" customClass="TCTLLogDetailTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" sectionIndexMinimumDisplayRowCount="1" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="gSG-ZB-dda">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="333"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -687,7 +679,11 @@
         <!--Camera Barcode Reader View Controller-->
         <scene sceneID="eXk-A7-RuZ">
             <objects>
-                <viewController id="rpg-9c-R1m" customClass="CameraBarcodeReaderViewController" customModule="Ticket_Control" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="rpg-9c-R1m" customClass="CameraBarcodeReaderViewController" customModule="Ticket_Scanner" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XUP-w2-vu2"/>
+                        <viewControllerLayoutGuide type="bottom" id="BOL-wL-EVm"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="96d-J0-WNP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="333.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -732,10 +728,10 @@
             </objects>
             <point key="canvasLocation" x="1405" y="-719"/>
         </scene>
-        <!--View Controller-->
+        <!--Split Scan View Controller-->
         <scene sceneID="uH4-BX-hiX">
             <objects>
-                <viewController id="sZG-Ns-HNj" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SplitScanViewController" id="sZG-Ns-HNj" customClass="SplitScanViewController" customModule="Ticket_Scanner" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YMp-9X-kCC"/>
                         <viewControllerLayoutGuide type="bottom" id="dBc-4O-mjx"/>

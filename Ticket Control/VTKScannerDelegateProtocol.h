@@ -15,7 +15,7 @@
 /**
  *  The protocol, that is used to handle the communication between the app and the scanner
  */
-@protocol VTKScannerDelegateProtocol
+@protocol VTKScannerDelegateProtocol <NSObject>
 
 @required
 /**
