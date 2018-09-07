@@ -470,7 +470,7 @@
                 self.notReadyToScan = NO;
                 break;
 
-			case VTKValidatorResponseAccessAllowed ... VTKValidatorResponseAccessDeniedUnknownError:
+			case VTKAPI10ResponseAccessAllowed ... VTKAPI10ResponseAccessDeniedUnknownError:
 			{
 				// Checking if the barcode matches to what we've sent
 				if ([parsedResponse.barcode isEqualToString: self.lastScannedBarcode]) {
