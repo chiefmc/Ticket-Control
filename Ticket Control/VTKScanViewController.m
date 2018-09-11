@@ -424,7 +424,7 @@
 #pragma mark - Server response handlers
 
 /**
- *  This is the method that handles the success response from JSON-RPC
+ *  Handles the success response from JSON-RPC
  *
  *  @param responseObject the NSDictionary that contains the parsed JSON response
  */
@@ -636,15 +636,7 @@
 	self.isAppBusy = NO;
 	[self runStatusRevertTimer];
 #else
-	
-    //TODO: тут нужно почистить
-//    [self.barcodeValidator validateBarcode:barcode
-//                                   success:^(VTKValidatorResponse *result) {
-//                                       [self handleSuccessResponse:result];
-//                                   }
-//                                   failure:^(NSError *error) {
-//                                       [self handleFailureResponse:error];
-//                                   }];
+
 	// Опрашиваем сервер и ждём ответ
 	[[VTKServerCommand sharedInstance] prepareWithServer: [VTKSettings storage].serverURL
                                              withCommand: getCodeResult

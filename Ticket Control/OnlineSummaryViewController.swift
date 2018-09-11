@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OnlineSummaryViewController: UIViewController {
+class OnlineSummaryViewController: UITableViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
@@ -40,7 +40,6 @@ class OnlineSummaryViewController: UIViewController {
         navController.modalTransitionStyle   = .flipHorizontal
         present(navController, animated: true, completion: nil)
     }
-
 
     /// Returns true if the scan device to be used is the built-in Apple Camera
     ///

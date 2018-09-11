@@ -110,6 +110,11 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         }
     }
 
+    /// This is a stub for compatibility with hardware scanners
+    func wakeup() {
+        // do nothing
+    }
+
     // MARK: - Private
 
 
