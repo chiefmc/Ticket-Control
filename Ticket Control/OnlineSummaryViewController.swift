@@ -23,6 +23,24 @@ class OnlineSummaryViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
 
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        switch indexPath.section {
+//        case 1:
+//            switch indexPath.row {
+//            case 0:
+//            // Do something
+//            case 1:
+//            // Do something
+//            default:
+//                break
+//            }
+//        case 2:
+//        // Do something
+//        default:
+//            break
+//        }
+//    }
+
     /// Instantiates and presents the scanning view controller depending on the scanner type
     @IBAction func startScanAction() {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)

@@ -11,12 +11,12 @@ import AVFoundation
 
 
 /// Displays the camera view for barcode scanning
-class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, VTKBarcodeScannerProtocol {
+class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, VTKBarcodeScanner {
     @IBOutlet var videoPreviewView: UIView!
     @IBOutlet var flashSwitch: UISwitch!
     @IBOutlet var flashIcon: UIImageView!
 
-    var delegate: VTKScannerDelegateProtocol!
+    var delegate: VTKScannerDelegate!
     var initSuccess: Bool = false
 
     private var session: AVCaptureSession!

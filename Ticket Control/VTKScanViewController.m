@@ -14,7 +14,7 @@
 #import "VTKValidatorResponse.h"
 #import "VTKServerCommand.h"
 #import "VTKLogTableViewController.h"
-#import "VTKBarcodeScannerProtocol.h"
+#import "VTKBarcodeScanner.h"
 #import "VTKServerAPI.h"
 @import AudioToolbox;
 
@@ -50,6 +50,8 @@
 @property (nonatomic, strong) UIAlertView *manualBarcodeAlert;
 @property (assign) SystemSoundID		deniedSound;
 @property (assign) SystemSoundID		allowedSound;
+@property (nonatomic, weak) VTKScannerManager *scanner;
+@property (nonatomic, weak) VTKSettings *settings;
 
 @end
 
@@ -107,7 +109,7 @@
  */
 - (IBAction)showScannerBatDetails:(id)sender
 {
-    id <VTKBarcodeScannerProtocol> scanner = [VTKScannerManager sharedInstance].scanner;
+    id <VTKBarcodeScanner> scanner = [VTKScannerManager sharedInstance].scanner;
 #ifdef DEBUG
 	NSLog(@"showScannerBatDetails received");
 #endif
@@ -157,6 +159,11 @@
 	[self.warningAlert show];
 }
 
+- (IBAction)handleSwipe:(UISwipeGestureRecognizer *)recognizer
+{
+    [self performSegueWithIdentifier:@"logTableSegue" sender:self];
+}
+
 /**
  *  @inheritdoc
  */
@@ -203,6 +210,39 @@
 	self.notReadyToScan = NO;
 }
 
+- (void)invokeScannerSetup
+{
+    VTKScannerFramework scannerType = self.settings.scannerDeviceType;
+    self.scanner = [VTKScannerManager sharedInstance];
+
+    // Setup the pre-selected scanner framework and prepare to use if the scanner is not Apple Camera
+    // As in that case the setup will be done upper in SplitCamViewController
+    if (scannerType != VTKBarcodeFrameworkAppleCamera) {
+        [self.scanner setupScannerWithFramework:scannerType
+                                   withDelegate:self];
+#ifdef DEBUG
+        NSLog(@"Scanner type: %d", scannerType);
+#endif
+    }
+
+    // Проверка подключения сканера и отображение статуса
+    if ([self isScannerConnected]) {
+        [self scannerConnectedNotification];
+#if TARGET_IPHONE_SIMULATOR
+        [self setBatteryRemainIcon];
+#elif TEST_IPOD_WITHOUT_SCANNER == 1
+        [self setBatteryRemainIcon];
+#endif
+    } else {
+        [self scannerDisconnectedNotification];
+    }
+
+#ifdef DEBUG
+    // Allow an alert window with detailed bat data
+    [self.scannerBatStatusIcon setUserInteractionEnabled:YES];
+#endif
+}
+
 #pragma mark - UIViewController methods
 /**
  *  @inheritdoc
@@ -211,68 +251,35 @@
 {
 	[super viewDidLoad];
 
-    // Setup the pre-selected scanner framework and prepare to use if the scanner is not Apple Camera
-    // As in that case it will be setup upper in SplitCamViewController
-    VTKScannerFramework scannerType = [VTKSettings storage].scannerDeviceType;
-    if (scannerType != VTKBarcodeFrameworkAppleCamera) {
-        [[VTKScannerManager sharedInstance] setupScannerWithFramework:scannerType
-                                                         withDelegate:self];
-    }
+    self.settings = [VTKSettings storage];
+
+    self.settings.delegate = self;
 
     // Do any additional setup after loading the view, typically from a nib.
 	self.isUpsideDown = NO;
 
-    self.scanResultItems = [VTKSettings storage].scanResultItems;
+    self.scanResultItems = self.settings.scanResultItems;
 	
 	// Preparing sound resources
-	NSURL *deniedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"denied"
-																			  ofType:@"wav"]];
+	NSURL *deniedURL = [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource:@"denied"
+																			   ofType:@"wav"]];
 	AudioServicesCreateSystemSoundID((__bridge CFURLRef)deniedURL, &_deniedSound);
 	
-	NSURL *allowedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"allowed"
-																			   ofType:@"wav"]];
+	NSURL *allowedURL = [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource:@"allowed"
+																			    ofType:@"wav"]];
 	AudioServicesCreateSystemSoundID((__bridge CFURLRef)allowedURL, &_allowedSound);
 	
 	// по умолчанию считаем, что связи нет
 //    [self serverConnectionStatus: NO];
 
     // Add back button to Navigation bar
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
-                                                                                          target:self
-                                                                                          action:@selector(doneAction)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemStop
+                                                                                          target: self
+                                                                                          action: @selector(doneAction)];
 	
 	// Устанавливаем имя пользователя на главном экране в значение имени текущего девайса
 	self.navigationItem.title = [UIDevice currentDevice].name;
 	self.isUserNameSet = NO;
-		
-	// Проверка подключения сканера и отображение статуса
-	if ([self isScannerConnected]) {
-		self.notReadyToScan = NO;
-		[self displayReadyToScan];
-	} else {
-		self.notReadyToScan = YES;
-		[self displayNotReady];
-	}
-	
-
-	// Setting up the right icon for scanner hardware connection
-	if (self.isScannerConnected) {
-		[self performSelector:@selector(postponeBatteryRemain)
-				   withObject:self
-				   afterDelay:2.0f];
-#if TARGET_IPHONE_SIMULATOR
-		[self setBatteryRemainIcon];
-#elif TEST_IPOD_WITHOUT_SCANNER == 1
-		[self setBatteryRemainIcon];
-#endif
-	} else {
-		[self setBatteryRemainIcon];
-	}
-	
-#ifdef DEBUG
-	// Allow an alert window with detailed bat data
-	[self.scannerBatStatusIcon setUserInteractionEnabled:YES];
-#endif
 }
 
 /**
@@ -280,8 +287,8 @@
  */
 - (void)doneAction
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
+    [self.presentingViewController dismissViewControllerAnimated: YES
+                                                      completion: nil];
 }
 
 /**
@@ -451,11 +458,11 @@
                 self.navigationItem.title = [UIDevice currentDevice].name;
 
                 // Showing alert
-                self.warningAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
-                                                              message:NSLocalizedString(@"Неверный GUID! Обратитесь к администратору системы", @"Сообщение алерта")
-                                                             delegate:self
-                                                    cancelButtonTitle:NSLocalizedString(@"Отмена", @"Кнопка Отмена")
-                                                    otherButtonTitles:nil];
+                self.warningAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Ошибка", @"Заголовок алерта")
+                                                               message:NSLocalizedString(@"Неверный GUID! Обратитесь к администратору системы", @"Сообщение алерта")
+                                                              delegate:self
+                                                     cancelButtonTitle:NSLocalizedString(@"Отмена", @"Кнопка Отмена")
+                                                     otherButtonTitles:nil];
                 [self.warningAlert show];
                 [self displayReadyToScan];
                 break;
@@ -474,23 +481,22 @@
 			{
 				// Checking if the barcode matches to what we've sent
 				if ([parsedResponse.barcode isEqualToString: self.lastScannedBarcode]) {
-					
+                    // Упаковываем результат сканирования в формат лога
+                    VTKScanResultItem *scanResultItem = [[VTKScanResultItem alloc] initItemWithValidatorResponse: parsedResponse];
+                    // Adding NSDictionary parsed from JSON response to logItem
+                    scanResultItem.serverParsedResponse = [(NSDictionary *)validatorResponse objectForKey:@"params"];
+
 					// Showing the result
-					[self displayScanResult: parsedResponse];
+					[self displayScanResult: scanResultItem];
 					
 					// Запускаем таймер, по окончании которого снова отображается "Ожидание Проверки"
 					[self runStatusRevertTimer];
-					
-					// Упаковываем результат сканирования в формат лога
-					VTKScanResultItem *logItem = [[VTKScanResultItem alloc] initItemWithValidatorResponse: parsedResponse];
-					// Adding NSDictionary parsed from JSON response to logItem
-//					logItem.serverParsedResponse = [(NSDictionary *)responseObject objectForKey:@"params"];
-					
+
 					// Adding logItem to log table
-					[self addScanResultItemToLog:logItem];
+					[self addScanResultItemToLog: scanResultItem];
 					
 					// Displaying the logItem in the lower part of the screen
-					[self displayLogResultItem:logItem];
+					[self displaySustainedScanResult: scanResultItem];
 					self.notReadyToScan = NO;
 				} else {
 					// Если штрих-код в запросе и ответе не совпадают - показываем алерт
@@ -505,7 +511,7 @@
 				break;
 			}
 				
-			case VTKValidatorResponseErrorNetworkError ... VTKValidatorResponseErrorServerResponseUnkown:
+			case VTKAPI10ResponseErrorNetworkError ... VTKAPI10ResponseErrorServerResponseUnkown:
 				
 			default:
 				// Показываем алерт
@@ -620,34 +626,35 @@
 	[self displayProgress];
 	
 #if TEST_IPOD_WITHOUT_SCANNER == 1
-	VTKServerResponse *item = [VTKServerResponse new];
-	item.barcode = self.lastScannedBarcode;
-	item.responseCode = accessAllowed;
+	VTKValidatorResponse *parsedResponse = [VTKValidatorResponse new];
+    parsedResponse.barcode               = self.lastScannedBarcode;
+    parsedResponse.responseCode          = VTKAPI10ResponseAccessAllowed;
 
-	TCTLScanResultItem *logItem = [[VTKScanResultItem alloc] initItemWithBarcode:self.lastScannedBarcode
-                                                                    FillTextWith:item];
-	logItem.serverParsedResponse = @{@"GUID": @"123",
-									 @"ResponseCode": @"0x210",
+    VTKScanResultItem *scanResultItem = [[VTKScanResultItem alloc] initItemWithValidatorResponse: parsedResponse];
+
+	scanResultItem.serverParsedResponse = @{@"GUID": @"123",
+                                    @"ResponseCode": @"0x210",
 									 @"TimeChecked": @"20140809T14:00:00",
 									 };
 	
-	[self addScanResultItemToLog:logItem];
-	[self displayScanResult: item];
-	self.isAppBusy = NO;
+	[self addScanResultItemToLog: scanResultItem];
+	[self displayScanResult: scanResultItem];
+    [self displaySustainedScanResult: scanResultItem];
+	self.notReadyToScan = NO;
 	[self runStatusRevertTimer];
 #else
 
 	// Опрашиваем сервер и ждём ответ
-	[[VTKServerCommand sharedInstance] prepareWithServer: [VTKSettings storage].serverURL
+	[[VTKServerCommand sharedInstance] prepareWithServer: self.settings.serverURL
                                              withCommand: getCodeResult
-                                                withGUID: [VTKSettings storage].userGUID
+                                                withGUID: self.settings.userGUID
                                              withBarcode: barcode];
 	// we're working JSON-RPC all the work should be done here inside the blocks
 	[[VTKServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
-                                                                    [self handleSuccessResponse:responseObject];
+                                                                    [self handleSuccessResponse: responseObject];
                                                                 }
                                                                 failure:^(NSError *error) {
-                                                                    [self handleFailureResponse:error];
+                                                                    [self handleFailureResponse: error];
                                                                 }];
 
 #endif
@@ -747,7 +754,7 @@
  */
 - (void)avoidScans:(BOOL)yes
 {
-    id<VTKBarcodeScannerProtocol> scanner = [VTKScannerManager sharedInstance].scanner;
+    id<VTKBarcodeScanner> scanner = [VTKScannerManager sharedInstance].scanner;
     if ([scanner respondsToSelector:@selector(avoidScans:)]) {
         [scanner avoidScans: yes];
     }
@@ -763,7 +770,7 @@
 	if (timer) {
 		[timer invalidate];
 	}
-	timer = [NSTimer scheduledTimerWithTimeInterval:[VTKSettings storage].resultDisplayTime
+	timer = [NSTimer scheduledTimerWithTimeInterval:self.settings.resultDisplayTime
 											 target:self
 										   selector:@selector(displayReadyToScan)
 										   userInfo:nil
@@ -778,7 +785,7 @@
 #ifdef DEBUG
 	NSLog(@"postponeBatteryRemain received");
 #endif
-    [[VTKScannerManager sharedInstance].scanner getBatteryRemain]; // FIXME: тут должен быть postponeBatteryRemain
+    [[VTKScannerManager sharedInstance].scanner postponeBatteryRemain];
 }
 
 /**
@@ -792,6 +799,9 @@
 	UIImage *batIcon;
 	if ([self isScannerConnected]) { // проверяем подключен ли сканер
 		NSInteger batRemain = [[self getScannerBatRemain] integerValue];
+#ifdef DEBUG
+        NSLog(@"Battery remain info received from scanner framework: %ld", (long)batRemain);
+#endif
 		
 		if ((batRemain > 100) || [self isScannerOnCharge]) {
 			batIcon = [UIImage imageNamed: @"battery_charging"];
@@ -829,20 +839,13 @@
 	if (yes) {
 		_notReadyToScan = YES;
 		self.scanButton.enabled = NO;
-		/* Not needed so far...
-		// Запускаем таймер на 15 сек, по истечении отменяем статус занятости
-		timer = [NSTimer scheduledTimerWithTimeInterval:XMLRPC_TIMEOUT
-												 target:self
-											   selector:@selector(cancelAppBusyStatus)
-											   userInfo:nil
-												repeats:NO]; */
 	} else {
 		_notReadyToScan = NO;
 		self.scanButton.enabled = YES;
 	}
 
 #ifdef DEBUG
-	NSLog(@"setAppBusyStatus received: %hhd", yes);
+	NSLog(@"setAppBusyStatus received: %d", yes);
 #endif
 }
 
@@ -902,76 +905,26 @@
  *
  *  @param scanResult The result of the check, that should be displayed
  */
-- (void)displayScanResult: (VTKValidatorResponse *)validatorResponse
+- (void)displayScanResult: (VTKScanResultItem *)scanResultItem
 {
 	[self showWaitingSign: NO];
-	switch (validatorResponse.responseCode) {
-		case VTKValidatorResponseAccessAllowed: {
-            self.background.backgroundColor = [UIColor greenColor];
-            self.scannedStatus.alpha        = 0;
-            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП РАЗРЕШЁН", @"Отображение главного статуса");
-            self.scannedStatus.textColor    = [UIColor whiteColor];
-            self.scannedSubStatus.textColor = [UIColor clearColor];
-			
-			[self doAllowedStatusAnimation];
+    if (scanResultItem.allowedAccess) {
+        self.background.backgroundColor = [UIColor greenColor];
+        self.scannedStatus.alpha        = 0;
+        self.scannedStatus.text         = scanResultItem.statusText;
+        self.scannedStatus.textColor    = [UIColor whiteColor];
+        self.scannedSubStatus.textColor = [UIColor clearColor];
 
-			break;
-		}
-		case VTKValidatorResponseAccessDeniedTicketNotFound:
-            self.background.backgroundColor = [UIColor redColor];
-            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
-            self.scannedStatus.textColor    = [UIColor whiteColor];
-            self.scannedSubStatus.text      = NSLocalizedString(@"БИЛЕТА НЕТ В БАЗЕ", @"Отображение суб-статуса");
-            self.scannedSubStatus.textColor = [UIColor whiteColor];
-			
-			[self doDeniedStatusAnimation];
-			
-			break;
-			
-		case VTKValidatorResponseAccessDeniedAlreadyPassed:
-            self.background.backgroundColor = [UIColor redColor];
-            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
-            self.scannedStatus.textColor    = [UIColor whiteColor];
-            self.scannedSubStatus.text      = NSLocalizedString(@"БИЛЕТ УЖЕ ПРОХОДИЛ", @"Отображение суб-статуса");
-            self.scannedSubStatus.textColor = [UIColor whiteColor];
-			
-			[self doDeniedStatusAnimation];
-			
-			break;
-			
-		case VTKValidatorResponseAccessDeniedWrongEntrance:
-            self.background.backgroundColor = [UIColor redColor];
-            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
-            self.scannedStatus.textColor    = [UIColor whiteColor];
-            self.scannedSubStatus.text      = NSLocalizedString(@"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД", @"Отображение суб-статуса");
-            self.scannedSubStatus.textColor = [UIColor whiteColor];
-			
-			[self doDeniedStatusAnimation];
-			
-			break;
-			
-		case VTKValidatorResponseAccessDeniedNoActiveEvent:
-            self.background.backgroundColor = [UIColor redColor];
-            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
-            self.scannedStatus.textColor    = [UIColor whiteColor];
-            self.scannedSubStatus.text      = NSLocalizedString(@"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ", @"Отображение суб-статуса");
-            self.scannedSubStatus.textColor = [UIColor whiteColor];
-			
-			[self doDeniedStatusAnimation];
-			
-			break;
-			
-		default:
-            self.background.backgroundColor = [UIColor redColor];
-            self.scannedStatus.text         = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Отображение главного статуса");
-            self.scannedStatus.textColor    = [UIColor whiteColor];
-            self.scannedSubStatus.text      = NSLocalizedString(@"НЕИЗВЕСТНАЯ ОШИБКА", @"Отображение суб-статуса");
-            self.scannedSubStatus.textColor = [UIColor whiteColor];
-			
-			[self doDeniedStatusAnimation];
-			
-			break;
-	}
+        [self doAllowedStatusAnimation];
+    } else {
+        self.background.backgroundColor = [UIColor redColor];
+        self.scannedStatus.text         = scanResultItem.statusText;
+        self.scannedStatus.textColor    = [UIColor whiteColor];
+        self.scannedSubStatus.text      = scanResultItem.extendedStatusText;
+        self.scannedSubStatus.textColor = [UIColor whiteColor];
+
+        [self doDeniedStatusAnimation];
+    }
 }
 
 #pragma mark - Result log methods
@@ -996,14 +949,14 @@
  *
  *  @param logItem The item to display
  */
-- (void)displayLogResultItem:(VTKScanResultItem *)logItem
+- (void)displaySustainedScanResult:(VTKScanResultItem *)scanResultItem
 {
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setTimeStyle: NSDateFormatterShortStyle];
 	[dateFormatter setDateStyle: NSDateFormatterNoStyle];
 	
-	NSString *title = [dateFormatter stringFromDate: logItem.locallyCheckedTime];
-	title = [title stringByAppendingFormat: NSLocalizedString(@" Билет %@", @"Строка лога"), logItem.barcode];
+	NSString *title = [dateFormatter stringFromDate: scanResultItem.locallyCheckedTime];
+	title = [title stringByAppendingFormat: NSLocalizedString(@" Билет %@", @"Строка лога"), scanResultItem.barcode];
 	
 	// Анимируем смену строчек лога
 	[UIView animateWithDuration:0.2
@@ -1037,8 +990,9 @@
 					 }
 					 completion:^(BOOL finished){
 						 // Обновляем содержимое
-						 self.lastTicketStatusLabel.text = logItem.resultText;
-						 if (logItem.allowedAccess) {
+                         self.lastTicketStatusLabel.text = [[scanResultItem.statusText stringByAppendingString: @": "]
+                                                            stringByAppendingString:scanResultItem.extendedStatusText];
+						 if (scanResultItem.allowedAccess) {
 							 self.lastTicketStatusLabel.textColor = [UIColor greenColor];
 						 } else {
 							 self.lastTicketStatusLabel.textColor = [UIColor redColor];
@@ -1131,9 +1085,9 @@
  */
 - (void)invocateServerAliveCheck
 {
-	[[VTKServerCommand sharedInstance] prepareWithServer:[VTKSettings storage].serverURL
+	[[VTKServerCommand sharedInstance] prepareWithServer:self.settings.serverURL
 											  withCommand:noOp
-												 withGUID:[VTKSettings storage].userGUID
+												 withGUID:self.settings.userGUID
 											  withBarcode:@""];
 	
 	[[VTKServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {
@@ -1149,9 +1103,9 @@
  */
 - (void)invocateGetUserName
 {
-	[[VTKServerCommand sharedInstance] prepareWithServer:[VTKSettings storage].serverURL
+	[[VTKServerCommand sharedInstance] prepareWithServer:self.settings.serverURL
 											  withCommand:getUserName
-												 withGUID:[VTKSettings storage].userGUID
+												 withGUID:self.settings.userGUID
 											  withBarcode:@""];
 
 	[[VTKServerCommand sharedInstance] doPreparedCommandWithJSONsuccess:^(id responseObject) {

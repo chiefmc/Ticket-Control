@@ -6,11 +6,13 @@
 //  Copyright (c) 2015 v-Ticket system. All rights reserved.
 //
 
+#import "VTKConstants.h"
 #import "VTKScannerManager.h"
-#import "VTKBarcodeScannerProtocol.h"
-#import "VTKMobilogicsScanner.h"
+#import "VTKBarcodeScanner.h"
+//#import "VTKMobilogicsScanner.h" // Mobilogics scanner support has been dropped in v1.2 due to use libstc++.6.dylib, which is not supported by XCode anymore
 #import "VTKInfinitePeripheralsScanner.h"
 #import "VTKHoneywellScanner.h"
+#import "VTKDummyScanner.h"
 
 @implementation VTKScannerManager
 
@@ -36,19 +38,26 @@
     return [super init];
 }
 
-- (void)setupScannerWithFramework: (VTKScannerFramework)framework withDelegate:(id <VTKScannerDelegateProtocol>)delegate
+- (void)setupScannerWithFramework: (VTKScannerFramework)framework
+                     withDelegate:(id <VTKScannerDelegate>)delegate
 {
+#if TEST_IPOD_WITHOUT_SCANNER == 1
+    [self setupScanner:[[VTKDummyScanner alloc] init]
+     withFrameworkType:framework
+          withDelegate:delegate];
+#else
     switch (framework) {
         case VTKBarcodeFrameworkAppleCamera:
             NSLog(@"Apple Camera must be initialized using setupScanner:withFrameworkType:withDelegate: method!");
             break;
 
-        case VTKBarcodeFrameworkMobilogics:
+            // Mobilogics framework support has been dropped since v1.2
+/*      case VTKBarcodeFrameworkMobilogics:
             [self setupScanner:[[VTKMobilogicsScanner alloc] init]
              withFrameworkType:framework
                   withDelegate:delegate];
             break;
-            
+*/
         case VTKBarcodeFrameworkHoneywell:
             [self setupScanner:[[VTKHoneywellScanner alloc] init]
              withFrameworkType:framework
@@ -62,16 +71,17 @@
             break;
             
         default:
-            NSLog(@"Unrecognized ScannerFramework! Ignoring...");
+            NSLog(@"Unrecognized ScannerFramework (%d)! Ignoring...", framework);
             break;
     }
     
     _activeScannerType = framework;
+#endif
 }
 
-- (void)setupScanner: (id<VTKBarcodeScannerProtocol>)scanner
+- (void)setupScanner: (id<VTKBarcodeScanner>)scanner
    withFrameworkType: (VTKScannerFramework) framework
-        withDelegate:(id<VTKScannerDelegateProtocol>)delegate
+        withDelegate:(id<VTKScannerDelegate>)delegate
 {
     if (scanner) {
         _scanner = scanner;

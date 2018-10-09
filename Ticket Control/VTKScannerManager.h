@@ -7,8 +7,8 @@
 //
 
 @import Foundation;
-#import "VTKScannerDelegateProtocol.h"
-#import "VTKBarcodeScannerProtocol.h"
+#import "VTKScannerDelegate.h"
+#import "VTKBarcodeScanner.h"
 
 @class VTKBarcodeScanner;
 
@@ -22,6 +22,8 @@ typedef NS_ENUM(unsigned int, VTKScannerFramework) {
     VTKBarcodeFrameworkAppleCamera = 0,
     /**
      *  The Mobilogics framework, that support their devices: aScan, iScan, iPDT380 abd iPDT5
+     *  @deprecated
+     *  @since v1.2
      */
     VTKBarcodeFrameworkMobilogics = 1,
     /**
@@ -43,7 +45,7 @@ typedef NS_ENUM(unsigned int, VTKScannerFramework) {
 /**
  *  The pointer to a delegate object. You must set it up right after the <code>+setup</code> been called.
  */
-@property (nonatomic, weak, readonly) id <VTKScannerDelegateProtocol> delegate;
+@property (nonatomic, weak, readonly) id <VTKScannerDelegate> delegate;
 
 /**
  *  Contains the currently connected barcode scanner type
@@ -53,7 +55,7 @@ typedef NS_ENUM(unsigned int, VTKScannerFramework) {
 /**
  *  Has the currenly connected scanner handler or nil if no scanner connected
  */
-@property (nonatomic, strong, readonly) id <VTKBarcodeScannerProtocol> scanner;
+@property (nonatomic, strong, readonly) id <VTKBarcodeScanner> scanner;
 
 /**
  *  This class method returns the singleton object
@@ -69,7 +71,7 @@ typedef NS_ENUM(unsigned int, VTKScannerFramework) {
  *  @param delegate  The delegate object that will receive all the callbacks. Must conform to VTKScannerDelegate protocol
  */
 - (void)setupScannerWithFramework: (VTKScannerFramework)framework
-                     withDelegate: (id <VTKScannerDelegateProtocol>)delegate;
+                     withDelegate: (id <VTKScannerDelegate>)delegate;
 
 /**
  Sets up the scanner with given scanner object that must conform to the VTKBarcodeScannerProtocol protocol
@@ -77,8 +79,8 @@ typedef NS_ENUM(unsigned int, VTKScannerFramework) {
  @param scanner An initialized scanner object
  @param delegate A delegate object
  */
-- (void)setupScanner: (id<VTKBarcodeScannerProtocol>)scanner
-   withFrameworkType: (VTKScannerFramework) framework
-        withDelegate: (id<VTKScannerDelegateProtocol>)delegate;
+- (void)setupScanner: (id<VTKBarcodeScanner>)scanner
+   withFrameworkType: (VTKScannerFramework)framework
+        withDelegate: (id<VTKScannerDelegate>)delegate;
 
 @end

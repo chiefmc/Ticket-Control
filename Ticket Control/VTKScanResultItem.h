@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
 //
 
+#import "VTKServerAPI.h"
 @import Foundation;
 
 @class VTKValidatorResponse;
@@ -16,14 +17,16 @@
 @interface VTKScanResultItem : NSObject
 
 @property (nonatomic, copy, readonly) NSString	*barcode;				// Barcode of the ticket scanned
+@property (nonatomic) VTKAPI10ResponseCode      responseCode;           // Raw response code from API
 @property (nonatomic, readonly) BOOL			allowedAccess;			// Did we allowed the entrance
-@property (nonatomic, copy, readonly) NSString	*resultText;			// A resulting text message we displayed to user
+@property (nonatomic, copy, readonly) NSString	*statusText;			// A resulting text message we displayed to user
+@property (nonatomic, copy, readonly) NSString  *extendedStatusText;    // An extended status description text
 @property (nonatomic, strong, readonly) NSDate	*locallyCheckedTime;	// Time the barcode was checked at
 @property (nonatomic, copy, readonly) NSString	*hasBeenCheckedBy;		// The name of the steward that checked the ticketed
 @property (nonatomic, strong, readonly) NSDate	*hasBeenCheckedAt;		// The time ticket was checked at
 @property (nonatomic, strong) NSDictionary		*serverParsedResponse;	// Parsed server response with all the extra data we get from the server
 
--(instancetype)init;
+- (instancetype)init;
 
 /**
  *  The designated initializer for the class
@@ -33,6 +36,6 @@
  *
  *  @return the inialized object
  */
--(instancetype)initItemWithValidatorResponse: (VTKValidatorResponse *)validatorResponse NS_DESIGNATED_INITIALIZER;
+- (instancetype)initItemWithValidatorResponse: (VTKValidatorResponse *)validatorResponse NS_DESIGNATED_INITIALIZER;
 
 @end

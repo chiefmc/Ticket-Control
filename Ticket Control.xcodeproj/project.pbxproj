@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC2809873B6D19CFEB432A04 /* Pods_Ticket_Control.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87E81DE4C6ECD98440E96FFC /* Pods_Ticket_Control.framework */; };
+		4AA5375EFF8E3884F3D2AEEA /* Pods_Ticket_Control.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B43DB942FC3A07B6D40F0D1 /* Pods_Ticket_Control.framework */; };
 		BD11A19219B83BEE00A94BBD /* VTKLogDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD11A19119B83BEE00A94BBD /* VTKLogDetailTableViewController.m */; };
 		BD11A19419B9D38A00A94BBD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = BD11A19319B9D38A00A94BBD /* Podfile */; };
 		BD14FA8619AD51E20013B226 /* VTKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14FA8519AD51E20013B226 /* VTKConstants.m */; };
@@ -20,13 +20,11 @@
 		BD2431CC19A608CC008BC19A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD2431CA19A608CC008BC19A /* Main.storyboard */; };
 		BD2431CF19A608CC008BC19A /* VTKScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431CE19A608CC008BC19A /* VTKScanViewController.m */; };
 		BD2431D119A608CC008BC19A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2431D019A608CC008BC19A /* Images.xcassets */; };
-		BD2431D819A608CC008BC19A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431D719A608CC008BC19A /* XCTest.framework */; };
 		BD2431D919A608CC008BC19A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431B819A608CC008BC19A /* Foundation.framework */; };
 		BD2431DA19A608CC008BC19A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431BC19A608CC008BC19A /* UIKit.framework */; };
 		BD2431E419A608CC008BC19A /* Ticket_ControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2431E319A608CC008BC19A /* Ticket_ControlTests.m */; };
-		BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */; };
-		BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431EF19A60957008BC19A /* Barcode.framework */; };
-		BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2431F019A60957008BC19A /* MobilogicsCore.framework */; };
+		BD24AD56216786A1008D975F /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD24AD55216786A1008D975F /* ExternalAccessory.framework */; };
+		BD24AD5F216819A5008D975F /* libdtdev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD24AD59216787DF008D975F /* libdtdev.a */; };
 		BD347E091C1E1A7800EBDBFD /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = BD347E081C1E1A7800EBDBFD /* README.md */; };
 		BD4890FF19AA1A3500A2EB62 /* VTKValidatorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4890FE19AA1A3500A2EB62 /* VTKValidatorResponse.m */; };
 		BD48910219AA312500A2EB62 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD48910119AA312500A2EB62 /* Settings.bundle */; };
@@ -34,6 +32,7 @@
 		BD4CB46A19C6FD7900C5E15C /* allowed.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46319C6FD7900C5E15C /* allowed.wav */; };
 		BD4CB46D19C6FD7900C5E15C /* denied.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46619C6FD7900C5E15C /* denied.wav */; };
 		BD4CB46F19C6FD7900C5E15C /* denied2.wav in Resources */ = {isa = PBXBuildFile; fileRef = BD4CB46819C6FD7900C5E15C /* denied2.wav */; };
+		BD51243F216AC19B002B3189 /* VTKDummyScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BD51243E216AC19B002B3189 /* VTKDummyScanner.m */; };
 		BD5CFC6619ACAB1D009851C3 /* VTKLogTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5CFC6519ACAB1D009851C3 /* VTKLogTableViewController.m */; };
 		BD7B89C319A91CF400FBAC76 /* VTKScanResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7B89C219A91CF400FBAC76 /* VTKScanResultItem.m */; };
 		BD81CFBB2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD81CFBA2056F67100F3CB47 /* CameraBarcodeReaderViewController.swift */; };
@@ -63,11 +62,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		87E81DE4C6ECD98440E96FFC /* Pods_Ticket_Control.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ticket_Control.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B43DB942FC3A07B6D40F0D1 /* Pods_Ticket_Control.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ticket_Control.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD11A19019B83BEE00A94BBD /* VTKLogDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKLogDetailTableViewController.h; sourceTree = "<group>"; };
 		BD11A19119B83BEE00A94BBD /* VTKLogDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKLogDetailTableViewController.m; sourceTree = "<group>"; };
 		BD11A19319B9D38A00A94BBD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BD11A19519B9D76500A94BBD /* VTKBarcodeScannerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKBarcodeScannerProtocol.h; sourceTree = "<group>"; };
+		BD11A19519B9D76500A94BBD /* VTKBarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKBarcodeScanner.h; sourceTree = "<group>"; };
 		BD14FA8519AD51E20013B226 /* VTKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKConstants.m; sourceTree = "<group>"; };
 		BD14FA8719ADF65E0013B226 /* VTKServerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKServerCommand.h; sourceTree = "<group>"; };
 		BD14FA8819ADF65E0013B226 /* VTKServerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKServerCommand.m; sourceTree = "<group>"; };
@@ -85,16 +84,24 @@
 		BD2431CE19A608CC008BC19A /* VTKScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTKScanViewController.m; sourceTree = "<group>"; };
 		BD2431D019A608CC008BC19A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BD2431D619A608CC008BC19A /* Ticket ControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ticket ControlTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD2431D719A608CC008BC19A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		BD2431DF19A608CC008BC19A /* Ticket ControlTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Ticket ControlTests-Info.plist"; sourceTree = "<group>"; };
 		BD2431E319A608CC008BC19A /* Ticket_ControlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Ticket_ControlTests.m; sourceTree = "<group>"; };
 		BD2431ED19A6093C008BC19A /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BD2431EF19A60957008BC19A /* Barcode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Barcode.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/Barcode.framework; sourceTree = "<group>"; };
 		BD2431F019A60957008BC19A /* MobilogicsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobilogicsCore.framework; path = ../../../../Library/Frameworks/Mobilogics.framework/MobilogicsCore.framework; sourceTree = "<group>"; };
+		BD24AD55216786A1008D975F /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		BD24AD58216787DF008D975F /* libdtdev_bitcode.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libdtdev_bitcode.a; sourceTree = "<group>"; };
+		BD24AD59216787DF008D975F /* libdtdev.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libdtdev.a; sourceTree = "<group>"; };
+		BD24AD5A216787DF008D975F /* EMVTags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMVTags.h; sourceTree = "<group>"; };
+		BD24AD5B216787DF008D975F /* libdtdev_btle_bitcode.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libdtdev_btle_bitcode.a; sourceTree = "<group>"; };
+		BD24AD5C216787DF008D975F /* DTDevices.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DTDevices.pdf; sourceTree = "<group>"; };
+		BD24AD5D216787DF008D975F /* DTDevices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTDevices.h; sourceTree = "<group>"; };
+		BD24AD5E216787DF008D975F /* EMVPrivateTags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EMVPrivateTags.h; sourceTree = "<group>"; };
 		BD347E081C1E1A7800EBDBFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD4057DA19AA70B100B3658F /* VTKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKConstants.h; sourceTree = "<group>"; };
 		BD46A82F1A7AC55200D8B29D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BD46A8311A7ACBEF00D8B29D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		BD46DE8F21601FA600FE77BF /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BD4890FD19AA1A3500A2EB62 /* VTKValidatorResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKValidatorResponse.h; sourceTree = "<group>"; };
 		BD4890FE19AA1A3500A2EB62 /* VTKValidatorResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKValidatorResponse.m; sourceTree = "<group>"; };
 		BD48910119AA312500A2EB62 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -102,7 +109,10 @@
 		BD4CB46319C6FD7900C5E15C /* allowed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = allowed.wav; sourceTree = "<group>"; };
 		BD4CB46619C6FD7900C5E15C /* denied.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = denied.wav; sourceTree = "<group>"; };
 		BD4CB46819C6FD7900C5E15C /* denied2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = denied2.wav; sourceTree = "<group>"; };
-		BD59E6F12068BE090049B322 /* VTKScannerDelegateProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKScannerDelegateProtocol.h; sourceTree = "<group>"; };
+		BD51243A216A987C002B3189 /* VTKSettingsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKSettingsDelegate.h; sourceTree = "<group>"; };
+		BD51243D216AC19B002B3189 /* VTKDummyScanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKDummyScanner.h; sourceTree = "<group>"; };
+		BD51243E216AC19B002B3189 /* VTKDummyScanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTKDummyScanner.m; sourceTree = "<group>"; };
+		BD59E6F12068BE090049B322 /* VTKScannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTKScannerDelegate.h; sourceTree = "<group>"; };
 		BD59E6F2206914110049B322 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BD5CFC6419ACAB1D009851C3 /* VTKLogTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTKLogTableViewController.h; sourceTree = "<group>"; };
 		BD5CFC6519ACAB1D009851C3 /* VTKLogTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTKLogTableViewController.m; sourceTree = "<group>"; };
@@ -149,13 +159,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD82990919BF672B008C54BD /* AudioToolbox.framework in Frameworks */,
-				BD2431F219A60957008BC19A /* MobilogicsCore.framework in Frameworks */,
-				BD2431F119A60957008BC19A /* Barcode.framework in Frameworks */,
-				BD2431EE19A6093C008BC19A /* libstdc++.6.dylib in Frameworks */,
 				BD2431BB19A608CC008BC19A /* CoreGraphics.framework in Frameworks */,
 				BD2431BD19A608CC008BC19A /* UIKit.framework in Frameworks */,
 				BD2431B919A608CC008BC19A /* Foundation.framework in Frameworks */,
-				AC2809873B6D19CFEB432A04 /* Pods_Ticket_Control.framework in Frameworks */,
+				4AA5375EFF8E3884F3D2AEEA /* Pods_Ticket_Control.framework in Frameworks */,
+				BD24AD56216786A1008D975F /* ExternalAccessory.framework in Frameworks */,
+				BD24AD5F216819A5008D975F /* libdtdev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +172,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD2431D819A608CC008BC19A /* XCTest.framework in Frameworks */,
 				BD2431DA19A608CC008BC19A /* UIKit.framework in Frameworks */,
 				BD2431D919A608CC008BC19A /* Foundation.framework in Frameworks */,
 			);
@@ -206,6 +214,8 @@
 		BD2431B719A608CC008BC19A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BD24AD55216786A1008D975F /* ExternalAccessory.framework */,
+				BD46DE8F21601FA600FE77BF /* libc++.tbd */,
 				BD82990819BF672A008C54BD /* AudioToolbox.framework */,
 				BD2431EF19A60957008BC19A /* Barcode.framework */,
 				BD2431F019A60957008BC19A /* MobilogicsCore.framework */,
@@ -213,8 +223,7 @@
 				BD2431B819A608CC008BC19A /* Foundation.framework */,
 				BD2431BA19A608CC008BC19A /* CoreGraphics.framework */,
 				BD2431BC19A608CC008BC19A /* UIKit.framework */,
-				BD2431D719A608CC008BC19A /* XCTest.framework */,
-				87E81DE4C6ECD98440E96FFC /* Pods_Ticket_Control.framework */,
+				8B43DB942FC3A07B6D40F0D1 /* Pods_Ticket_Control.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -225,6 +234,7 @@
 				BDC6B48519C0F474004E2BB1 /* Ticket Control.entitlements */,
 				BD2431CA19A608CC008BC19A /* Main.storyboard */,
 				BD48910119AA312500A2EB62 /* Settings.bundle */,
+				BD24AD57216787DF008D975F /* Library */,
 				BD48910019AA2CDB00A2EB62 /* Sources */,
 				BD2431D019A608CC008BC19A /* Images.xcassets */,
 				BD82990519BF63FA008C54BD /* Sounds */,
@@ -261,6 +271,20 @@
 				BD2431DF19A608CC008BC19A /* Ticket ControlTests-Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BD24AD57216787DF008D975F /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				BD24AD58216787DF008D975F /* libdtdev_bitcode.a */,
+				BD24AD59216787DF008D975F /* libdtdev.a */,
+				BD24AD5A216787DF008D975F /* EMVTags.h */,
+				BD24AD5B216787DF008D975F /* libdtdev_btle_bitcode.a */,
+				BD24AD5C216787DF008D975F /* DTDevices.pdf */,
+				BD24AD5D216787DF008D975F /* DTDevices.h */,
+				BD24AD5E216787DF008D975F /* EMVPrivateTags.h */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 		BD48910019AA2CDB00A2EB62 /* Sources */ = {
@@ -304,6 +328,7 @@
 				BDF9F49D1AD888EF0090DDA7 /* VTKServerAPI.m */,
 				BDF9F4991AD870D90090DDA7 /* VTKSettings.h */,
 				BDF9F49A1AD870D90090DDA7 /* VTKSettings.m */,
+				BD51243A216A987C002B3189 /* VTKSettingsDelegate.h */,
 				BD7B89C119A91CF400FBAC76 /* VTKScanResultItem.h */,
 				BD7B89C219A91CF400FBAC76 /* VTKScanResultItem.m */,
 				BD14FA8719ADF65E0013B226 /* VTKServerCommand.h */,
@@ -342,14 +367,16 @@
 			children = (
 				BDED27D21A86CF1B00C106EA /* VTKScannerManager.h */,
 				BDED27D31A86CF1B00C106EA /* VTKScannerManager.m */,
-				BD11A19519B9D76500A94BBD /* VTKBarcodeScannerProtocol.h */,
-				BDED27D51A86D71E00C106EA /* VTKMobilogicsScanner.h */,
-				BDED27D61A86D71E00C106EA /* VTKMobilogicsScanner.m */,
+				BD59E6F12068BE090049B322 /* VTKScannerDelegate.h */,
+				BD11A19519B9D76500A94BBD /* VTKBarcodeScanner.h */,
 				BDED27D81A86D74100C106EA /* VTKInfinitePeripheralsScanner.h */,
 				BDED27D91A86D74100C106EA /* VTKInfinitePeripheralsScanner.m */,
 				BDED27DB1A86D75800C106EA /* VTKHoneywellScanner.h */,
 				BDED27DC1A86D75800C106EA /* VTKHoneywellScanner.m */,
-				BD59E6F12068BE090049B322 /* VTKScannerDelegateProtocol.h */,
+				BDED27D51A86D71E00C106EA /* VTKMobilogicsScanner.h */,
+				BDED27D61A86D71E00C106EA /* VTKMobilogicsScanner.m */,
+				BD51243D216AC19B002B3189 /* VTKDummyScanner.h */,
+				BD51243E216AC19B002B3189 /* VTKDummyScanner.m */,
 			);
 			name = BarcodeScannerManager;
 			sourceTree = "<group>";
@@ -568,6 +595,7 @@
 				BD920C0C207FED5F00CF8406 /* OnlineSummaryViewController.swift in Sources */,
 				BDED27DA1A86D74100C106EA /* VTKInfinitePeripheralsScanner.m in Sources */,
 				BDED27D71A86D71E00C106EA /* VTKMobilogicsScanner.m in Sources */,
+				BD51243F216AC19B002B3189 /* VTKDummyScanner.m in Sources */,
 				BDED27D41A86CF1B00C106EA /* VTKScannerManager.m in Sources */,
 				BD347E091C1E1A7800EBDBFD /* README.md in Sources */,
 				BD2431C519A608CC008BC19A /* main.m in Sources */,
@@ -765,6 +793,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -772,6 +801,10 @@
 				CURRENT_PROJECT_VERSION = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					VTKMobilogicsScanner.m,
+					VTKMobilogicsScanner.h,
+				);
 				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
@@ -782,7 +815,10 @@
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Ticket\\ Control/Library",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.Ticket-Control";
 				PRODUCT_NAME = "Ticket Scanner";
 				PROVISIONING_PROFILE = "";
@@ -805,6 +841,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: VIRUS Music, LLC";
@@ -812,6 +849,10 @@
 				CURRENT_PROJECT_VERSION = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					VTKMobilogicsScanner.m,
+					VTKMobilogicsScanner.h,
+				);
 				FRAMEWORK_SEARCH_PATHS = $inherited;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ticket Control/Ticket Control-Prefix.pch";
@@ -822,7 +863,10 @@
 				INFOPLIST_FILE = "Ticket Control/Ticket Control-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Ticket\\ Control/Library",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.Ticket-Control";
 				PRODUCT_NAME = "Ticket Scanner";
 				PROVISIONING_PROFILE = "";
@@ -841,7 +885,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Ticket Control.app/Ticket Control";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -857,7 +901,7 @@
 				INFOPLIST_FILE = "Ticket ControlTests/Ticket ControlTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ticket Scanner.app/Ticket Scanner";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -866,7 +910,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Ticket Control.app/Ticket Control";
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -878,7 +922,7 @@
 				INFOPLIST_FILE = "Ticket ControlTests/Ticket ControlTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.v-ticket.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ticket Scanner.app/Ticket Scanner";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

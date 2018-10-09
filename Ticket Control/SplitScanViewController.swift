@@ -30,7 +30,7 @@ class SplitScanViewController: UIViewController {
         cameraBarcodeReaderVC.delegate = scanVC
         VTKScannerManager.sharedInstance().setupScanner(cameraBarcodeReaderVC,
                                                         withFrameworkType: .barcodeFrameworkAppleCamera,
-                                                        withDelegate: scanVC)
+                                                        with: scanVC)
         if cameraBarcodeReaderVC.initSuccess {
             scanVC.scanButton.isHidden = true
             scanVC.scannerBatStatusIcon.isHidden = true

@@ -118,7 +118,7 @@
             response.timeChecked       = [dateFormat dateFromString:decodedResponse[TIME_CHECKED_KEY]];
             response.clientNeedsUpdate = [decodedResponse[CLIENT_NEEDS_UPDATE_KEY] boolValue];
 		} else {
-			response.responseCode = VTKValidatorResponseErrorServerResponseUnkown;
+			response.responseCode = VTKAPI10ResponseErrorServerResponseUnkown;
 		}
 		return response;
 	} else return nil;

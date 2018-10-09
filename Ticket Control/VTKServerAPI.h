@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 v-Ticket system. All rights reserved.
 //
 
-#import "VTKBarcodeValidatorProtocol.h"
 @import Foundation;
 
 /**

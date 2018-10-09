@@ -13,7 +13,7 @@
 
 @interface VTKLogTableViewController ()
 
-@property (weak, nonatomic) VTKScanResultItem *logItem;
+@property (weak, nonatomic) VTKScanResultItem *scanResultItem;
 
 @end
 
@@ -24,8 +24,6 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-		//TCTLViewController *mainWindowViewController = (TCTLViewController *)self.navigationController.parentViewController;
-		//self.scanResultItems = mainWindowViewController.scanResultItems;
     }
     return self;
 }
@@ -67,19 +65,24 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
     
     // Configure the cell...
-	VTKScanResultItem *logItem = [self.scanResultItems objectAtIndex: indexPath.row];
+	VTKScanResultItem *scanResultItem = [self.scanResultItems objectAtIndex: indexPath.row];
 
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setTimeStyle: NSDateFormatterShortStyle];
 	[dateFormatter setDateStyle: NSDateFormatterNoStyle];
 	
-	NSString *title = [dateFormatter stringFromDate: logItem.locallyCheckedTime];
-	title = [title stringByAppendingFormat: NSLocalizedString(@" Билет %@", @"Строка лога"), logItem.barcode];
+	NSString *title = [dateFormatter stringFromDate: scanResultItem.locallyCheckedTime];
+	title = [title stringByAppendingFormat: NSLocalizedString(@" Билет %@", @"Строка лога"), scanResultItem.barcode];
     cell.textLabel.text = title;
-	cell.detailTextLabel.text = logItem.resultText;
+    cell.detailTextLabel.text = [[scanResultItem.statusText stringByAppendingString: @": "]
+                                 stringByAppendingString: scanResultItem.extendedStatusText];
 	
 	// Setting text colors and accessiories
-    [cell.detailTextLabel setTextColor: [UIColor redColor]];
+    if (scanResultItem.allowedAccess) {
+        [cell.detailTextLabel setTextColor: [UIColor greenColor]];
+    } else {
+        [cell.detailTextLabel setTextColor: [UIColor redColor]];
+    }
     [cell setAccessoryType: UITableViewCellAccessoryDisclosureIndicator];
 	
     return cell;
@@ -90,7 +93,7 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 
 	// Selecting object to tranfer with the segue
-	self.logItem = self.scanResultItems[indexPath.row];
+	self.scanResultItem = self.scanResultItems[indexPath.row];
 	
 	// We're going into detailed view
     [self performSegueWithIdentifier:@"logItemDetails" sender:self];
@@ -152,7 +155,7 @@
     // Pass the selected object to the new view controller.
 	if ([segue.destinationViewController isKindOfClass:[VTKLogDetailTableViewController class]]) {
 		VTKLogDetailTableViewController *destination = segue.destinationViewController;
-		destination.logItem = self.logItem;
+		destination.logItem = self.scanResultItem;
 	}
 }
 

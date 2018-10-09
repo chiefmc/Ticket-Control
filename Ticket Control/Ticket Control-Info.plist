@@ -21,11 +21,15 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>558</string>
+	<string>632</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera is used to scan barcodes</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>external-accessory</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Main</string>
 	<key>UIMainStoryboardFile</key>
@@ -36,6 +40,11 @@
 	</array>
 	<key>UISupportedExternalAccessoryProtocols</key>
 	<array>
+		<string>com.datecs.pinpad</string>
+		<string>com.datecs.printer.escpos</string>
+		<string>com.datecs.iserial.communication</string>
+		<string>com.datecs.linea.pro.bar</string>
+		<string>com.datecs.linea.pro.msr</string>
 		<string>tw.com.mobilogics.iPDT5</string>
 		<string>tw.com.mobilogics.ipdt380</string>
 		<string>tw.com.mobilogics.ascan</string>

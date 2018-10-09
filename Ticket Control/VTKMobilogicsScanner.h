@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 v-Ticket system. All rights reserved.
 //
 
-#import "VTKBarcodeScannerProtocol.h"
+#import "VTKBarcodeScanner.h"
 
-@interface VTKMobilogicsScanner : NSObject <VTKBarcodeScannerProtocol, ReceiveCommandHandler, NotificationHandler>
+@interface VTKMobilogicsScanner : NSObject <VTKBarcodeScanner, ReceiveCommandHandler, NotificationHandler>
 
 /**
  *  A delegate object that will receive all callbacks
  */
-@property (nonatomic, weak) id <VTKScannerDelegateProtocol> delegate;
+@property (nonatomic, weak) id <VTKScannerDelegate> delegate;
 
 /**
  *  Checks if the scanner is connected
@@ -21,6 +21,11 @@
  *  @return returns YES if the scanner is connected
  */
 - (BOOL)isConnected;
+
+/**
+ @inheritDoc
+ */
+- (void)postponeBatteryRemain;
 
 /**
  *  @inheritDoc

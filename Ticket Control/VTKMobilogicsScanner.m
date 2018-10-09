@@ -11,26 +11,34 @@
 #import <MobilogicsCore/Framework.h>
 #import <Barcode/Framework.h>
 
+@interface VTKMobilogicsScanner ()
+
+@property (nonatomic, weak) MLScanner *scanner;
+
+@end
+
+
 @implementation VTKMobilogicsScanner
 
 - (instancetype)init
 {
     self = [super init];
-    
-    [[MLScanner sharedInstance] setup];
-    [[MLScanner sharedInstance] addAccessoryDidConnectNotification:self];
-    [[MLScanner sharedInstance] addAccessoryDidDisconnectNotification:self];
-    [[MLScanner sharedInstance] addReceiveCommandHandler:self];
-    [[MLScanner sharedInstance] configSyncSwitch:YES];
+
+    self.scanner = [MLScanner sharedInstance];
+    [self.scanner setup];
+    [self.scanner addAccessoryDidConnectNotification:self];
+    [self.scanner addAccessoryDidDisconnectNotification:self];
+    [self.scanner addReceiveCommandHandler:self];
+    [self.scanner configSyncSwitch:YES];
     
     return self;
 }
 
 - (void)dealloc
 {
-    [[MLScanner sharedInstance] removeAccessoryDidConnectNotification:self];
-    [[MLScanner sharedInstance] removeAccessoryDidDisconnectNotification:self];
-    [[MLScanner sharedInstance] removeReceiveCommandHandler:self];
+    [self.scanner removeAccessoryDidConnectNotification:self];
+    [self.scanner removeAccessoryDidDisconnectNotification:self];
+    [self.scanner removeReceiveCommandHandler:self];
 }
 
 #pragma mark Delegate methods
@@ -77,44 +85,40 @@
 
 - (BOOL)isConnected
 {
-    return [[MLScanner sharedInstance] isConnected];
+    return [self.scanner isConnected];
+}
+
+- (void)postponeBatteryRemain
+{
+    [self.scanner batteryRemain];
 }
 
 - (NSNumber *)getBatteryRemain
 {
-    MLScanner *scanner;
-    scanner = [MLScanner sharedInstance];
-    [scanner batteryRemain];
-    
-    //TODO: надо это в отдельный метод снести
-    NSNumber *batRemain;
-    
     if ([self isConnected]) {
-        batRemain = [[MLScanner sharedInstance] batteryCapacity];
-    } else {
-        batRemain = @(-1);
+        return [self.scanner batteryCapacity];
     }
-    return batRemain;
+    return @(-1);
 }
 
 - (void)invocateBarcodeScan
 {
-    [[MLScanner sharedInstance] scan];
+    [self.scanner scan];
 }
 
 - (void)chargeBatteryFromScanner
 {
-    [[MLScanner sharedInstance] chargeBattery];
+    [self.scanner chargeBattery];
 }
 
 - (void)turnBeepOn:(BOOL)yes
 {
-    [[MLScanner sharedInstance] beepSwitch:yes];
+    [self.scanner beepSwitch:yes];
 }
 
 - (void)setScannerVibroLevel:(unsigned int)level
 {
-    [[MLScanner sharedInstance] vibraMotorStrength: level];
+    [self.scanner vibraMotorStrength: level];
 }
 
 - (void)wakeup
@@ -127,19 +131,19 @@
 
 - (void)updateAccessoryInfo
 {
-    [[MLScanner sharedInstance] updateAccessoryInfo];
+    [self.scanner updateAccessoryInfo];
 }
 
 - (BOOL)isBatteryOnCharge
 {
-    return [[MLScanner sharedInstance] batteryOnCharge];
+    return [self.scanner batteryOnCharge];
 }
 
 -(void)reInitTheScannerDevice
 {
     // Trying to re-initiazle the scanner if it is not responding. It might be necessary after a long sleep
-    if (![[MLScanner sharedInstance] isConnected]) {
-        [MLScanner sharedInstance];
+    if (![self.scanner isConnected]) {
+        self.scanner = [MLScanner sharedInstance];
     }
 }
 

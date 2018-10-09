@@ -10,9 +10,13 @@
 #import "VTKScannerManager.h"
 #import "VTKConstants.h"
 
+@interface VTKSettings ()
+
+@end
+
 @implementation VTKSettings
 
-+(instancetype)storage
++ (instancetype)storage
 {
     static VTKSettings *storage = nil;
     static dispatch_once_t onceToken;
@@ -39,7 +43,6 @@
 {
     return [super init];
 }
-
 
 - (void)load
 {
@@ -93,9 +96,14 @@
     self.scannerBeep		= [standardDefaults boolForKey: SCANNER_BEEP_S];
     self.disableAutolock	= [standardDefaults boolForKey: DISABLE_AUTOLOCK_S];
     self.userGUID			= [standardDefaults objectForKey: USER_GUID_S];
-    self.resultDisplayTime	= (NSTimeInterval)[standardDefaults integerForKey:RESULT_DISPLAY_TIME_S];
+    self.resultDisplayTime	= (NSTimeInterval)[standardDefaults integerForKey: RESULT_DISPLAY_TIME_S];
     self.serverURL			= [NSURL URLWithString:[standardDefaults objectForKey: SERVER_URL_S]];
     self.scannerDeviceType  = (VTKScannerFramework) [standardDefaults integerForKey: SCANNER_DEVICE_TYPE_S];
+    self.loaded             = YES;
+
+    if (self.delegate) {
+        [self.delegate invokeScannerSetup];
+    }
 
     if ([VTKScannerManager sharedInstance].scanner) {
         [self setScannerPreferences];

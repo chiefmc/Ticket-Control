@@ -22,7 +22,7 @@
                                 }];
     VTKValidatorResponse *response = [VTKValidatorResponse new];
     response.barcode = @"1234567890123";
-    response.responseCode = VTKValidatorResponseAccessAllowed;
+    response.responseCode = VTKAPI10ResponseAccessAllowed;
     
     success(response);
 }

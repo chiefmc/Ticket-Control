@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 v-Ticket system. All rights reserved.
 //
 
-#import "VTKBarcodeScannerProtocol.h"
+#import "VTKBarcodeScanner.h"
 
-@interface VTKHoneywellScanner : NSObject <VTKBarcodeScannerProtocol>
+@interface VTKHoneywellScanner : NSObject <VTKBarcodeScanner>
 
 @end

@@ -18,16 +18,17 @@
 			<key>Key</key>
 			<string>scannerDevice</string>
 			<key>DefaultValue</key>
-			<string>0</string>
+			<string>2</string>
 			<key>Titles</key>
 			<array>
 				<string>Built-in device camera</string>
-				<string>Mobilogics hardware scanner</string>
+				<string>IPC Linea Pro</string>
 			</array>
 			<key>Values</key>
 			<array>
 				<string>0</string>
 				<string>1</string>
+				<string>2</string>
 			</array>
 		</dict>
 		<dict>

@@ -1,6 +1,6 @@
 //
-//  TCTLScanResultItem.m
-//  Ticket Control
+//  VTKScanResultItem.m
+//  Ticket Scanner
 //
 //  Created by Евгений Лысенко on 23.08.14.
 //  Copyright (c) 2014 v-Ticket system. All rights reserved.
@@ -12,10 +12,6 @@
 
 @implementation VTKScanResultItem
 
-// -------------------------------------------------------------
-// Заполняем данные объекта
-// -------------------------------------------------------------
-
 -(instancetype)init
 {
 	return [self initItemWithValidatorResponse:nil];
@@ -26,42 +22,41 @@
 	self = [super init];
 	if (!validatorResponse) return self;
 	
-	_barcode = validatorResponse.barcode;
+    _barcode      = validatorResponse.barcode;
+    _responseCode = validatorResponse.responseCode;
 
-    //TODO: Нужно энкапсулировать этот код в отдельный объект
 	switch (validatorResponse.responseCode) {
-		case VTKValidatorResponseAccessAllowed:
-			_resultText = NSLocalizedString(@"ДОСТУП РАЗРЕШЁН", @"Статус в логе");
+		case VTKAPI10ResponseAccessAllowed:
+			_statusText = NSLocalizedString(@"ДОСТУП РАЗРЕШЁН", @"Статус в логе");
+            _extendedStatusText = @"";
 			_allowedAccess = YES;
 			break;
-		case VTKValidatorResponseAccessDeniedTicketNotFound:
-			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
-                            stringByAppendingString: @": "]
-                           stringByAppendingString:NSLocalizedString(@"БИЛЕТА НЕТ В БАЗЕ", @"Статус в логе")];
+		case VTKAPI10ResponseAccessDeniedTicketNotFound:
+//            _statusText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
+//                            stringByAppendingString: @": "]
+//                           stringByAppendingString:NSLocalizedString(@"БИЛЕТА НЕТ В БАЗЕ", @"Статус в логе")];
+            _statusText = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе");
+            _extendedStatusText = NSLocalizedString(@"БИЛЕТА НЕТ В БАЗЕ", @"Статус в логе");
 			_allowedAccess = NO;
 			break;
-		case VTKValidatorResponseAccessDeniedAlreadyPassed:
-			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
-                            stringByAppendingString: @": "]
-                           stringByAppendingString:NSLocalizedString(@"БИЛЕТ УЖЕ ПРОХОДИЛ", @"Статус в логе")];
+		case VTKAPI10ResponseAccessDeniedAlreadyPassed:
+            _statusText = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе");
+            _extendedStatusText = NSLocalizedString(@"БИЛЕТ УЖЕ ПРОХОДИЛ", @"Статус в логе");
 			_allowedAccess = NO;
 			break;
-		case VTKValidatorResponseAccessDeniedWrongEntrance:
-			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
-                            stringByAppendingString: @": "]
-                           stringByAppendingString:NSLocalizedString(@"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД", @"Статус в логе")];
+		case VTKAPI10ResponseAccessDeniedWrongEntrance:
+            _statusText = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе");
+            _extendedStatusText = NSLocalizedString(@"ДОСТУП ЧЕРЕЗ ДРУГОЙ ВХОД", @"Статус в логе");
 			_allowedAccess = NO;
 			break;
-		case VTKValidatorResponseAccessDeniedNoActiveEvent:
-			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
-                            stringByAppendingString: @": "]
-                           stringByAppendingString:NSLocalizedString(@"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ", @"Статус в логе")];
+		case VTKAPI10ResponseAccessDeniedNoActiveEvent:
+            _statusText = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе");
+            _extendedStatusText = NSLocalizedString(@"НЕТ СОБЫТИЯ ДЛЯ КОНТРОЛЯ", @"Статус в логе");
 			_allowedAccess = NO;
 			break;
 		default:
-			_resultText = [[NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе")
-                            stringByAppendingString: @": "]
-                           stringByAppendingString:NSLocalizedString(@"НЕИЗВЕСТНАЯ ОШИБКА", @"Статус в логе")];
+            _statusText = NSLocalizedString(@"ДОСТУП ЗАПРЕЩЁН", @"Статус в логе");
+            _extendedStatusText = NSLocalizedString(@"НЕИЗВЕСТНАЯ ОШИБКА", @"Статус в логе");
 			_allowedAccess = NO;
 			break;
 	}

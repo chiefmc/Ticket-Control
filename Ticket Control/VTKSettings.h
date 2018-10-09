@@ -8,6 +8,7 @@
 
 @import Foundation;
 #import "VTKScannerManager.h"
+#import "VTKSettingsDelegate.h"
 
 @interface VTKSettings : NSObject
 
@@ -36,8 +37,14 @@
 @property (nonatomic, strong) NSURL		    *serverURL;
 @property (nonatomic) BOOL				    scannerBeep;
 @property (nonatomic) VTKScannerFramework   scannerDeviceType;
+@property (nonatomic) BOOL                  loaded;
 
 // Массив-история сосканированных кодов, который использует VTKScanViewController
 @property (nonatomic, strong) NSMutableArray	*scanResultItems;
+
+/**
+ *  The pointer to a delegate object. You must set it up right after the <code>+setup</code> been called.
+ */
+@property (nonatomic) id <VTKSettingsDelegate> delegate;
 
 @end
