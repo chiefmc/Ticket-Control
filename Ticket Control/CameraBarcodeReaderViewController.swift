@@ -82,6 +82,12 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         return initSuccess
     }
 
+
+    /// Does nothing with built-in Camera scanner
+    func postponeBatteryRemain() {
+        // do nothing
+    }
+
     /// Always returns -1 as the hardware sanner is not present
     ///
     /// - Returns: -1

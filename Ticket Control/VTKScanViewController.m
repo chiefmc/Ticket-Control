@@ -23,12 +23,12 @@
 /**
  *  Признак того, что система не готова сканировать следующий код. Если YES, то система будет игнорировать все сканирования
  */
-@property (nonatomic) BOOL				notReadyToScan;
+@property (nonatomic) BOOL notReadyToScan;
 
 /**
  *  Признак того, что сервер подключён
  */
-@property (nonatomic) BOOL				isServerConnected;
+@property (nonatomic) BOOL isServerConnected;
 
 // View outlets
 @property (nonatomic, weak) IBOutlet UIView		*mainView;
@@ -121,11 +121,7 @@
 		if ([self isScannerOnCharge]) {
 			message = NSLocalizedString(@"Батарея сканера заряжается", @"Сообщение в алерте");
 		} else {
-#ifdef DEBUG
-			message = [NSLocalizedString(@"Заряд батареи сканнера: ", @"Сообщение в алерте") stringByAppendingFormat: @"%@%% (%dv, %dm, %d%%)", [self getScannerBatRemain]];
-#else
 			message = [NSLocalizedString(@"Заряд батареи сканнера: ", @"Сообщение в алерте") stringByAppendingFormat: @"%@%%", [self getScannerBatRemain]];
-#endif
 		}
 	} else {
 		message = NSLocalizedString(@"Сканнер не подключен", @"Сообщение в алерте");
@@ -136,6 +132,7 @@
 										 cancelButtonTitle:NSLocalizedString(@"Ok", @"Кнопка Ок")
 										 otherButtonTitles:nil];
 	[self.warningAlert show];
+    [scanner chargeBatteryFromScanner];
 }
 
 /**
@@ -210,8 +207,14 @@
 	self.notReadyToScan = NO;
 }
 
+/**
+ Sets up scanner hardware
+ Normally called after the app settings has been read from device's storage
+ */
 - (void)invokeScannerSetup
 {
+    [self invocateGetUserName];
+
     VTKScannerFramework scannerType = self.settings.scannerDeviceType;
     self.scanner = [VTKScannerManager sharedInstance];
 
@@ -223,18 +226,6 @@
 #ifdef DEBUG
         NSLog(@"Scanner type: %d", scannerType);
 #endif
-    }
-
-    // Проверка подключения сканера и отображение статуса
-    if ([self isScannerConnected]) {
-        [self scannerConnectedNotification];
-#if TARGET_IPHONE_SIMULATOR
-        [self setBatteryRemainIcon];
-#elif TEST_IPOD_WITHOUT_SCANNER == 1
-        [self setBatteryRemainIcon];
-#endif
-    } else {
-        [self scannerDisconnectedNotification];
     }
 
 #ifdef DEBUG
@@ -259,6 +250,8 @@
 	self.isUpsideDown = NO;
 
     self.scanResultItems = self.settings.scanResultItems;
+
+    [self displayNotReady];
 	
 	// Preparing sound resources
 	NSURL *deniedURL = [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource:@"denied"
@@ -273,10 +266,10 @@
 //    [self serverConnectionStatus: NO];
 
     // Add back button to Navigation bar
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemStop
-                                                                                          target: self
-                                                                                          action: @selector(doneAction)];
-	
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemStop
+//                                                                                          target: self
+//                                                                                          action: @selector(doneAction)];
+
 	// Устанавливаем имя пользователя на главном экране в значение имени текущего девайса
 	self.navigationItem.title = [UIDevice currentDevice].name;
 	self.isUserNameSet = NO;
@@ -366,17 +359,6 @@
 	[self performSelector:@selector(postponeBatteryRemain)
 			   withObject:nil
 			   afterDelay:0.8f];
-	
-	// Устанавливаем настройки сканера с задержкой в 1 сек
-    //TODO: Перенести это в адаптер
-//	[self performSelector:@selector(setScannerPreferences)
-//			   withObject:nil
-//			   afterDelay:0.5f];
-	
-	// Планируем проверку связи с сервером
-	[self performSelector:@selector(invocateGetUserName)
-			   withObject:nil
-			   afterDelay:1.0f];
 }
 
 /**
@@ -785,7 +767,14 @@
 #ifdef DEBUG
 	NSLog(@"postponeBatteryRemain received");
 #endif
+
+#if TARGET_IPHONE_SIMULATOR
+    [self setBatteryRemainIcon];
+#elif TEST_IPOD_WITHOUT_SCANNER == 1
+    [self setBatteryRemainIcon];
+#else
     [[VTKScannerManager sharedInstance].scanner postponeBatteryRemain];
+#endif
 }
 
 /**
@@ -937,7 +926,8 @@
 - (void)addScanResultItemToLog:(VTKScanResultItem *)logItem
 {
 	if (!self.scanResultItems) {
-		self.scanResultItems = [[NSMutableArray alloc] init];
+        NSLog(@"Can't add scan result to log as the log is nil!");
+        return;
 	} else if ([self.scanResultItems count] == NUMBER_OF_HISTORY_ITEMS) {
 		[self.scanResultItems removeLastObject];
 	}

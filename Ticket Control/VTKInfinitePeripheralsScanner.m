@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) DTDevices *scanner;
 @property (nonatomic) BOOL connected;
+@property (nonatomic, strong) NSTimer* batteryCheckTimer;
 
 @end
 
@@ -25,7 +26,11 @@
     self.scanner = [DTDevices sharedDevice];
     [self.scanner addDelegate:self];
     [self.scanner connect];
-
+    self.batteryCheckTimer = [NSTimer scheduledTimerWithTimeInterval:60
+                                                              target:self
+                                                            selector:@selector(postponeBatteryRemain)
+                                                            userInfo:nil
+                                                             repeats:YES];
     return self;
 }
 
@@ -35,26 +40,42 @@
     [self.scanner removeDelegate:self];
     self.delegate = nil;
     self.scanner = nil;
+    self.batteryCheckTimer = nil;
 }
 
 #pragma mark VTKBarcodeScannerProtocol delegate methods
 
 - (void)postponeBatteryRemain
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(setBatteryRemainIcon)])
-    [self.delegate setBatteryRemainIcon];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(scannerInformationUpdateNotification)])
+    [self.delegate scannerInformationUpdateNotification];
 }
 
-- (NSNumber *)getBatteryRemain {
+- (NSNumber *)getBatteryRemain
+{
     DTBatteryInfo *batteryInfo = [self.scanner getBatteryInfo:nil];
     int currentCapacity = [batteryInfo capacity];
 #ifdef DEBUG
     NSLog(@"Received battery level: %d", currentCapacity);
 #endif
     if ([self isConnected]) {
+        // If the device's battery voltage has dropped below 5% we need to notify the user
+        if (currentCapacity <= 5 &&
+            self.delegate &&
+            [self.delegate respondsToSelector:@selector(scannerLowPowerNotification)]) {
+            [self.delegate scannerLowPowerNotification];
+        }
         return [NSNumber numberWithInt:currentCapacity];
     }
     return @(-1);
+}
+
+- (NSTimeInterval)getTimeRemainingToPowerOff
+{
+    NSTimeInterval timeRemaining;
+    [self.scanner getTimeRemainingToPowerOff:&timeRemaining
+                                       error:nil];
+    return timeRemaining;
 }
 
 - (void)invocateBarcodeScan
@@ -84,7 +105,6 @@
 
 - (void)chargeBatteryFromScanner
 {
-    // TODO: тут нужно доисследовать MaxLife mode из SwiftDemo
     [self.scanner setCharging:YES
                         error:nil];
 }
@@ -101,7 +121,7 @@
 
 - (void)wakeup
 {
-    
+    [self.scanner connect];
 }
 
 - (void)updateAccessoryInfo
@@ -134,13 +154,20 @@
             break;
         case CONN_CONNECTING:
             self.connected = NO;
-            // TODO: добавить уведомление о подключении
+            [self.delegate scannerDisconnectedNotification];
             break;
         case CONN_CONNECTED:
             self.connected = YES;
             [self.delegate scannerConnectedNotification];
             break;
     }
+}
+
+-(void)deviceButtonPressed:(int)which
+{
+#ifdef DEBUG
+    NSLog(@"Scanner button was pressed: %d", which);
+#endif
 }
 
 @end

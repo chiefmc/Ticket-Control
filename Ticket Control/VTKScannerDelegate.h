@@ -39,12 +39,6 @@
  */
 - (void)scannerInformationUpdateNotification;
 
-
-/**
- Invokes battery remain display update
- */
-- (void)setBatteryRemainIcon;
-
 /**
  *  Callback method to handle the scanner's low battery notification
  */
