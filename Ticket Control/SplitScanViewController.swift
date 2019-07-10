@@ -15,14 +15,14 @@ class SplitScanViewController: UIViewController {
     /// @inheritDoc
     override func viewDidLoad() {
         // We need to reach the instances of nested View Controllers
-        for i in 0...childViewControllers.count - 1 {
-            let vc = childViewControllers[i]
+        for i in 0...children.count - 1 {
+            let vc = children[i]
             if vc is CameraBarcodeReaderViewController {
-                cameraBarcodeReaderVC = vc as! CameraBarcodeReaderViewController
+                cameraBarcodeReaderVC = (vc as! CameraBarcodeReaderViewController)
                 continue
             }
             if vc is VTKScanViewController {
-                scanVC = vc as! VTKScanViewController
+                scanVC = (vc as! VTKScanViewController)
             }
         }
 

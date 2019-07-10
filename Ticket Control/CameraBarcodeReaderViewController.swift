@@ -37,7 +37,7 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         if initSuccess {
             previewLayer              = AVCaptureVideoPreviewLayer(session: session)
             previewLayer.frame        = videoPreviewView.layer.bounds
-            previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+            previewLayer.videoGravity = AVLayerVideoGravity(rawValue: convertFromAVLayerVideoGravity(AVLayerVideoGravity.resizeAspectFill))
             videoPreviewView.layer.addSublayer(previewLayer)
 
             session.startRunning()
@@ -48,7 +48,7 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
 
 
     /// @inheritDoc
-    func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         if let barcodeData = metadataObjects.first {
             let barcodeReadable = barcodeData as? AVMetadataMachineReadableCodeObject
 
@@ -56,7 +56,9 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
 
             if let readableCode = barcodeReadable {
-                barcodeDetected(readableCode.stringValue)
+                if let barcodeString = readableCode.stringValue {
+                    barcodeDetected(barcodeString)
+                }
             }
         }
     }
@@ -128,18 +130,18 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     ///
     /// - Parameter on: true to turn on torch
     private func switchFlash(_ on: Bool) {
-        let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        let device = AVCaptureDevice.default(for: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video)))
         if let device = device, device.hasTorch {
             do {
                 try device.lockForConfiguration()
                 if on {
                     do {
-                        try device.setTorchModeOnWithLevel(0.25)
+                        try device.setTorchModeOn(level: 0.25)
                     } catch {
                         print(error)
                     }
                 } else {
-                    device.torchMode = AVCaptureTorchMode.off
+                    device.torchMode = AVCaptureDevice.TorchMode.off
                 }
                 device.unlockForConfiguration()
             } catch {
@@ -153,11 +155,15 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     private func initCamera() {
         session = AVCaptureSession()
 
-        let videoCaptureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-        let videoInput: AVCaptureDeviceInput?
+        let videoCaptureDevice = AVCaptureDevice.default(for: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video)))
+        let videoInput: AVCaptureDeviceInput
 
         do {
-            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
+            if let captureDevice = videoCaptureDevice {
+                videoInput = try AVCaptureDeviceInput(device: captureDevice)
+            } else {
+                return
+            }
         } catch {
             return
         }
@@ -179,10 +185,10 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             session.addOutput(metadataOutput)
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = [
-                AVMetadataObjectTypeCode128Code,
-                AVMetadataObjectTypeCode39Code,
-                AVMetadataObjectTypeEAN13Code,
-                AVMetadataObjectTypeQRCode
+                AVMetadataObject.ObjectType.code128,
+                AVMetadataObject.ObjectType.code39,
+                AVMetadataObject.ObjectType.ean13,
+                AVMetadataObject.ObjectType.qr
             ]
         } else {
             return
@@ -212,4 +218,19 @@ class CameraBarcodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         present(alert, animated: true, completion: nil) // TODO: действие по завершению
         session = nil
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVLayerVideoGravity(_ input: AVLayerVideoGravity) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVMediaType(_ input: AVMediaType) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVMetadataObjectObjectType(_ input: AVMetadataObject.ObjectType) -> String {
+	return input.rawValue
 }
