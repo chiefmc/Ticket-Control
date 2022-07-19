@@ -14,6 +14,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 
-	#import <MobilogicsCore/Framework.h>
-	#import <Barcode/Framework.h>
+//  Mobilogics support has been dropped since v1.2
+//    #import <MobilogicsCore/Framework.h>
+//    #import <Barcode/Framework.h>
 #endif

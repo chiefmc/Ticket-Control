@@ -8,6 +8,33 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
+			<string>Scanner device settings</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Scanner device</string>
+			<key>Key</key>
+			<string>scannerDevice</string>
+			<key>DefaultValue</key>
+			<string>2</string>
+			<key>Titles</key>
+			<array>
+				<string>Built-in device camera</string>
+				<string>IPC Linea Pro</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>0</string>
+				<string>1</string>
+				<string>2</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
 			<string>User settings</string>
 		</dict>
 		<dict>
@@ -92,7 +119,7 @@
 			<key>Key</key>
 			<string>serverURL</string>
 			<key>DefaultValue</key>
-			<string>https://your-ticket-server/check-api.php</string>
+			<string>https://v-ticket.com.ua/appcheck</string>
 			<key>KeyboardType</key>
 			<string>URL</string>
 			<key>IsSecure</key>

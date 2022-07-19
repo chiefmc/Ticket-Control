@@ -1,5 +1,8 @@
-platform :ios, '6.1'
+platform :ios, '8.0'
+use_frameworks!
 
-xcodeproj '/Users/admin/Dev/Ticket Control/Ticket Control.xcodeproj'
+project '/Users/chief_mc/Dev/Ticket Control/Ticket Control.xcodeproj'
 
-pod 'AFJSONRPCClient', '~> 2.1'
+target 'Ticket Control' do
+    pod 'AFJSONRPCClient', '~> 2.1'
+end

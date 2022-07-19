@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "TCTLAppDelegate.h"
+#import "VTKAppDelegate.h"
 
 int main(int argc, char * argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([TCTLAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([VTKAppDelegate class]));
     }
 }
